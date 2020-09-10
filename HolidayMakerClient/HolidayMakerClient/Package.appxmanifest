@@ -7,11 +7,11 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="fbca631d-a167-482e-bd5e-ec0c7ddbfa23"
+    Name="3d80d207-7606-4aca-9924-cb4bd52665be"
     Publisher="CN=Nebojsa"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="fbca631d-a167-482e-bd5e-ec0c7ddbfa23" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="3d80d207-7606-4aca-9924-cb4bd52665be" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>HolidayMakerClient</DisplayName>
