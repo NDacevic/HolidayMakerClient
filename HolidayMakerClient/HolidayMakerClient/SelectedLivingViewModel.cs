@@ -15,7 +15,16 @@ namespace HolidayMakerClient
         #region Fields
         #endregion
 
-        #region Constructors
+        #region Constructor
+        public SelectedLivingViewModel()
+        {
+
+        }
+        public SelectedLivingViewModel(Home selectedHome, Reservation selectedReservation)
+        {
+            SelectedHome = selectedHome;
+            SelectedReservation = selectedReservation;
+        }
         #endregion
 
         #region Delegates
