@@ -29,7 +29,7 @@ namespace HolidayMakerClient.ViewModel
         }
         public MyPageViewModel()
         {
-            //MyReservations = new ObservableCollection<Reservation>(); OBS!Kommentar ska bort så fort Reservation är implementerad
+            MyReservations = new ObservableCollection<Reservation>();
         }
         #endregion
 
@@ -41,7 +41,7 @@ namespace HolidayMakerClient.ViewModel
 
         #region Properties
         private static MyPageViewModel instance = null;
-        //public ObservableCollection<Reservation> MyReservations { get; set; } OBS!Kommentar ska bort så fort Reservation är implementerad
+        public ObservableCollection<Reservation> MyReservations { get; set; }
         #endregion
 
         #region Methods
