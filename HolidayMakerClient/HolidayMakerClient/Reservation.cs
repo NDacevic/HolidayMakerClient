@@ -7,7 +7,7 @@ using Windows.UI.Xaml;
 
 namespace HolidayMakerClient
 {
-    class Reservation
+    public class Reservation
     {
         #region Constant Fields
         #endregion
@@ -20,6 +20,16 @@ namespace HolidayMakerClient
         {
 
         }
+        public Reservation(int reservationId, int homeId, int userId, DateTimeOffset startDate, DateTimeOffset endDate, decimal totalPrice, List<Addon> addonList)
+        {
+            ReservationId = reservationId;
+            HomeId = homeId;
+            UserId = userId;
+            StartDate = startDate;
+            EndDate = endDate;
+            TotalPrice = totalPrice;
+            AddonList = addonList;
+        }
         #endregion
 
         #region Delegates
@@ -29,7 +39,7 @@ namespace HolidayMakerClient
         #endregion
 
         #region Properties
-        public int ReserationId { get; set; }
+        public int ReservationId { get; set; }
         public int HomeId { get; set; }
         public int UserId { get; set; }
         public DateTimeOffset StartDate { get; set; }

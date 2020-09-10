@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Activation;
 
 namespace HolidayMakerClient
 {
-    class User
+    public class User
     {
         #region Constant Fields
         #endregion
@@ -18,6 +19,16 @@ namespace HolidayMakerClient
         #region Constructors
         public User()
         {
+        }
+
+        public User(int userId, string name, string surname, string email, string password, bool isCompany)
+        {
+            UserId = userId;
+            Name = name;
+            Surname = surname;
+            Email = email;
+            Password = password;
+            IsCompany = isCompany;
         }
         #endregion
 
