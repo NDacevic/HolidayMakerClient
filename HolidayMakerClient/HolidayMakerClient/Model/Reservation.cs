@@ -43,6 +43,7 @@ namespace HolidayMakerClient
         public int ReservationId { get; set; }
         public int HomeId { get; set; }
         public int UserId { get; set; }
+        public int NumberOfGuests { get; set; }
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
         public decimal TotalPrice { get; set; }
