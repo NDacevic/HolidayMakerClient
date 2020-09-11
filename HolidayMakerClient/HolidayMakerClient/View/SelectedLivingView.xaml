@@ -31,7 +31,12 @@
                     Margin="20,20,20,20"
                     BorderThickness="1" 
                     BorderBrush="Gray"/>
-                <StackPanel Grid.Row="1" Margin="20,20,20,20" >
+                <StackPanel Grid.Row="1" Spacing="20" Margin="20,0,20,20" >
+                    <TextBlock
+                        x:Name="txt_InformationLabel"
+                        Text="Information"
+                        FontSize="20"
+                        FontWeight="Medium"/>
                     <TextBlock
                     x:Name="txt_HomeDescription"
                     Text="Beskrivning"
@@ -43,7 +48,35 @@
                     x:Name="txt_CityDistance"
                     Text="Avstånd till strand (m): "/>
                 </StackPanel>
-                
+                <StackPanel Grid.Row="2" Spacing="20" Margin="20,0,20,20" >
+                    <TextBlock
+                        x:Name="txt_AddonLabel"
+                        Text="Tillval"
+                        FontSize="20"
+                        FontWeight="Medium"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox
+                            x:Name="cb_ExtraBed"
+                            Content="Exta säng"
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            />
+                        <CheckBox
+                            x:Name="cb_HalfPension"
+                            Content="Halvpension"
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            />
+                    </Grid>
+                </StackPanel>
             </Grid>
             
         </StackPanel>
