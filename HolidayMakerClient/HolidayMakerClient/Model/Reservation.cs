@@ -48,7 +48,7 @@ namespace HolidayMakerClient
         public decimal TotalPrice { get; set; }
         public List<Addon> AddonList { get; set; }
         public string Summary
-        { get { return $"Home:{HomeId} Date:1/7-8-7 TotalPrice:{TotalPrice}"; }
+        { get { return $"Boende: {HomeId} Datum:1/7-8/7 Totalpris: {TotalPrice}"; }
         }
       
         #endregion

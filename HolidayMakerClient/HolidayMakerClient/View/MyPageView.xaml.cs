@@ -36,16 +36,25 @@ namespace HolidayMakerClient.View
             Reservation r1 = new Reservation();
             Reservation r2 = new Reservation();
             Reservation r3 = new Reservation();
+            Reservation r4 = new Reservation();
+            Reservation r5 = new Reservation();
             r1.TotalPrice = 2000;
             r1.HomeId = 1;
             r2.TotalPrice = 4000;
             r2.HomeId = 2;
             r3.TotalPrice = 15000;
-            r3.HomeId = 4;
+            r3.HomeId = 3;
+            r4.TotalPrice = 6000;
+            r4.HomeId = 4;
+            r5.TotalPrice = 18000;
+            r5.HomeId = 5;
+
             MyReservations = new ObservableCollection<Reservation>();
             MyReservations.Add(r1);
             MyReservations.Add(r2);
             MyReservations.Add(r3);
+            MyReservations.Add(r4);
+            MyReservations.Add(r5);
         }
         #endregion
 
