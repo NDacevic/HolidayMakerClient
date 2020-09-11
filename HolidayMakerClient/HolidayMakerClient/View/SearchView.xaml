@@ -6,9 +6,45 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    MaxWidth="1280"
+    MaxHeight="1080">
 
-    <Grid>
-
-    </Grid>
+    <StackPanel
+        Margin="0,20,0,0"
+        Spacing="20"
+        HorizontalAlignment="Center">
+        <!--#region Main Search Box-->
+        <StackPanel
+            Orientation="Horizontal">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel
+                    Grid.Column="0"
+                    Orientation="Horizontal"
+                    Spacing="20"
+                    >
+                    <TextBox
+                        x:Name="txtBox_search"
+                        Width="200"/>
+                    <CalendarDatePicker
+                        />
+                    <CalendarDatePicker
+                        />
+                    <TextBox
+                        PlaceholderText="Nr People"
+                        />
+                </StackPanel>
+                <Button
+                    Content="Search"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    />
+            </Grid>
+        </StackPanel>
+        <!--#endregion-->
+    </StackPanel>
 </Page>
