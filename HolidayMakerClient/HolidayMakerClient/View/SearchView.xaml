@@ -108,7 +108,8 @@
                     <DataTemplate
                         x:DataType="data:Home">
                         <StackPanel
-                            Orientation="Horizontal">
+                            Orientation="Horizontal"
+                            Spacing="10">
                             <Image
                                 Width="100"
                                 Height="100"
@@ -118,7 +119,7 @@
                             />
                             <TextBlock>
                                 <Run Text="{x:Bind Price}"/>
-                                <Run Text=" kr"/>
+                                <Run Text="kr"/>
                             </TextBlock>
                             <TextBlock
                                 Text="{x:Bind Description}"
