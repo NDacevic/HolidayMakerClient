@@ -1,4 +1,4 @@
-﻿<Page
+﻿<ContentDialog
     x:Class="HolidayMakerClient.View.RegisterAccountView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,9 +6,152 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Width="800">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
 
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            Text="Registrera användare"
+            HorizontalAlignment="Center"/>
+
+        <StackPanel
+            Orientation="Horizontal"
+            HorizontalAlignment="right"
+            Margin="0,30,0,30"
+            Grid.Row="1"
+            Grid.Column="1">
+            <RadioButton 
+                Name="Rb_Private"
+                Content="Private"
+                
+                />
+            <RadioButton 
+                Name="Rb_Business"
+                Content="Business"/>
+        </StackPanel>
+
+        <StackPanel
+            Orientation="Horizontal"
+            Grid.Row="2"
+            Grid.Column="1">
+            <TextBlock
+                Text="Förnamn:"
+                TextAlignment="Right"
+                Width="115"
+                VerticalAlignment="Center"/>
+            <TextBox
+                Name="Tb_FirstName"
+                Width="150"
+                Margin="5,0,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <StackPanel
+            Orientation="Horizontal"
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="0,5,0,0">
+            <TextBlock
+                Text="Efternamn:"
+                TextAlignment="Right"
+                Width="115"
+                VerticalAlignment="Center"/>
+            <TextBox
+                Name="Tb_LastName"     
+                Width="150"
+                Margin="5,0,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <StackPanel
+            Orientation="Horizontal"
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="0,5,0,0">
+            <TextBlock
+                Text="E-mail:"
+                TextAlignment="Right"
+                Width="115"
+                VerticalAlignment="Center"/>
+            <TextBox
+                Name="Tb_Email"      
+                Width="150"
+                Margin="5,0,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <StackPanel
+            Orientation="Horizontal"
+            Grid.Row="5"
+            Grid.Column="1"
+            Margin="0,30,0,0">
+            <TextBlock
+                Text="Lösenord:"
+                Width="115"
+                TextAlignment="Right"
+                VerticalAlignment="Center"/>
+            <PasswordBox
+                Name="Pwb_Password1"      
+                Width="150"
+                Margin="5,0,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <StackPanel
+            Orientation="Horizontal"
+            Grid.Row="6"
+            Grid.Column="1"
+            Margin="0,5,0,0">
+            <TextBlock
+                Text="Bekräfta Lösenord:"
+                TextAlignment="Right"
+                Width="115"
+                VerticalAlignment="Center"/>
+            <PasswordBox
+                Name="Pwb_Password2"      
+                Width="150"
+                Margin="5,0,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <StackPanel 
+            Grid.Row="7"    
+            Grid.Column="1"
+            Margin="0,30,0,0"
+            HorizontalAlignment="Center">
+            <Button
+                Name="Bttn_Register"
+                Content="Registrera användare"
+                FontSize="10"/>
+            <Button
+                Name="Bttn_Abort"
+                Content="Avbryt"
+                FontSize="10"
+                Margin="0,5,0,0"
+                HorizontalAlignment="Stretch"/>
+        </StackPanel>
     </Grid>
-</Page>
+</ContentDialog>
