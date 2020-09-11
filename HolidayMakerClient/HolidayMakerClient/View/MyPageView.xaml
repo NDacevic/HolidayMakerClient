@@ -4,7 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:HolidayMakerClient.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:holidaymakerclient="using:HolidayMakerClient" xmlns:holidaymakerclient1="using:HolidayMakerClient.Model"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:holidaymakerclient="using:HolidayMakerClient"
+    xmlns:holidaymakerclient1="using:HolidayMakerClient.Model"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
