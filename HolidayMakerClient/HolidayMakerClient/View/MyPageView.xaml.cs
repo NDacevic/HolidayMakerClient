@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -32,6 +33,19 @@ namespace HolidayMakerClient.View
         public MyPageView()
         {
             this.InitializeComponent();
+            Reservation r1 = new Reservation();
+            Reservation r2 = new Reservation();
+            Reservation r3 = new Reservation();
+            r1.TotalPrice = 2000;
+            r1.HomeId = 1;
+            r2.TotalPrice = 4000;
+            r2.HomeId = 2;
+            r3.TotalPrice = 15000;
+            r3.HomeId = 4;
+            MyReservations = new ObservableCollection<Reservation>();
+            MyReservations.Add(r1);
+            MyReservations.Add(r2);
+            MyReservations.Add(r3);
         }
         #endregion
 
@@ -42,6 +56,7 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Properties
+        ObservableCollection<Reservation>MyReservations { get; set; }
         #endregion
 
         #region Methods

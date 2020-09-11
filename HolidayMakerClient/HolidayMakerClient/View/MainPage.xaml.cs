@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HolidayMakerClient.View;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace HolidayMakerClient
         public MainPage()
         {
             this.InitializeComponent();
+            
         }
     }
 }
