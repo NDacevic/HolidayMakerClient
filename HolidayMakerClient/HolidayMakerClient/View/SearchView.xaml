@@ -10,41 +10,73 @@
     MaxWidth="1280"
     MaxHeight="1080">
 
-    <StackPanel
-        Margin="0,20,0,0"
-        Spacing="20"
-        HorizontalAlignment="Center">
-        <!--#region Main Search Box-->
+    <ScrollViewer>
         <StackPanel
-            Orientation="Horizontal">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel
-                    Grid.Column="0"
-                    Orientation="Horizontal"
-                    Spacing="20"
-                    >
-                    <TextBox
-                        x:Name="txtBox_search"
-                        Width="200"/>
-                    <CalendarDatePicker
+            Margin="0,20,0,0"
+            Spacing="20"
+            HorizontalAlignment="Center">
+            <!--#region Main Search Box-->
+            <StackPanel
+                Orientation="Horizontal"
+                Padding="10"
+                
+                BorderBrush="Black"
+                BorderThickness="1"
+                >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        Grid.Column="0"
+                        Orientation="Horizontal"
+                        Spacing="20"
+                        >
+                        <TextBox
+                            x:Name="txtBox_search"
+                            Width="200"/>
+                        <CalendarDatePicker
+                            />
+                        <CalendarDatePicker
+                            />
+                        <TextBox
+                            PlaceholderText="Nr People"
+                            />
+                    </StackPanel>
+                    <Button
+                        Content="Search"
+                        Grid.Column="1"
+                        Margin="20,0,0,0"
                         />
-                    <CalendarDatePicker
-                        />
-                    <TextBox
-                        PlaceholderText="Nr People"
-                        />
-                </StackPanel>
-                <Button
-                    Content="Search"
-                    Grid.Column="1"
-                    Margin="20,0,0,0"
-                    />
-            </Grid>
+                </Grid>
+            </StackPanel>
+            <!--#endregion-->
+            <!--#region Advanced Search Box-->
+            <StackPanel
+                Orientation="Horizontal"
+                Padding="10"
+                
+                BorderBrush="Black"
+                BorderThickness="1"
+                >
+                <ToggleSwitch
+                    Header="Pool"
+                    IsOn="False"/>
+                <ToggleSwitch
+                    Header="Balcony"
+                    IsOn="False"/>
+                <ToggleSwitch
+                    Header="Pets"
+                    IsOn="False"/>
+                <ToggleSwitch
+                    Header="Wifi"
+                    IsOn="False"/>
+                <ToggleSwitch
+                    Header="Smoking"
+                    IsOn="False"/>
+            </StackPanel>
+            <!--#endregion-->
         </StackPanel>
-        <!--#endregion-->
-    </StackPanel>
+    </ScrollViewer>
 </Page>
