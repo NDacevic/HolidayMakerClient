@@ -144,7 +144,7 @@
                   x:Name="lv_DisplayAddons"
                     ItemsSource="{x:Bind SelectedLivingViewModel.SelectedReservation.AddonList}"
                     Grid.Row="1"
-                    Height="150"
+                    Height="200"
                     Margin="20,50,20,10">
                     <ListView.ItemTemplate>
                         <DataTemplate x:Name="lv_Addons" x:DataType="data:Addon"  >
@@ -157,6 +157,23 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                <StackPanel Grid.Row="2" Margin="20,30,0,0" Spacing="20">
+                    <TextBlock
+                    x:Name="txt_TotalPrice"
+                    Text="Totalpris: "
+                        FontSize="16"
+                        FontWeight="Medium"
+                        Margin="0,0,0,20"/>
+                    <Button
+                        Content="Boka/Ändra"
+                        HorizontalAlignment="Center"
+                        Width="120"/>
+                    <Button
+                        Content="Ta bort bokning"
+                        HorizontalAlignment="Center"
+                        Width="120"/>
+                </StackPanel>
+
             </Grid>
         </StackPanel>
     </Grid>
