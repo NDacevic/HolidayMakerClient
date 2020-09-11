@@ -5,10 +5,129 @@
     xmlns:local="using:HolidayMakerClient.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:holidaymakerclient="using:HolidayMakerClient"
+    xmlns:holidaymakerclient1="using:HolidayMakerClient.Model"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition  Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <TextBlock Text="Mina bokningar" FontSize="48"/>
+            <TextBlock Text="Klicka på en bokning för detaljer" />
+            <TextBlock Text="Johnny Krook"
+                       HorizontalAlignment="Right"
+                       Margin="0,0,30,0"/>
+
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+            <ListView 
+                      CornerRadius="5"
+                      BorderBrush="Black"
+                      BorderThickness="2"
+                      ItemsSource="{x:Bind MyReservations}"
+                      x:Name="Lv_MyReservations" 
+                      DoubleTapped="Lv_MyReservations_DoubleTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:Name="lv_MyReservations"
+                                  x:DataType="holidaymakerclient:Reservation">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{x:Bind Summary}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                
+            </ListView>
+          
+
+        </StackPanel>
+
+
+
+        
+        <Grid Grid.Row="2"
+              BorderBrush="Black"
+              BorderThickness="2"
+              
+             >
+          
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+
+            </Grid.ColumnDefinitions>
+        
+            <StackPanel Grid.Column="1"
+                        Margin="0,0,0,0">
+                <ListView 
+                CornerRadius="5"
+                x:Name="Lv_SelectedReservation"
+                ItemsSource="{x:Bind Path=SelectedReservation}" Margin="0,0,0,236">
+                    <ListView.ItemTemplate >
+                        <DataTemplate x:Name="Lv_selectedReservation" x:DataType="holidaymakerclient:Reservation">
+                            <StackPanel Spacing="5" 
+                                        CornerRadius="5">
+                                <TextBlock>
+                                     <Run Text="Boende:"/>
+                                     <Run Text="{x:Bind HomeId}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                      <Run Text="Datum:"/>
+                                </TextBlock>
+                                <TextBlock>
+                                     <Run Text="Totalpris:"/>
+                                     <Run Text="{x:Bind TotalPrice}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                     <Run Text="Antal personer:"/>
+                                     <Run Text="{x:Bind NumberOfGuests}"/>
+                                </TextBlock>
+                                <Button Content="Ändra reservation" 
+                                        />
+                                <Button Content="Avboka reservation" 
+                                        Background="Red" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                
+            </StackPanel>
+            
+            
+            
+            
+            <StackPanel Grid.Column="2">
+               
+                <ListView 
+                CornerRadius="5"
+                x:Name="Lv_SelectedReservationAddons"
+                ItemsSource="{x:Bind Path=SelectedReservationAddon}" Margin="0,0,0,236">
+                    <ListView.ItemTemplate >
+                        <DataTemplate x:Name="Lv_selectedReservationAddons" x:DataType="holidaymakerclient1:Addon">
+                            <StackPanel>
+                                <TextBlock>
+                                 <Run Text="{x:Bind AddonType}"/>
+                                </TextBlock>
+                                <TextBlock>
+                               <Run Text="{x:Bind AddonPrice}"/>
+                                <Run Text=" SEK"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </StackPanel>
+           
+        </Grid>
 
     </Grid>
 </Page>
