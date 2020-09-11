@@ -9,6 +9,44 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" VerticalAlignment="Stretch">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Image 
+                    x:Name="img_SelectedLiving" 
+                    Grid.Row="0" 
+                    Height="200" 
+                    Margin="20,20,20,20"/>
+                <Border 
+                    x:Name="imgBorder"
+                    Height="200" 
+                    Margin="20,20,20,20"
+                    BorderThickness="1" 
+                    BorderBrush="Gray"/>
+                <StackPanel Grid.Row="1" Margin="20,20,20,20" >
+                    <TextBlock
+                    x:Name="txt_HomeDescription"
+                    Text="Beskrivning"
+                    TextWrapping="WrapWholeWords"/>
+                    <TextBlock
+                    x:Name="txt_BeachDistance"
+                    Text="Avstånd till strand (m): "/>
+                    <TextBlock
+                    x:Name="txt_CityDistance"
+                    Text="Avstånd till strand (m): "/>
+                </StackPanel>
+                
+            </Grid>
+            
+        </StackPanel>
 
     </Grid>
 </Page>
