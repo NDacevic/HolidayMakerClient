@@ -5,10 +5,130 @@
     xmlns:local="using:HolidayMakerClient.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:HolidayMakerClient.Model"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    MaxWidth="1280"
+    MaxHeight="1080">
 
-    <Grid>
-
-    </Grid>
+    <ScrollViewer>
+        <StackPanel
+            Margin="0,20,0,0"
+            Spacing="20"
+            HorizontalAlignment="Center">
+            <!--#region Main Search Box-->
+            <StackPanel
+                Orientation="Horizontal"
+                Padding="10"
+                
+                BorderBrush="Black"
+                BorderThickness="1"
+                >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        Grid.Column="0"
+                        Orientation="Horizontal"
+                        Spacing="20"
+                        >
+                        <TextBox
+                            x:Name="txtBox_search"
+                            Width="300"/>
+                        <CalendarDatePicker
+                             PlaceholderText="Välj datum"
+                            />
+                        <CalendarDatePicker
+                            PlaceholderText="Välj datum"
+                            />
+                        <TextBox
+                            PlaceholderText="Antal boende"
+                            />
+                    </StackPanel>
+                    <Button
+                        Content="Sök"
+                        Grid.Column="1"
+                        Margin="20,0,0,0"
+                        />
+                </Grid>
+            </StackPanel>
+            <!--#endregion-->
+            <!--#region Advanced Search Box-->
+            <StackPanel
+                Orientation="Horizontal"
+                Padding="10"
+                
+                BorderBrush="Black"
+                BorderThickness="1"
+                >
+                <ToggleSwitch
+                    Header="Pool"
+                    OnContent="Ja"
+                    OffContent="Nej"
+                    IsOn="False"
+                    />
+                <ToggleSwitch
+                    Header="Balkong"
+                    OnContent="Ja"
+                    OffContent="Nej"
+                    IsOn="False"
+                    />
+                <ToggleSwitch
+                    Header="Husdjur"
+                    OnContent="Ja"
+                    OffContent="Nej"
+                    IsOn="False"
+                    />
+                <ToggleSwitch
+                    Header="Wifi"
+                    OnContent="Ja"
+                    OffContent="Nej"
+                    IsOn="False"
+                    />
+                <ToggleSwitch
+                    Header="Rökning"
+                    OnContent="Ja"
+                    OffContent="Nej"
+                    IsOn="False"
+                    />
+            </StackPanel>
+            <!--#endregion-->
+            <!--#region Search Results-->
+            <ListView
+                ItemsSource="{x:Bind testSearchList}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel
+                            Spacing="10"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate
+                        x:DataType="data:Home">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Spacing="10">
+                            <Image
+                                Width="100"
+                                Height="100"
+                                Source="{x:Bind Image}"/>
+                            <TextBlock
+                                Text="{x:Bind Location}"
+                            />
+                            <TextBlock>
+                                <Run Text="{x:Bind Price}"/>
+                                <Run Text="kr"/>
+                            </TextBlock>
+                            <TextBlock
+                                Text="{x:Bind Description}"
+                                />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <!--#endregion-->
+        </StackPanel>
+    </ScrollViewer>
 </Page>

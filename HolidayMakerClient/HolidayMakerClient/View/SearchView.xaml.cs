@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HolidayMakerClient.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,12 +27,15 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Fields
+        private List<Home> testSearchList;
         #endregion
 
         #region Constructors
         public SearchView()
         {
             this.InitializeComponent();
+            testSearchList = new List<Home>();
+            PopulateListView();
         }
         #endregion
 
@@ -45,6 +49,13 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Methods
+        private void PopulateListView()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                testSearchList.Add(new Home(1, "Hotel", i, "Sweden", 3299, true, false, true, "ms-appx:///Assets/hotelroom.jpg", true, false, false, true, 10, 5, i, true, false, "An awesome hotelroom", 15, 85));
+            }
+        }
         #endregion
 
     }
