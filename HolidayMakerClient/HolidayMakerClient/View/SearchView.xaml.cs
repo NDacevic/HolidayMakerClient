@@ -1,4 +1,5 @@
 ﻿using HolidayMakerClient.Model;
+using HolidayMakerClient.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,6 +30,7 @@ namespace HolidayMakerClient.View
 
         #region Fields
         private ObservableCollection<Home> testSearchList;
+        SearchViewModel searchViewModel;
         #endregion
 
         #region Constructors
@@ -37,6 +39,7 @@ namespace HolidayMakerClient.View
             this.InitializeComponent();
             testSearchList = new ObservableCollection<Home>();
             PopulateListView();
+            searchViewModel = new SearchViewModel();
         }
         #endregion
 
@@ -59,7 +62,14 @@ namespace HolidayMakerClient.View
         }
         private void Search(object sender, RoutedEventArgs args)
         {
-
+            int.TryParse(txtBox_NumberOfGuests.Text, out int numberOfGuests);
+            searchViewModel.Search
+                (
+                txtBox_Search.Text,
+                (DateTimeOffset)datePicker_StartDate.Date,
+                (DateTimeOffset)datePicker_EndDate.Date,
+                numberOfGuests
+                );
         }
         private void PopulateListView()
         {
@@ -68,6 +78,7 @@ namespace HolidayMakerClient.View
                 testSearchList.Add(new Home(1, "Hotel", i, "Sweden", 3299, true, false, true, "ms-appx:///Assets/hotelroom.jpg", true, false, false, true, 10, 5, i, true, false, "An awesome hotelroom", 15, 85));
             }
         }
+
         #endregion
 
     }
