@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Windows.UI.Popups;
 using System.Net.Http.Headers;
+using HolidayMakerClient.Dto;
 
 namespace HolidayMakerClient
 {
@@ -83,6 +84,32 @@ namespace HolidayMakerClient
 
         }
 
+        public async Task<ObservableCollection<Home>> SearchAsync(SearchParameterDto searchParams)
+        {
+            try
+            {
+                jsonString = JsonConvert.SerializeObject(searchParams);
+
+                HttpContent content = new StringContent(jsonString);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                HttpResponseMessage response = await httpClient.PostAsync("SearchResults", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var homeList = JsonConvert.DeserializeObject<ObservableCollection<Home>>(response.Content.ReadAsStringAsync().Result);
+                    return homeList;
+                }
+                else
+                    throw new HttpRequestException();
+                    
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+                return new ObservableCollection<Home>();
+            }
+        }
         public static void PostReservation()
         {
 
