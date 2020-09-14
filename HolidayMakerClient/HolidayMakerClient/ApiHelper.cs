@@ -54,6 +54,10 @@ namespace HolidayMakerClient
         {
 
         }
+        public static void GetUserReservations()
+        {
+
+        }
 
         public static void GetReservation()
         {
