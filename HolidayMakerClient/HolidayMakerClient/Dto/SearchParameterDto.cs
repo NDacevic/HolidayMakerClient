@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace HolidayMakerClient.Dto
 {
-    class SearchParameterDto
+    public class SearchParameterDto
     {
 
-        public SearchParameterDto(string location, DateTime startDate, DateTime endDate, int numberOfGuests )
+        public SearchParameterDto(string location, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests )
         {
             Location = location;
             StartDate = startDate;
@@ -18,8 +18,8 @@ namespace HolidayMakerClient.Dto
         }
 
         public string Location { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
+        public DateTimeOffset EndDate { get; set; }
         public int NumberOfGuests { get; set; }
     }
 }
