@@ -36,9 +36,15 @@ namespace HolidayMakerClient.ViewModel
         /// <summary>
         /// TBD
         /// </summary>
-        public void GetHomes()
+        public void Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests)
         {
 
+        }
+        /// <summary>
+        /// TBD
+        /// </summary>
+        public void GetHomes()
+        {
         }
         /// <summary>
         /// TBD
