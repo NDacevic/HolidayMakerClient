@@ -60,6 +60,8 @@ namespace HolidayMakerClient.View
         }
         private void Lv_MyReservations_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
+            Reservation selectedReservation = (Reservation)Lv_MyReservations.SelectedItem;
+            myPageViewModel.SelectedUserReservation(selectedReservation);
           //TODO: GET Home, populate Listviews Home/Reservation/Addon
         }
 

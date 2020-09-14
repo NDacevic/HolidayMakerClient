@@ -49,7 +49,8 @@
                       BorderThickness="2"
                       ItemsSource="{x:Bind myPageViewModel.MyReservations}"
                       x:Name="Lv_MyReservations" 
-                      DoubleTapped="Lv_MyReservations_DoubleTapped">
+                      DoubleTapped="Lv_MyReservations_DoubleTapped"
+                      >
                 <ListView.ItemTemplate>
                     <DataTemplate x:Name="lv_MyReservations"
                                   x:DataType="holidaymakerclient:Reservation">
@@ -86,7 +87,10 @@
                         <DataTemplate x:Name="lv_SelectedHome"
                                       x:DataType="holidaymakerclient1:Home">
                             <StackPanel>
-                                <TextBlock Text="BILD PÅ BOENDET"/>
+                                <Image Source="{x:Bind Image}"
+                                       Width="100"
+                                       Height="100"
+                                       HorizontalAlignment="Left"/>
                                 <TextBlock>
                                 <Run Text="Boende: "/>
                                 <Run Text="{x:Bind HomeType}"/>

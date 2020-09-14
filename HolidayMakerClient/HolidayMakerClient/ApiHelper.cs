@@ -142,6 +142,23 @@ namespace HolidayMakerClient
                 throw new HttpRequestException("Kunde inte hämta några reservationer, var vänlig försök igen.");
             }
         }
+        public async Task <Home> GetHome(int id)
+        {
+            //Used to get Home details from the selected reservation in MyPage
+            HttpResponseMessage response = await httpClient.GetAsync($"Homes/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                jsonString = response.Content.ReadAsStringAsync().Result;
+
+                var home = JsonConvert.DeserializeObject<Home>(jsonString);
+
+                return home;
+            }
+            else
+            {
+                throw new HttpRequestException("Kunde inte hämta några reservationer, var vänlig försök igen.");
+            }
+        }
 
         public static void GetReservation()
         {
