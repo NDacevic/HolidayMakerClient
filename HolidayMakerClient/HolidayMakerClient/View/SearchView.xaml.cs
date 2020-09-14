@@ -49,6 +49,13 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Methods
+        private void ShowHideAdvancedSearch(object sender, RoutedEventArgs args)
+        {
+            if (stckPnl_AdvancedSearch.Visibility == Visibility.Collapsed)
+                stckPnl_AdvancedSearch.Visibility = Visibility.Visible;
+            else
+                stckPnl_AdvancedSearch.Visibility = Visibility.Collapsed;
+        }
         private void PopulateListView()
         {
             for (int i = 0; i < 10; i++)
