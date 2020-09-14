@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HolidayMakerClient.Dto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,7 +39,7 @@ namespace HolidayMakerClient.ViewModel
         /// </summary>
         public void Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests)
         {
-
+            SearchParameterDto searchObj = new SearchParameterDto(searchString, startDate, endDate, numberOfGuests);
         }
         /// <summary>
         /// TBD
