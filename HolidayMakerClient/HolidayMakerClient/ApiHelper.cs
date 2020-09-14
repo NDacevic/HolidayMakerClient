@@ -84,7 +84,7 @@ namespace HolidayMakerClient
 
         }
 
-        public async Task<ObservableCollection<Home>> SearchAsync(SearchParameterDto searchParams)
+        public async Task<List<Home>> PostSearchAsync(SearchParameterDto searchParams)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace HolidayMakerClient
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var homeList = JsonConvert.DeserializeObject<ObservableCollection<Home>>(response.Content.ReadAsStringAsync().Result);
+                    var homeList = JsonConvert.DeserializeObject<List<Home>>(response.Content.ReadAsStringAsync().Result);
                     return homeList;
                 }
                 else
@@ -107,7 +107,7 @@ namespace HolidayMakerClient
             catch (Exception exc)
             {
                 BasicNoConnectionMessage(exc);
-                return new ObservableCollection<Home>();
+                return new List<Home>();
             }
         }
         public static void PostReservation()
