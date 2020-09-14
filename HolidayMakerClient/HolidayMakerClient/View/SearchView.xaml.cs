@@ -1,6 +1,7 @@
 ﻿using HolidayMakerClient.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -27,14 +28,14 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Fields
-        private List<Home> testSearchList;
+        private ObservableCollection<Home> testSearchList;
         #endregion
 
         #region Constructors
         public SearchView()
         {
             this.InitializeComponent();
-            testSearchList = new List<Home>();
+            testSearchList = new ObservableCollection<Home>();
             PopulateListView();
         }
         #endregion
@@ -55,6 +56,10 @@ namespace HolidayMakerClient.View
                 stckPnl_AdvancedSearch.Visibility = Visibility.Visible;
             else
                 stckPnl_AdvancedSearch.Visibility = Visibility.Collapsed;
+        }
+        private void Search(object sender, RoutedEventArgs args)
+        {
+
         }
         private void PopulateListView()
         {
