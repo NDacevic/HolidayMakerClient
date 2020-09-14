@@ -11,20 +11,32 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Windows.UI.Popups;
+using System.Net.Http.Headers;
 
 namespace HolidayMakerClient
 {
-    public static class ApiHelper
+    public class ApiHelper
     {
         #region Constant Fields
-        private static HttpClient httpClient;
-        private static string jsonString;
+
+
         #endregion
 
         #region Fields
+        private static string jsonString;
+        private static ApiHelper instance = null;
+        private static readonly object padlock = new object();
+        private static HttpClient httpClient;
         #endregion
 
         #region Constructors
+        public ApiHelper()
+        {
+            httpClient.BaseAddress = new Uri(@"https://localhost:5001/api/");
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            
+        }
         #endregion
 
         #region Delegates
@@ -34,6 +46,20 @@ namespace HolidayMakerClient
         #endregion
 
         #region Properties
+        public static ApiHelper Instance
+        {
+            get 
+            { 
+                lock (padlock)
+                {
+                    if (instance == null)
+                    { 
+                        instance = new ApiHelper();
+                    }
+                    return instance;
+                }
+            }
+        }
         #endregion
 
         #region Methods
@@ -64,14 +90,18 @@ namespace HolidayMakerClient
         public static async Task<ObservableCollection<Reservation>> GetUserReservations()
         {
             //TODO:Only GET the users reservations. Send in User id and get a list of reservations linked to that id
-
+            ObservableCollection<Reservation> reservations = new ObservableCollection<Reservation>();
             HttpResponseMessage response = await httpClient.GetAsync("UserReservations");
 
             if (response.IsSuccessStatusCode)
             {
                 jsonString = response.Content.ReadAsStringAsync().Result;
                 //Convert jsonString to list of courses objects
-                var reservations = JsonConvert.DeserializeObject<List<Reservation>>(jsonString);
+                var res = JsonConvert.DeserializeObject<List<Reservation>>(jsonString);
+                foreach(var r in res)
+                {
+                    reservations.Add(r);
+                }
                 return reservations;
             }
             else if(response.Content==null)
