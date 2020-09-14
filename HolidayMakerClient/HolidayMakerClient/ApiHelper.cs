@@ -90,18 +90,14 @@ namespace HolidayMakerClient
         public async Task<ObservableCollection<Reservation>> GetUserReservations()
         {
             //TODO:Only GET the users reservations. Send in User id and get a list of reservations linked to that id
-            ObservableCollection<Reservation> reservations = new ObservableCollection<Reservation>();
-            HttpResponseMessage response = await httpClient.GetAsync("UsersReservations");
+            HttpResponseMessage response = await httpClient.GetAsync("UsersReservations/1");
 
             if (response.IsSuccessStatusCode)
             {
                 jsonString = response.Content.ReadAsStringAsync().Result;
                
-                var res = JsonConvert.DeserializeObject<List<Reservation>>(jsonString);
-                foreach(var r in res)
-                {
-                    reservations.Add(r);
-                }
+                var reservations = JsonConvert.DeserializeObject<ObservableCollection<Reservation>>(jsonString);
+
                 return reservations;
             }
             else if(response.Content==null)
