@@ -17,17 +17,7 @@ namespace HolidayMakerClient.ViewModel
         #endregion
 
         #region Constructors
-        public static MyPageViewModel Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new MyPageViewModel();
-                }
-                return instance;
-            }
-        }
+     
         public MyPageViewModel()
         {
          
@@ -68,7 +58,7 @@ namespace HolidayMakerClient.ViewModel
         #endregion
 
         #region Properties
-        private static MyPageViewModel instance = null;
+        //private static MyPageViewModel instance = null;
         public ObservableCollection<Reservation> MyReservations { get; set; }
         public ObservableCollection<Addon> SelectedReservationAddon { get; set; }
         public ObservableCollection<Reservation> SelectedReservation { get; set; }
@@ -81,7 +71,7 @@ namespace HolidayMakerClient.ViewModel
         /// </summary>
         public async void GetReservations()
         {
-            MyReservations = await ApiHelper.GetUserReservations();
+            MyReservations = await ApiHelper.Instance.GetUserReservations();
         }
         /// <summary>
         /// TBD
