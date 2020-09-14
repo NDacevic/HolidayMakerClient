@@ -47,14 +47,15 @@
                         FontWeight="Medium"/>
                     <TextBlock
                     x:Name="txt_HomeDescription"
-                    Text="Beskrivning"
+                    Text="{x:Bind SelectedLivingViewModel.SelectedHome.Description}"
                     TextWrapping="WrapWholeWords"/>
                     <TextBlock
                     x:Name="txt_BeachDistance"
-                    Text="Avstånd till strand (m): "/>
+                    Text="{x:Bind SelectedLivingViewModel.SelectedHome.BeachDistance}"/>
+
                     <TextBlock
                     x:Name="txt_CityDistance"
-                    Text="Avstånd till strand (m): "/>
+                    Text="{x:Bind SelectedLivingViewModel.SelectedHome.CityDistance}"/>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Spacing="20" Margin="20,0,20,20" >
                     <TextBlock
