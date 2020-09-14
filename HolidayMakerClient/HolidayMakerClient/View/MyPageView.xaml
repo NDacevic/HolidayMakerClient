@@ -25,6 +25,21 @@
             <TextBlock Text="Johnny Krook"
                        HorizontalAlignment="Right"
                        Margin="0,0,30,0"/>
+            <Button    Content="Tillbaka"
+                       HorizontalAlignment="Right"
+                       Margin="0,0,30,0"/>
+            <Button    Content="Ändra reservation"
+                       x:Name="bttn_ChangeReservation"
+                       Click="bttn_ChangeReservation_Click"
+                       HorizontalAlignment="Right"
+                       Margin="0,0,30,0"
+                                        />
+            <Button    Content="Avboka reservation" 
+                       Background="Red"
+                       x:Name="bttn_CancelReservation"
+                       Click="bttn_CancelReservation_Click"
+                       HorizontalAlignment="Right"
+                       Margin="0,0,30,0"/>
 
         </StackPanel>
         <StackPanel Grid.Row="1">
@@ -32,7 +47,7 @@
                       CornerRadius="5"
                       BorderBrush="Black"
                       BorderThickness="2"
-                      ItemsSource="{x:Bind MyReservations}"
+                      ItemsSource="{x:Bind myPageViewModel.MyReservations}"
                       x:Name="Lv_MyReservations" 
                       DoubleTapped="Lv_MyReservations_DoubleTapped">
                 <ListView.ItemTemplate>
@@ -64,36 +79,83 @@
                 <ColumnDefinition Width="*"/>
 
             </Grid.ColumnDefinitions>
+            <StackPanel>
+                <ListView x:Name="Lv_SelectedHome"
+                          ItemsSource="{x:Bind myPageViewModel.SelectedHome}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:Name="lv_SelectedHome"
+                                      x:DataType="holidaymakerclient1:Home">
+                            <StackPanel>
+                                <TextBlock Text="BILD PÅ BOENDET"/>
+                                <TextBlock>
+                                <Run Text="Boende: "/>
+                                <Run Text="{x:Bind HomeType}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                <Run Text="Antal rum: "/>
+                                <Run Text="{x:Bind Rooms}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                <Run Text="Ort: "/>
+                                <Run Text="{x:Bind Location}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                <Run Text="Husdjur tillåtna: "/>
+                                <Run Text="{x:Bind AllowPets}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                <Run Text="Rökning tillåtet: "/>
+                                <Run Text="{x:Bind AllowSmoking}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                <Run Text="Pool: "/>
+                                <Run Text="{x:Bind HasPool}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                <Run Text="Wifi: "/>
+                                <Run Text="{x:Bind HasWifi}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                <Run Text="Beskrivning: "/>
+                                <Run Text="{x:Bind Description}"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
         
             <StackPanel Grid.Column="1"
                         Margin="0,0,0,0">
                 <ListView 
                 CornerRadius="5"
                 x:Name="Lv_SelectedReservation"
-                ItemsSource="{x:Bind Path=SelectedReservation}" Margin="0,0,0,236">
+                ItemsSource="{x:Bind myPageViewModel.SelectedReservation}" Margin="0,0,0,236">
                     <ListView.ItemTemplate >
                         <DataTemplate x:Name="Lv_selectedReservation" x:DataType="holidaymakerclient:Reservation">
                             <StackPanel Spacing="5" 
                                         CornerRadius="5">
                                 <TextBlock>
-                                     <Run Text="Boende:"/>
-                                     <Run Text="{x:Bind HomeId}"/>
+                                     <Run Text="Bokningsnummer:"/>
+                                     <Run Text="{x:Bind ReservationId}"/>
                                 </TextBlock>
                                 <TextBlock>
-                                      <Run Text="Datum:"/>
+                                      <Run Text="Incheckning:"/>
+                                    <Run Text="{x:Bind StartDate.Date}"/>
                                 </TextBlock>
                                 <TextBlock>
-                                     <Run Text="Totalpris:"/>
-                                     <Run Text="{x:Bind TotalPrice}"/>
+                                      <Run Text="Utcheckning:"/>
+                                    <Run Text="{x:Bind EndDate.Date}"/>
                                 </TextBlock>
                                 <TextBlock>
                                      <Run Text="Antal personer:"/>
                                      <Run Text="{x:Bind NumberOfGuests}"/>
                                 </TextBlock>
-                                <Button Content="Ändra reservation" 
-                                        />
-                                <Button Content="Avboka reservation" 
-                                        Background="Red" />
+                                <TextBlock>
+                                     <Run Text="Totalpris:"/>
+                                     <Run Text="{x:Bind TotalPrice}"/>
+                                </TextBlock>
+
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -109,7 +171,7 @@
                 <ListView 
                 CornerRadius="5"
                 x:Name="Lv_SelectedReservationAddons"
-                ItemsSource="{x:Bind Path=SelectedReservationAddon}" Margin="0,0,0,236">
+                ItemsSource="{x:Bind myPageViewModel.SelectedReservationAddon}" Margin="0,0,0,236">
                     <ListView.ItemTemplate >
                         <DataTemplate x:Name="Lv_selectedReservationAddons" x:DataType="holidaymakerclient1:Addon">
                             <StackPanel>
