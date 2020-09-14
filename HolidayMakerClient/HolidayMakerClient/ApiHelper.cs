@@ -97,11 +97,11 @@ namespace HolidayMakerClient
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var homeList = JsonConvert.DeserializeObject<List<Home>>(response.Content.ReadAsStringAsync().Result);
+                    var homeList = JsonConvert.DeserializeObject<List<Home>>(await response.Content.ReadAsStringAsync());
                     return homeList;
                 }
                 else
-                    throw new HttpRequestException();
+                    throw new HttpRequestException("PostSearchAsync: Misslyckad hämtning");
                     
             }
             catch (Exception exc)
