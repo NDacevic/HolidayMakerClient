@@ -20,7 +20,7 @@ namespace HolidayMakerClient.ViewModel
         #region Constructors
         public SearchViewModel()
         {
-
+            HomeList = new ObservableCollection<Home>();
         }
         #endregion
 
@@ -33,7 +33,7 @@ namespace HolidayMakerClient.ViewModel
         #region Properties
         public bool IsAscending { get; set; }
         public bool SortingAttributes { get; set; }
-        public ObservableCollection<Home> SearchList { get; }
+        public ObservableCollection<Home> HomeList { get; }
         #endregion
 
         #region Methods
@@ -44,9 +44,9 @@ namespace HolidayMakerClient.ViewModel
         {
             SearchParameterDto searchObj = new SearchParameterDto(searchString, startDate, endDate, numberOfGuests);
             var homeList = await ApiHelper.Instance.PostSearchAsync(searchObj);
-            SearchList.Clear();
+            HomeList.Clear();
             foreach(var x in homeList)
-                SearchList.Add(x);
+                HomeList.Add(x);
         }
         /// <summary>
         /// TBD
