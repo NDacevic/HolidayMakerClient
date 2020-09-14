@@ -49,7 +49,7 @@ namespace HolidayMakerClient
         public decimal TotalPrice { get; set; }
         public List<Addon> AddonList { get; set; }
         public string Summary
-        { get { return $"Boende: {HomeId} Datum:1/7-8/7 Totalpris: {TotalPrice}"; }
+        { get { return $"Bokningsnummer: {ReservationId} Datum: {StartDate} - {EndDate} Totalpris: {TotalPrice}"; }
         }
       
         #endregion

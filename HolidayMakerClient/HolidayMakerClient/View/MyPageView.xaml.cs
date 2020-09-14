@@ -41,33 +41,30 @@ namespace HolidayMakerClient.View
             a2.AddonType = "Champagne";
             a2.AddonPrice = 100;
             Reservation r1 = new Reservation();
-            Reservation r2 = new Reservation();
-            Reservation r3 = new Reservation();
-            Reservation r4 = new Reservation();
-            Reservation r5 = new Reservation();
+            Home h1 = new Home();
+            h1.HomeType = "Lägenhet";
+            h1.Rooms = 2;
+            h1.AllowPets = true;
+            h1.AllowSmoking = false;
+            h1.Description = "Mysig 2:a, perfekt för den som vill vara sig själv för en stund";
+            h1.HasBalcony = true;
+            h1.HasPool = true;
+
             r1.TotalPrice = 2000;
             r1.HomeId = 1;
-            r2.TotalPrice = 4000;
-            r2.HomeId = 2;
-            r3.TotalPrice = 15000;
-            r3.HomeId = 3;
-            r4.TotalPrice = 6000;
-            r4.HomeId = 4;
-            r5.TotalPrice = 18000;
-            r5.HomeId = 5;
+     
             r1.AddonList = new List<Addon>();
             r1.AddonList.Add(a1);
             r1.AddonList.Add(a2);
-
+            
             SelectedReservationAddon = new ObservableCollection<Addon>();
             SelectedReservation = new ObservableCollection<Reservation>();
-
+            SelectedHome = new ObservableCollection<Home>();
+            SelectedHome.Add(h1);
             MyReservations = new ObservableCollection<Reservation>();
             MyReservations.Add(r1);
-            MyReservations.Add(r2);
-            MyReservations.Add(r3);
-            MyReservations.Add(r4);
-            MyReservations.Add(r5);
+            
+        
 
         }
         #endregion
@@ -81,7 +78,8 @@ namespace HolidayMakerClient.View
         #region Properties
        public ObservableCollection<Reservation>MyReservations { get; set; }
        public ObservableCollection<Addon> SelectedReservationAddon { get; set; }
-        public ObservableCollection<Reservation> SelectedReservation { get; set; }
+       public ObservableCollection<Reservation> SelectedReservation { get; set; }
+        public ObservableCollection<Home> SelectedHome { get; set; }
 
         #endregion
 
@@ -101,6 +99,16 @@ namespace HolidayMakerClient.View
                      }
                
                   }
+        }
+
+        private void bttn_CancelReservation_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void bttn_ChangeReservation_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
