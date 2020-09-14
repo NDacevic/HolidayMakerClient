@@ -12,6 +12,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Windows.UI.Popups;
 using System.Net.Http.Headers;
+using Windows.UI.Xaml.Documents;
+using HolidayMakerClient.Dto;
 
 namespace HolidayMakerClient
 {
@@ -78,11 +80,42 @@ namespace HolidayMakerClient
 
         }
 
-        public static void GetHome()
+        public async Task<ObservableCollection<Home>> GetSearchResults(SearchParameterDto searchParameters)
         {
+            try { 
+                //Convert the object to a json string.
+                jsonString = JsonConvert.SerializeObject(searchParameters);
 
-        }
+                //Set this part of the code into a scope so we don't have to worry about it not getting disposed.
+                using (HttpContent content = new StringContent(jsonString))
+                {
+                    //Set the type of content
+                    content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
+                    //Call the api and send the Json string.
+                    HttpResponseMessage response = await httpClient.PostAsync("searchresults", content);
+
+                    //Check if it is successfull. If so, return all search results in form of a OC of Home objects
+                    //Otherwise throw an error and tell the user that the question was not posted.
+                    if (response.IsSuccessStatusCode)
+                    {
+                        jsonString = response.Content.ReadAsStringAsync().Result;
+                        var searchResults = JsonConvert.DeserializeObject<ObservableCollection<Home>>(jsonString);
+                        return searchResults;
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"Http Error: {response.StatusCode}. {response.ReasonPhrase}");
+                        throw new HttpRequestException("Uppkopplingen mot servern misslyckades, var god försök igen senare");
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+                return new ObservableCollection<Home>();
+            }
+        }       
         public static void PostReservation()
         {
 
@@ -134,17 +167,28 @@ namespace HolidayMakerClient
         {
             List<Addon> addonList = new List<Addon>();
             try
-            {
-                jsonString = await httpClient.GetStringAsync("Addons");
-                addonList = JsonConvert.DeserializeObject<List<Addon>>(jsonString);
-                return addonList;
+            {               
+                HttpResponseMessage response = await httpClient.GetAsync("Addons");
+                if(response.IsSuccessStatusCode)
+                {
+                     jsonString = response.Content.ReadAsStringAsync().Result;
+                     var addon = JsonConvert.DeserializeObject<List<Addon>>(jsonString);
+                     foreach(var a in addon)
+                     {
+                        addonList.Add(a);
+                     }
+                        return addonList;
+                }
+                else
+                {
+                    throw new HttpRequestException("Gick ej att hämta, vänligen försök igen.");
+                }
             }
             catch (Exception exc)
             {
                 BasicNoConnectionMessage(exc);
                 return addonList;
             }
-
         }
         private static async void BasicNoConnectionMessage(Exception exc)
         {
