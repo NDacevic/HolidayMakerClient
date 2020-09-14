@@ -37,15 +37,18 @@
                         Spacing="20"
                         >
                         <TextBox
-                            x:Name="txtBox_search"
+                            x:Name="txtBox_Search"
                             Width="300"/>
                         <CalendarDatePicker
+                            x:Name="datePicker_StartDate"
                              PlaceholderText="Välj datum"
                             />
                         <CalendarDatePicker
+                            x:Name="datePicker_EndDate"
                             PlaceholderText="Välj datum"
                             />
                         <TextBox
+                            x:Name="txtBox_NumberOfGuests"
                             PlaceholderText="Antal boende"
                             />
                     </StackPanel>
@@ -75,30 +78,35 @@
                 BorderThickness="1"
                 >
                 <ToggleSwitch
+                    x:Name="toggle_HasPool"
                     Header="Pool"
                     OnContent="Ja"
                     OffContent="Nej"
                     IsOn="False"
                     />
                 <ToggleSwitch
+                    x:Name="toggle_HasBalcony"
                     Header="Balkong"
                     OnContent="Ja"
                     OffContent="Nej"
                     IsOn="False"
                     />
                 <ToggleSwitch
+                    x:Name="toggle_AllowPets"
                     Header="Husdjur"
                     OnContent="Ja"
                     OffContent="Nej"
                     IsOn="False"
                     />
                 <ToggleSwitch
+                    x:Name="toggle_HasWifi"
                     Header="Wifi"
                     OnContent="Ja"
                     OffContent="Nej"
                     IsOn="False"
                     />
                 <ToggleSwitch
+                    x:Name="toggle_AllowSmoking"
                     Header="Rökning"
                     OnContent="Ja"
                     OffContent="Nej"
