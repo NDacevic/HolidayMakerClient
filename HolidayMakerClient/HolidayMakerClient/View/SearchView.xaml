@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:data="using:HolidayMakerClient.Model"
+    xmlns:test="using:HolidayMakerClient"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     MaxWidth="1280"
@@ -65,7 +66,7 @@
             <!--#endregion-->
             <!--#region Advanced Search Box-->
             <StackPanel
-                Visibility="Collapsed"
+                Visibility="Visible"
                 x:Name="stckPnl_AdvancedSearch"
                 Orientation="Horizontal"
                 Padding="10"
@@ -104,18 +105,48 @@
                     IsOn="False"
                     />
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                
-                    <Slider
-                        Header="Maximal Avstånd Centrum"
+                    <TextBlock
                         Grid.Row="0"
-                        Margin="1"/>
+                        Grid.Column="0"
+                        >
+                        <Run Text="{x:Bind slider_CityDistance.Value}"
+                             x:DefaultBindMode="OneWay"/>
+                        <Run Text="km"/>
+                    </TextBlock>
                     <Slider
+                        x:Name="slider_CityDistance"
+                        Header="Maximal Avstånd Centrum"
+                        Minimum="0"
+                        Maximum="50"
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Width="50"
+                        >
+                        <Run Text="{x:Bind slider_BeachDistance.Value}"
+                             x:DefaultBindMode="OneWay"
+                             />
+                        <Run Text="km"/>
+                    </TextBlock>
+                    <Slider
+                        x:Name="slider_BeachDistance"
                         Header="Maximal Avstånd Strand"
-                        Grid.Row="1"/>
+                        Minimum="0.0"
+                        Maximum="50.0"
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        IsThumbToolTipEnabled="False"/>
                 </Grid>
             </StackPanel>
             <!--#endregion-->
