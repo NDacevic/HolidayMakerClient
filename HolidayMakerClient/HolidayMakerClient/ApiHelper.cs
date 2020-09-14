@@ -13,6 +13,7 @@ using System.Diagnostics;
 using Windows.UI.Popups;
 using System.Net.Http.Headers;
 using Windows.UI.Xaml.Documents;
+using HolidayMakerClient.Dto;
 
 namespace HolidayMakerClient
 {
