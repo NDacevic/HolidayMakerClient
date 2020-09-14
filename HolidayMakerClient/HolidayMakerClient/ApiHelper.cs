@@ -1,10 +1,16 @@
-﻿using System;
+﻿using HolidayMakerClient.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.JsonPatch;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using Windows.UI.Popups;
 
 namespace HolidayMakerClient
 {
@@ -98,10 +104,28 @@ namespace HolidayMakerClient
 
         }
 
-        public static void GetAddon()
+        public static async Task<List<Addon>> GetAllAddon ()
         {
+            List<Addon> addonList = new List<Addon>();
+            try
+            {
+                jsonString = await httpClient.GetStringAsync("Addons");
+                addonList = JsonConvert.DeserializeObject<List<Addon>>(jsonString);
+                return addonList;
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+                return addonList;
+            }
 
         }
+        private static async void BasicNoConnectionMessage(Exception exc)
+        {
+            Debug.WriteLine(exc.Message);
+            await new MessageDialog("Ingen kontakt med servern. Kontakta admin").ShowAsync();
+        }
+
         #endregion
     }
 }

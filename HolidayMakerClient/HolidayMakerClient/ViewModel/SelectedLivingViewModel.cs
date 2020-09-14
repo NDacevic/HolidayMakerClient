@@ -25,6 +25,7 @@ namespace HolidayMakerClient
         {
             SelectedHome = selectedHome;
             SelectedReservation = selectedReservation;
+            AddonList = new List<Addon>();
         }
         #endregion
 
@@ -37,6 +38,7 @@ namespace HolidayMakerClient
         #region Properties
         public Home SelectedHome { get; set; }
         public Reservation SelectedReservation { get; set; }
+        public List<Addon> AddonList { get; set; }
         #endregion
 
         #region Methods
@@ -54,6 +56,11 @@ namespace HolidayMakerClient
         {
 
         }
+        public async void GetAddonList()
+        {
+            AddonList = await ApiHelper.GetAllAddon();
+        }
+
         #endregion
     }
 }

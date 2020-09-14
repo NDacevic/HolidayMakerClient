@@ -165,10 +165,12 @@
                         FontWeight="Medium"
                         Margin="0,0,0,20"/>
                     <Button
+                        x:Name="bttn_bookChange"
                         Content="Boka/Ändra"
                         HorizontalAlignment="Center"
                         Width="120"/>
                     <Button
+                        x:Name="bttn_deleteReservation"
                         Content="Ta bort bokning"
                         HorizontalAlignment="Center"
                         Width="120"/>
