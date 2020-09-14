@@ -85,22 +85,29 @@ namespace HolidayMakerClient
         {
             List<Addon> addonList = new List<Addon>();
             try
-            {
-                jsonString = await httpClient.GetStringAsync("Addons");
-                var addon = JsonConvert.DeserializeObject<List<Addon>>(jsonString);
-                foreach(var a in addon)
+            {               
+                HttpResponseMessage response = await httpClient.GetAsync("Addons");
+                if(response.IsSuccessStatusCode)
                 {
-                    addonList.Add(a);
+                     jsonString = response.Content.ReadAsStringAsync().Result;
+                     var addon = JsonConvert.DeserializeObject<List<Addon>>(jsonString);
+                     foreach(var a in addon)
+                     {
+                        addonList.Add(a);
+                     }
+                        return addonList;
                 }
-                return addonList;
+                else
+                {
+                    throw new HttpRequestException("Gick ej att hämta, vänligen försök igen.");
+                }
             }
             catch (Exception exc)
             {
                 BasicNoConnectionMessage(exc);
                 return addonList;
             }
-
-    }
+        }
         private static async void BasicNoConnectionMessage(Exception exc)
         {
             Debug.WriteLine(exc.Message);
