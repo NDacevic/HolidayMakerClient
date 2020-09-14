@@ -58,7 +58,7 @@ namespace HolidayMakerClient
         }
         public async void GetAddonList()
         {
-            AddonList = await ApiHelper.GetAllAddon();
+            AddonList = await ApiHelper.Instance.GetAllAddon();
         }
 
         #endregion
