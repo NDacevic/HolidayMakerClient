@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -54,9 +55,27 @@ namespace HolidayMakerClient
         {
 
         }
-        public static void GetUserReservations()
+        public static async Task<ObservableCollection<Reservation>> GetUserReservations()
         {
+            //TODO:Only GET the users reservations. Send in User id and get a list of reservations linked to that id
 
+            HttpResponseMessage response = await httpClient.GetAsync("UserReservations");
+
+            if (response.IsSuccessStatusCode)
+            {
+                jsonString = response.Content.ReadAsStringAsync().Result;
+                //Convert jsonString to list of courses objects
+                var reservations = JsonConvert.DeserializeObject<List<Reservation>>(jsonString);
+                return reservations;
+            }
+            else if(response.Content==null)
+            {
+                throw new HttpRequestException("Här var det tomt! Gå in och gör en reservation för att se listan.");
+            }
+            else
+            {
+                throw new HttpRequestException("Kunde inte hämta några reservationer, var vänlig försök igen.");
+            }
         }
 
         public static void GetReservation()

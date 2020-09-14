@@ -55,6 +55,7 @@ namespace HolidayMakerClient.View
         #region Methods
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            myPageViewModel.GetReservations();
            //TODO: GET user reservations and populate listview
         }
         private void Lv_MyReservations_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)

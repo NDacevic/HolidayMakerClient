@@ -79,9 +79,9 @@ namespace HolidayMakerClient.ViewModel
         /// <summary>
         /// TBD
         /// </summary>
-        public void GetReservation()
+        public async void GetReservations()
         {
-
+            MyReservations = await ApiHelper.GetUserReservations();
         }
         /// <summary>
         /// TBD
