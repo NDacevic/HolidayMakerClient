@@ -26,5 +26,6 @@ namespace HolidayMakerClient
         {
             this.InitializeComponent();
         }
+        SelectedLivingViewModel SelectedLivingViewModel = new SelectedLivingViewModel(); //Tillfällig 
     }
 }
