@@ -1,6 +1,8 @@
 ﻿using HolidayMakerClient.Dto;
+using HolidayMakerClient.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,15 +33,20 @@ namespace HolidayMakerClient.ViewModel
         #region Properties
         public bool IsAscending { get; set; }
         public bool SortingAttributes { get; set; }
+        public ObservableCollection<Home> SearchList { get; }
         #endregion
 
         #region Methods
         /// <summary>
         /// TBD
         /// </summary>
-        public void Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests)
+        public async void Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests)
         {
             SearchParameterDto searchObj = new SearchParameterDto(searchString, startDate, endDate, numberOfGuests);
+            var homeList = await ApiHelper.Instance.PostSearchAsync(searchObj);
+            SearchList.Clear();
+            foreach(var x in homeList)
+                SearchList.Add(x);
         }
         /// <summary>
         /// TBD
