@@ -1,9 +1,13 @@
-﻿using System;
+﻿using HolidayMakerClient.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.JsonPatch;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace HolidayMakerClient
 {
@@ -75,10 +79,28 @@ namespace HolidayMakerClient
 
         }
 
-        public static void GetAddon()
+        public async Task<List<Addon>> GetAddonList()
         {
-
+            jsonString = await httpClient.GetStringAsync("Addons/");
+            var addonList = JsonConvert.DeserializeObject<List<Addon>>(jsonString);
+            return addonList;
         }
+
+        //public async Task<List<TestResult>> GetAllTestResults(int testId)
+        //{
+        //    try
+        //    {
+        //        jsonString = await httpClient.GetStringAsync("TestResults/" + testId);
+        //        var testResults = JsonConvert.DeserializeObject<List<TestResult>>(jsonString);
+        //        return testResults;
+        //    }
+        //    catch (Exception exc)
+        //    {
+        //        BasicNoConnectionMessage(exc);
+        //        return new List<TestResult>();
+        //    }
+
+        //}
         #endregion
     }
 }
