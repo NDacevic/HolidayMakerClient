@@ -8,6 +8,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using Windows.UI.Popups;
 
 namespace HolidayMakerClient
 {
@@ -79,28 +81,28 @@ namespace HolidayMakerClient
 
         }
 
-        public async Task<List<Addon>> GetAddonList()
+        public static async Task<List<Addon>> GetAllAddon ()
         {
-            jsonString = await httpClient.GetStringAsync("Addons/");
-            var addonList = JsonConvert.DeserializeObject<List<Addon>>(jsonString);
-            return addonList;
+            List<Addon> addonList = new List<Addon>();
+            try
+            {
+                jsonString = await httpClient.GetStringAsync("Addons");
+                addonList = JsonConvert.DeserializeObject<List<Addon>>(jsonString);
+                return addonList;
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+                return addonList;
+            }
+
+        }
+        private static async void BasicNoConnectionMessage(Exception exc)
+        {
+            Debug.WriteLine(exc.Message);
+            await new MessageDialog("Ingen kontakt med servern. Kontakta admin").ShowAsync();
         }
 
-        //public async Task<List<TestResult>> GetAllTestResults(int testId)
-        //{
-        //    try
-        //    {
-        //        jsonString = await httpClient.GetStringAsync("TestResults/" + testId);
-        //        var testResults = JsonConvert.DeserializeObject<List<TestResult>>(jsonString);
-        //        return testResults;
-        //    }
-        //    catch (Exception exc)
-        //    {
-        //        BasicNoConnectionMessage(exc);
-        //        return new List<TestResult>();
-        //    }
-
-        //}
         #endregion
     }
 }
