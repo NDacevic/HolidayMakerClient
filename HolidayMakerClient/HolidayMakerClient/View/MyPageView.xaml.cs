@@ -29,7 +29,7 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Fields
-        MyPageViewModel myPageViewModel = MyPageViewModel.Instance;
+        MyPageViewModel myPageViewModel = new MyPageViewModel();
         #endregion
 
         #region Constructors
