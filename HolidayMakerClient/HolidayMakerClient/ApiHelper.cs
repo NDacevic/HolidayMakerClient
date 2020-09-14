@@ -23,10 +23,10 @@ namespace HolidayMakerClient
         #endregion
 
         #region Fields
-        private static string jsonString;
+        private string jsonString;
         private static ApiHelper instance = null;
         private static readonly object padlock = new object();
-        private static HttpClient httpClient;
+        private HttpClient httpClient = new HttpClient();
         #endregion
 
         #region Constructors
@@ -87,16 +87,16 @@ namespace HolidayMakerClient
         {
 
         }
-        public static async Task<ObservableCollection<Reservation>> GetUserReservations()
+        public async Task<ObservableCollection<Reservation>> GetUserReservations()
         {
             //TODO:Only GET the users reservations. Send in User id and get a list of reservations linked to that id
             ObservableCollection<Reservation> reservations = new ObservableCollection<Reservation>();
-            HttpResponseMessage response = await httpClient.GetAsync("UserReservations");
+            HttpResponseMessage response = await httpClient.GetAsync("UsersReservations");
 
             if (response.IsSuccessStatusCode)
             {
                 jsonString = response.Content.ReadAsStringAsync().Result;
-                //Convert jsonString to list of courses objects
+               
                 var res = JsonConvert.DeserializeObject<List<Reservation>>(jsonString);
                 foreach(var r in res)
                 {
@@ -134,7 +134,7 @@ namespace HolidayMakerClient
 
         }
 
-        public static async Task<List<Addon>> GetAllAddon ()
+        public async Task<List<Addon>> GetAllAddon ()
         {
             List<Addon> addonList = new List<Addon>();
             try
