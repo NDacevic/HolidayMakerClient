@@ -47,15 +47,20 @@ namespace HolidayMakerClient.ViewModel
             var homeList = await ApiHelper.Instance.GetSearchResults(searchObj);
             
             HomeList.Clear();
-            
-            foreach(var x in homeList)
+            SortedHomeList.Clear();
+
+            foreach (var x in homeList)
+            {
                 HomeList.Add(x);
+                SortedHomeList.Add(x);
+            }
         }
         /// <summary>
         /// TBD
         /// </summary>
         public void GetHomes()
         {
+
         }
         /// <summary>
         /// TBD
