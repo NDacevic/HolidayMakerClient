@@ -71,37 +71,43 @@
                         FontWeight="Medium"/>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <CheckBox
-                            x:Name="cb_ExtraBed"
-                            
+                        <ListView
+                          BorderThickness="2"
+                          x:Name="lv_ChooseAddons"
+                            ItemsSource="{x:Bind SelectedLivingViewModel.AddonList}"
                             Grid.Column="0"
                             Grid.Row="0"
-                            />
-                        <CheckBox
-                            x:Name="cb_HalfPension"
-                            Content="Halvpension"
-                            Grid.Column="0"
-                            Grid.Row="1"
-                            />
-                        <CheckBox
-                            x:Name="cb_FullPension"
-                            Content="Helpension"
-                            Grid.Column="1"
-                            Grid.Row="0"
-                            />
-                        <CheckBox
-                            x:Name="cb_AllInclusive"
-                            Content="All-inclusive"
-                            Grid.Column="1"
-                            Grid.Row="1"
-                            />
+                            Grid.ColumnSpan="2"
+                            Grid.RowSpan="2"
+                            HorizontalAlignment="Left"
+                            Width="300">
+                            <ListView.ItemTemplate>
+                                        <DataTemplate x:Name="lv_Addons" x:DataType="data:Addon"  >
+                                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                                <CheckBox
+                                                    x:Name="cb_Addon">
+                                            <CheckBox.Content>
+                                                <TextBlock>
+                                                            <Run Text="{x:Bind AddonType}"
+                                                            x:DefaultBindMode="OneWay"/> 
+                                                            <Run Text="{x:Bind AddonPrice}"
+                                                                 x:DefaultBindMode="OneWay"/>
+                                                </TextBlock>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
                     </Grid>
                 </StackPanel>
             </Grid>
