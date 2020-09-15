@@ -50,12 +50,18 @@
                     Text="{x:Bind tempReservation.Home.Description}"
                     TextWrapping="WrapWholeWords"/>
                     <TextBlock
-                    x:Name="txt_BeachDistance"
-                    Text="{x:Bind tempReservation.Home.BeachDistance}"/>
+                    x:Name="txt_BeachDistance">
+                        <Run Text="Avstånd till stranden, km: "/>
+                        <Run Text="{x:Bind tempReservation.Home.BeachDistance}"
+                                x:DefaultBindMode="OneWay"/>
+                    </TextBlock>
 
                     <TextBlock
-                    x:Name="txt_CityDistance"
-                    Text="{x:Bind tempReservation.Home.CityDistance}"/>
+                    x:Name="txt_CityDistance">
+                        <Run Text="Avstånd till city, km: "/>
+                        <Run Text="{x:Bind tempReservation.Home.CityDistance}"
+                                x:DefaultBindMode="OneWay"/>
+                    </TextBlock>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Spacing="20" Margin="20,0,20,20" >
                     <TextBlock
@@ -132,9 +138,11 @@
                                     FirstDayOfWeek="Monday"
                                     DateFormat="{}{day.integer} {month.full} {year.full}"/>
                             <TextBlock
-                                x:Name="txt_NumberOfGuests"
-                                Text="{x:Bind tempReservation.NumberOfGuests}"
-                                VerticalAlignment="Center"/>
+                                x:Name="txt_NumberOfGuests">
+                                <Run Text="Antal gäster: "/>
+                                <Run Text="{x:Bind tempReservation.NumberOfGuests}"
+                                x:DefaultBindMode="OneWay"/>
+                            </TextBlock>
                         </StackPanel>
 
                     </StackPanel>
