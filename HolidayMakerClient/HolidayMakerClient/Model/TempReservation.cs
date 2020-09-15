@@ -22,6 +22,7 @@ namespace HolidayMakerClient.Model
             EndDate = endDate;
             Home = home;
         }
+        public TempReservation() { }
         #endregion
 
         #region Delegates
