@@ -17,6 +17,58 @@
             Margin="0,20,0,0"
             Spacing="20"
             HorizontalAlignment="Center">
+            <!--#region Title and LoginButton-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel
+                        Orientation="Horizontal"
+                        Grid.Column="0">
+                    <Image
+                        Source="ms-appx:///Assets/travelicon.png"
+                        Width="100"
+                        />
+                    <TextBlock
+                        Text="Holiday Maker"
+                        FontSize="50"
+                        />
+                </StackPanel>
+                <Button
+                    x:Name="bttn_Login"
+                    Click="Login_Click"
+                    Grid.Column="1"
+                    Content="Logga in"
+                    Margin="20,0"
+                    />
+                <Button
+                    Visibility="Collapsed"
+                    x:Name="bttn_UserOptions"
+
+                    Grid.Column="1"
+                    Margin="20,0"
+                    >
+                    <Button.Content>
+                        <SymbolIcon
+                             Symbol="Admin"
+                            />
+                    </Button.Content>
+                    <Button.Flyout>
+                        <MenuFlyout
+                             Placement="BottomEdgeAlignedRight">
+                            <MenuFlyoutItem
+                                Text="Mina Sidor"
+                                Click="NavigateToMyPage_Click"/>
+                            <MenuFlyoutItem
+                                Text="Logga ut"
+                                Click="Logout_Click"
+                                />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
+            <!--#endregion-->
             <!--#region Main Search Box-->
             <StackPanel
                 Orientation="Horizontal"
@@ -37,15 +89,19 @@
                         Spacing="20"
                         >
                         <TextBox
-                            x:Name="txtBox_search"
-                            Width="300"/>
+                            x:Name="txtBox_Search"
+                            Width="300"
+                            PlaceholderText="Sök på en ort"/>
                         <CalendarDatePicker
+                            x:Name="datePicker_StartDate"
                              PlaceholderText="Välj datum"
                             />
                         <CalendarDatePicker
+                            x:Name="datePicker_EndDate"
                             PlaceholderText="Välj datum"
                             />
                         <TextBox
+                            x:Name="txtBox_NumberOfGuests"
                             PlaceholderText="Antal boende"
                             />
                     </StackPanel>
@@ -64,6 +120,7 @@
                 </Grid>
             </StackPanel>
             <!--#endregion-->
+            
             <!--#region Advanced Search Box-->
             <StackPanel
                 Visibility="Visible"
@@ -75,30 +132,35 @@
                 BorderThickness="1"
                 >
                 <ToggleSwitch
+                    x:Name="toggle_HasPool"
                     Header="Pool"
                     OnContent="Ja"
                     OffContent="Nej"
                     IsOn="False"
                     />
                 <ToggleSwitch
+                    x:Name="toggle_HasBalcony"
                     Header="Balkong"
                     OnContent="Ja"
                     OffContent="Nej"
                     IsOn="False"
                     />
                 <ToggleSwitch
+                    x:Name="toggle_AllowPets"
                     Header="Husdjur"
                     OnContent="Ja"
                     OffContent="Nej"
                     IsOn="False"
                     />
                 <ToggleSwitch
+                    x:Name="toggle_HasWifi"
                     Header="Wifi"
                     OnContent="Ja"
                     OffContent="Nej"
                     IsOn="False"
                     />
                 <ToggleSwitch
+                    x:Name="toggle_AllowSmoking"
                     Header="Rökning"
                     OnContent="Ja"
                     OffContent="Nej"
@@ -150,9 +212,12 @@
                 </Grid>
             </StackPanel>
             <!--#endregion-->
+            
             <!--#region Search Results-->
             <ListView
-                ItemsSource="{x:Bind testSearchList}">
+                x:Name="lv_SearchList"
+                ItemsSource="{x:Bind searchViewModel.HomeList}"
+                DoubleTapped="ListView_DoubleTapped">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel

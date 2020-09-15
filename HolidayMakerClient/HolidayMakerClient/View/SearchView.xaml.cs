@@ -1,4 +1,5 @@
 ﻿using HolidayMakerClient.Model;
+using HolidayMakerClient.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,6 +30,8 @@ namespace HolidayMakerClient.View
 
         #region Fields
         private ObservableCollection<Home> testSearchList;
+        SearchViewModel searchViewModel;
+        TempReservation tempReservation;
         #endregion
 
         #region Constructors
@@ -37,6 +40,7 @@ namespace HolidayMakerClient.View
             this.InitializeComponent();
             testSearchList = new ObservableCollection<Home>();
             PopulateListView();
+            searchViewModel = new SearchViewModel();
         }
         #endregion
 
@@ -59,7 +63,14 @@ namespace HolidayMakerClient.View
         }
         private void Search(object sender, RoutedEventArgs args)
         {
-
+            int.TryParse(txtBox_NumberOfGuests.Text, out int numberOfGuests);
+            searchViewModel.Search
+                (
+                txtBox_Search.Text,
+                (DateTimeOffset)datePicker_StartDate.Date,
+                (DateTimeOffset)datePicker_EndDate.Date,
+                numberOfGuests
+                );
         }
         private void PopulateListView()
         {
@@ -68,7 +79,39 @@ namespace HolidayMakerClient.View
                 testSearchList.Add(new Home(1, "Hotel", i, "Sweden", 3299, true, false, true, "ms-appx:///Assets/hotelroom.jpg", true, false, false, true, 10, 5, i, true, false, "An awesome hotelroom", 15, 85));
             }
         }
-        #endregion
 
+        private void ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            CreateTempRes();
+            Frame.Navigate(typeof(SelectedLivingView), tempReservation);
+        }
+        public void CreateTempRes ()
+        {
+            tempReservation = new TempReservation();
+            SetDates();
+            tempReservation.NumberOfGuests = txtBox_NumberOfGuests.Text;
+            tempReservation.Home = (Home)lv_SearchList.SelectedItem;
+        }
+        public void SetDates()
+        { 
+            tempReservation.StartDate = new DateTime(datePicker_StartDate.Date.Value.Year, datePicker_StartDate.Date.Value.Month, datePicker_StartDate.Date.Value.Day);
+            tempReservation.EndDate = new DateTime(datePicker_EndDate.Date.Value.Year, datePicker_EndDate.Date.Value.Month, datePicker_EndDate.Date.Value.Day);
+        }
+
+        private async void Login_Click(object sender, RoutedEventArgs e)
+        {
+            await new LoginView().ShowAsync();
+            bttn_Login.Visibility = Visibility.Collapsed;
+            bttn_UserOptions.Visibility = Visibility.Visible;
+        }
+        private void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MyPageView));
+        }
+
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+        }
+        #endregion
     }
 }

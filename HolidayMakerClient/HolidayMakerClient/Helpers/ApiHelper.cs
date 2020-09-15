@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.JsonPatch;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Windows.UI.Popups;
 using System.Net.Http.Headers;
@@ -82,7 +81,8 @@ namespace HolidayMakerClient
 
         public async Task<ObservableCollection<Home>> GetSearchResults(SearchParameterDto searchParameters)
         {
-            try { 
+            try
+            {
                 //Convert the object to a json string.
                 jsonString = JsonConvert.SerializeObject(searchParameters);
 
@@ -115,7 +115,7 @@ namespace HolidayMakerClient
                 BasicNoConnectionMessage(exc);
                 return new ObservableCollection<Home>();
             }
-        }       
+        }
         public static void PostReservation()
         {
 

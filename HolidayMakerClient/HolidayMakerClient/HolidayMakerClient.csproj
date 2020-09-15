@@ -121,6 +121,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dto\SearchParameterDto.cs" />
+    <Compile Include="Model\TempReservation.cs" />
     <Compile Include="View\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -158,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\hotelroom.jpg" />
+    <Content Include="Assets\travelicon.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
