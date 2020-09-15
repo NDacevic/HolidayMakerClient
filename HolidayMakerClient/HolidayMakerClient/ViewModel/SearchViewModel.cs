@@ -21,6 +21,7 @@ namespace HolidayMakerClient.ViewModel
         public SearchViewModel()
         {
             HomeList = new ObservableCollection<Home>();
+            SortedHomeList = new ObservableCollection<Home>();
         }
         #endregion
 
