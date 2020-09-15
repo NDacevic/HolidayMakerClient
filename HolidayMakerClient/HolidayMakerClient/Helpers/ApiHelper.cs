@@ -81,7 +81,7 @@ namespace HolidayMakerClient
 
         public async Task<ObservableCollection<Home>> GetSearchResults(SearchParameterDto searchParameters)
         {
-            try 
+            try
             {
                 //Convert the object to a json string.
                 jsonString = JsonConvert.SerializeObject(searchParameters);
@@ -116,7 +116,6 @@ namespace HolidayMakerClient
                 return new ObservableCollection<Home>();
             }
         }
-
         public static void PostReservation()
         {
 
