@@ -151,7 +151,7 @@
                 <ListView
                   BorderThickness="2"
                   x:Name="lv_DisplayAddons"
-                    ItemsSource="{x:Bind SelectedLivingViewModel.SelectedReservation.AddonList}"
+                    ItemsSource="{x:Bind tempReservation.AddonList}"
                     Grid.Row="1"
                     Height="200"
                     Margin="20,50,20,10">
