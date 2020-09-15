@@ -37,11 +37,36 @@
                 </StackPanel>
                 <Button
                     x:Name="bttn_Login"
-                    Click="LoginOrUserOptions"
+                    Click="Login_Click"
                     Grid.Column="1"
-                    Content="Login"
+                    Content="Logga in"
                     Margin="20,0"
                     />
+                <Button
+                    Visibility="Collapsed"
+                    x:Name="bttn_UserOptions"
+
+                    Grid.Column="1"
+                    Margin="20,0"
+                    >
+                    <Button.Content>
+                        <SymbolIcon
+                             Symbol="Admin"
+                            />
+                    </Button.Content>
+                    <Button.Flyout>
+                        <MenuFlyout
+                             Placement="BottomEdgeAlignedRight">
+                            <MenuFlyoutItem
+                                Text="Mina Sidor"
+                                Click="NavigateToMyPage_Click"/>
+                            <MenuFlyoutItem
+                                Text="Logga ut"
+                                Click="Logout_Click"
+                                />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
             </Grid>
             <!--#endregion-->
             <!--#region Main Search Box-->
@@ -65,7 +90,8 @@
                         >
                         <TextBox
                             x:Name="txtBox_Search"
-                            Width="300"/>
+                            Width="300"
+                            PlaceholderText="Sök på en ort"/>
                         <CalendarDatePicker
                             x:Name="datePicker_StartDate"
                              PlaceholderText="Välj datum"
