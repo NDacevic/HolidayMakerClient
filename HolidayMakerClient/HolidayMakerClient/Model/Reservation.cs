@@ -48,9 +48,9 @@ namespace HolidayMakerClient
         public DateTimeOffset EndDate { get; set; }
         public decimal TotalPrice { get; set; }
         public List<Addon> AddonList { get; set; }
-        public string Summary
-        { get { return $"Bokningsnummer: {ReservationId} Datum: {StartDate} - {EndDate} Totalpris: {TotalPrice}"; }
-        }
+        //public string Summary
+        //{ get { return $"Bokningsnummer: {ReservationId} Datum: {StartDate} - {EndDate} Totalpris: {TotalPrice}"; }
+        //}
       
         #endregion
 

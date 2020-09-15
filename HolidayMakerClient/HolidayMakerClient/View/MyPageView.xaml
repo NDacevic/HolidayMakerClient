@@ -27,7 +27,9 @@
                        Margin="0,0,30,0"/>
             <Button    Content="Tillbaka"
                        HorizontalAlignment="Right"
-                       Margin="0,0,30,0"/>
+                       Margin="0,0,30,0"
+                       x:Name="bttn_navigateBack"
+                       Click="bttn_navigateBack_Click"/>
             <Button    Content="Ändra reservation"
                        x:Name="bttn_ChangeReservation"
                        Click="bttn_ChangeReservation_Click"
@@ -49,12 +51,36 @@
                       BorderThickness="2"
                       ItemsSource="{x:Bind myPageViewModel.MyReservations}"
                       x:Name="Lv_MyReservations" 
-                      DoubleTapped="Lv_MyReservations_DoubleTapped">
+                      DoubleTapped="Lv_MyReservations_DoubleTapped"
+                      >
                 <ListView.ItemTemplate>
                     <DataTemplate x:Name="lv_MyReservations"
                                   x:DataType="holidaymakerclient:Reservation">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{x:Bind Summary}"/>
+                            <TextBlock>
+                                <Run Text="Bokningsnummer: "/>
+                                <Run Text="{x:Bind ReservationId}"/>
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text=" Incheckning: "/>
+                                <Run Text="{x:Bind StartDate.ToString('yyyy-MM-dd', x:Null)}"/>
+                               
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text=" Utcheckning: "/>
+                                <Run Text="{x:Bind EndDate.ToString('yyyy-MM-dd', x:Null)}"/>
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text=" Antal personer: "/>
+                                <Run Text="{x:Bind NumberOfGuests}"/>
+                            </TextBlock>
+
+                            <TextBlock>
+                                <Run Text=" Totalpris: "/>
+                                <Run Text="{x:Bind TotalPrice}"/>
+                                <Run Text=" SEK"/>
+                            </TextBlock>
+
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -86,7 +112,10 @@
                         <DataTemplate x:Name="lv_SelectedHome"
                                       x:DataType="holidaymakerclient1:Home">
                             <StackPanel>
-                                <TextBlock Text="BILD PÅ BOENDET"/>
+                                <Image Source="{x:Bind Image}"
+                                       Width="100"
+                                       Height="100"
+                                       HorizontalAlignment="Left"/>
                                 <TextBlock>
                                 <Run Text="Boende: "/>
                                 <Run Text="{x:Bind HomeType}"/>
@@ -141,11 +170,11 @@
                                 </TextBlock>
                                 <TextBlock>
                                       <Run Text="Incheckning:"/>
-                                    <Run Text="{x:Bind StartDate.Date}"/>
+                                    <Run Text="{x:Bind StartDate.ToString('yyyy-MM-dd', x:Null)}"/>
                                 </TextBlock>
                                 <TextBlock>
                                       <Run Text="Utcheckning:"/>
-                                    <Run Text="{x:Bind EndDate.Date}"/>
+                                    <Run Text="{x:Bind EndDate.ToString('yyyy-MM-dd', x:Null)}"/>
                                 </TextBlock>
                                 <TextBlock>
                                      <Run Text="Antal personer:"/>

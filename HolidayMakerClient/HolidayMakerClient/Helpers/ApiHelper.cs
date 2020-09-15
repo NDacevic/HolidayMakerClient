@@ -122,19 +122,15 @@ namespace HolidayMakerClient
         }
         public async Task<ObservableCollection<Reservation>> GetUserReservations()
         {
-            //TODO:Only GET the users reservations. Send in User id and get a list of reservations linked to that id
-            ObservableCollection<Reservation> reservations = new ObservableCollection<Reservation>();
-            HttpResponseMessage response = await httpClient.GetAsync("UsersReservations");
+            //TODO:Send in active users id instead of "1"
+            HttpResponseMessage response = await httpClient.GetAsync("UsersReservations/1");
 
             if (response.IsSuccessStatusCode)
             {
                 jsonString = response.Content.ReadAsStringAsync().Result;
                
-                var res = JsonConvert.DeserializeObject<List<Reservation>>(jsonString);
-                foreach(var r in res)
-                {
-                    reservations.Add(r);
-                }
+                var reservations = JsonConvert.DeserializeObject<ObservableCollection<Reservation>>(jsonString);
+
                 return reservations;
             }
             else if(response.Content==null)
@@ -144,6 +140,23 @@ namespace HolidayMakerClient
             else
             {
                 throw new HttpRequestException("Kunde inte hämta några reservationer, var vänlig försök igen.");
+            }
+        }
+        public async Task <Home> GetHome(int id)
+        {
+            //Used to get Home details from the selected reservation in MyPage
+            HttpResponseMessage response = await httpClient.GetAsync($"Homes/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                jsonString = response.Content.ReadAsStringAsync().Result;
+
+                var home = JsonConvert.DeserializeObject<Home>(jsonString);
+
+                return home;
+            }
+            else
+            {
+                throw new HttpRequestException("Kunde inte hämta några boende, var vänlig försök igen.");
             }
         }
 
@@ -166,7 +179,23 @@ namespace HolidayMakerClient
         {
 
         }
+        public async Task<ObservableCollection<Addon>> GetReservationAddon(int id)
+        {
+            //TODO: Send in reservation id, get a list of addons linked to that reservation and return.
+            HttpResponseMessage response = await httpClient.GetAsync($"ReservationAddons/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                jsonString = response.Content.ReadAsStringAsync().Result;
 
+                var addons = JsonConvert.DeserializeObject<ObservableCollection<Addon>>(jsonString);
+
+                return addons;
+            }
+            else
+            {
+                throw new HttpRequestException("Kunde inte hämta några boende, var vänlig försök igen.");
+            }
+        }
         public async Task<List<Addon>> GetAllAddon ()
         {
             List<Addon> addonList = new List<Addon>();

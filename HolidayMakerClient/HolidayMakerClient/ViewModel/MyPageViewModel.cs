@@ -20,33 +20,12 @@ namespace HolidayMakerClient.ViewModel
      
         public MyPageViewModel()
         {
-         
-            //TODO:Remove Mock data
-            Addon a1 = new Addon();
-            a1.AddonType = "Extra säng";
-            a1.AddonPrice = 200;
+
             SelectedReservation = new ObservableCollection<Reservation>();
             MyReservations = new ObservableCollection<Reservation>();
             SelectedHome = new ObservableCollection<Home>();
             SelectedReservationAddon = new ObservableCollection<Addon>();
-            Reservation r1 = new Reservation();
-            Home h1 = new Home();
-            h1.HomeType = "Lägenhet";
-            h1.Rooms = 2;
-            h1.AllowPets = true;
-            h1.AllowSmoking = false;
-            h1.Description = "Mysig 2:a, perfekt för den som vill vara sig själv för en stund";
-            h1.HasBalcony = true;
-            h1.HasPool = true;
-
-            r1.TotalPrice = 2000;
-            r1.HomeId = 1;
-
-            r1.AddonList = new List<Addon>();
-            r1.AddonList.Add(a1);
-            SelectedReservation.Add(r1);
-            SelectedHome.Add(h1);
-            MyReservations.Add(r1);
+      
 
         }
         #endregion
@@ -58,7 +37,7 @@ namespace HolidayMakerClient.ViewModel
         #endregion
 
         #region Properties
-        //private static MyPageViewModel instance = null;
+       
         public ObservableCollection<Reservation> MyReservations { get; set; }
         public ObservableCollection<Addon> SelectedReservationAddon { get; set; }
         public ObservableCollection<Reservation> SelectedReservation { get; set; }
@@ -67,18 +46,38 @@ namespace HolidayMakerClient.ViewModel
 
         #region Methods
         /// <summary>
-        /// TBD
+        /// When navigated to the page, we get all reservations connected to the user and add them to our OC.
         /// </summary>
         public async void GetReservations()
         {
-            MyReservations = await ApiHelper.Instance.GetUserReservations();
+            //TODO:Send in active users id to the ApiHelper
+          var res = await ApiHelper.Instance.GetUserReservations();
+            foreach(Reservation r in res)
+            {
+                MyReservations.Add(r);
+            }
         }
         /// <summary>
-        /// TBD
+        /// When user selects a reservation we get specific details about home,reservation and addons.
         /// </summary>
-        public void SelectReservation()
+        public async void SelectedUserReservation(Reservation reservation)
         {
+            ResetLists();
+            SelectedReservation.Add(reservation);
+            Home home = await ApiHelper.Instance.GetHome(reservation.HomeId);
+            SelectedHome.Add(home);
+            var addonlist= await ApiHelper.Instance.GetReservationAddon(reservation.ReservationId);
+            foreach(Addon a in addonlist)
+            {
+                SelectedReservationAddon.Add(a);
+            }
 
+        }
+        public void ResetLists()
+        {
+            SelectedReservationAddon.Clear();
+            SelectedReservation.Clear();
+            SelectedHome.Clear();
         }
         #endregion
 
