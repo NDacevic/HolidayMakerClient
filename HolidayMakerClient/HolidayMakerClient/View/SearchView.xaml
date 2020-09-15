@@ -94,7 +94,7 @@
                             PlaceholderText="Sök på en ort"/>
                         <CalendarDatePicker
                             x:Name="datePicker_StartDate"
-                             PlaceholderText="Välj datum"
+                            PlaceholderText="Välj datum"
                             />
                         <CalendarDatePicker
                             x:Name="datePicker_EndDate"
@@ -214,6 +214,59 @@
             <!--#endregion-->
             
             <!--#region Search Results-->
+            <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="10"
+                    Margin="0,0,10,0"
+                    >
+                <Button
+                        x:Name="bttn_SortLocation"
+                        Click="SortColumns_Click">
+                    <StackPanel
+                            Orientation="Horizontal">
+                        <TextBlock
+                                Text="Ort"
+                                />
+                        <FontIcon
+                                x:Name="fontIcon_SortLocation"
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="10"
+                                />
+                    </StackPanel>
+                </Button>
+                <Button
+                        x:Name="bttn_SortPrice"
+                        Click="SortColumns_Click"
+                        >
+                    <StackPanel
+                            Orientation="Horizontal">
+                        <TextBlock
+                                Text="Pris"
+                                />
+                        <FontIcon
+                                x:Name="fontIcon_SortPrice"
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="10"
+                                />
+                    </StackPanel>
+                </Button>
+                <Button
+                        x:Name="bttn_SortRooms"
+                        Click="SortColumns_Click"
+                        >
+                    <StackPanel
+                            Orientation="Horizontal">
+                        <TextBlock
+                                Text="Rum"
+                                />
+                        <FontIcon
+                                x:Name="fontIcon_SortRooms"
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="10"
+                                />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
             <ListView
                 x:Name="lv_SearchList"
                 ItemsSource="{x:Bind searchViewModel.HomeList}"
