@@ -17,6 +17,33 @@
             Margin="0,20,0,0"
             Spacing="20"
             HorizontalAlignment="Center">
+            <!--#region Title and LoginButton-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel
+                        Orientation="Horizontal"
+                        Grid.Column="0">
+                    <Image
+                        Source="ms-appx:///Assets/travelicon.png"
+                        Width="100"
+                        />
+                    <TextBlock
+                        Text="Holiday Maker"
+                        FontSize="50"
+                        />
+                </StackPanel>
+                <Button
+                    x:Name="bttn_Login"
+                    Click="LoginOrUserOptions"
+                    Grid.Column="1"
+                    Content="Login"
+                    Margin="20,0"
+                    />
+            </Grid>
+            <!--#endregion-->
             <!--#region Main Search Box-->
             <StackPanel
                 Orientation="Horizontal"
@@ -67,6 +94,7 @@
                 </Grid>
             </StackPanel>
             <!--#endregion-->
+            
             <!--#region Advanced Search Box-->
             <StackPanel
                 Visibility="Visible"
@@ -158,6 +186,7 @@
                 </Grid>
             </StackPanel>
             <!--#endregion-->
+            
             <!--#region Search Results-->
             <ListView
                 x:Name="lv_SearchList"
