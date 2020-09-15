@@ -161,7 +161,7 @@
             <!--#region Search Results-->
             <ListView
                 x:Name="lv_SearchList"
-                ItemsSource="{x:Bind testSearchList}"
+                ItemsSource="{x:Bind searchViewModel.HomeList}"
                 DoubleTapped="ListView_DoubleTapped">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
