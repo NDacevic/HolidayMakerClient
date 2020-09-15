@@ -8,10 +8,10 @@ using Microsoft.AspNetCore.JsonPatch;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Windows.UI.Popups;
 using System.Net.Http.Headers;
+using Windows.UI.Xaml.Documents;
 using HolidayMakerClient.Dto;
 
 namespace HolidayMakerClient
@@ -79,37 +79,42 @@ namespace HolidayMakerClient
 
         }
 
-        public static void GetHome()
+        public async Task<ObservableCollection<Home>> GetSearchResults(SearchParameterDto searchParameters)
         {
+            try { 
+                //Convert the object to a json string.
+                jsonString = JsonConvert.SerializeObject(searchParameters);
 
-        }
-
-        public async Task<List<Home>> PostSearchAsync(SearchParameterDto searchParams)
-        {
-            try
-            {
-                jsonString = JsonConvert.SerializeObject(searchParams);
-
-                HttpContent content = new StringContent(jsonString);
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-                HttpResponseMessage response = await httpClient.PostAsync("SearchResults", content);
-
-                if (response.IsSuccessStatusCode)
+                //Set this part of the code into a scope so we don't have to worry about it not getting disposed.
+                using (HttpContent content = new StringContent(jsonString))
                 {
-                    var homeList = JsonConvert.DeserializeObject<List<Home>>(await response.Content.ReadAsStringAsync());
-                    return homeList;
+                    //Set the type of content
+                    content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                    //Call the api and send the Json string.
+                    HttpResponseMessage response = await httpClient.PostAsync("searchresults", content);
+
+                    //Check if it is successfull. If so, return all search results in form of a OC of Home objects
+                    //Otherwise throw an error and tell the user that the question was not posted.
+                    if (response.IsSuccessStatusCode)
+                    {
+                        jsonString = response.Content.ReadAsStringAsync().Result;
+                        var searchResults = JsonConvert.DeserializeObject<ObservableCollection<Home>>(jsonString);
+                        return searchResults;
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"Http Error: {response.StatusCode}. {response.ReasonPhrase}");
+                        throw new HttpRequestException("Uppkopplingen mot servern misslyckades, var god försök igen senare");
+                    }
                 }
-                else
-                    throw new HttpRequestException("PostSearchAsync: Misslyckad hämtning");
-                    
             }
             catch (Exception exc)
             {
                 BasicNoConnectionMessage(exc);
-                return new List<Home>();
+                return new ObservableCollection<Home>();
             }
-        }
+        }       
         public static void PostReservation()
         {
 

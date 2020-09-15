@@ -43,7 +43,7 @@ namespace HolidayMakerClient.ViewModel
         public async void Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests)
         {
             SearchParameterDto searchObj = new SearchParameterDto(searchString, startDate, endDate, numberOfGuests);
-            var homeList = await ApiHelper.Instance.PostSearchAsync(searchObj);
+            var homeList = await ApiHelper.Instance.GetSearchResults(searchObj);
             HomeList.Clear();
             foreach(var x in homeList)
                 HomeList.Add(x);
