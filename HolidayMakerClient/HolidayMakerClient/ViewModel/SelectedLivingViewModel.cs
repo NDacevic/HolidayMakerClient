@@ -39,6 +39,7 @@ namespace HolidayMakerClient
         public Home SelectedHome { get; set; }
         public Reservation SelectedReservation { get; set; }
         public List<Addon> AddonList { get; set; }
+        public TempReservation TempReservation { get; set; }
         #endregion
 
         #region Methods
