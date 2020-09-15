@@ -24,6 +24,7 @@ namespace HolidayMakerClient
     public sealed partial class SelectedLivingView : Page
     {
         SelectedLivingViewModel SelectedLivingViewModel = new SelectedLivingViewModel(); //Tillfällig 
+        TempReservation tempReservation = new TempReservation();
         public SelectedLivingView()
         {
             this.InitializeComponent();
@@ -31,7 +32,8 @@ namespace HolidayMakerClient
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            SelectedLivingViewModel.SelectedHome = (Home)e.Parameter;
+            tempReservation = (TempReservation)e.Parameter;
+
         }
 
     }

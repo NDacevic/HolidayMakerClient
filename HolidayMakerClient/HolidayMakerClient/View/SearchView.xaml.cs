@@ -31,6 +31,7 @@ namespace HolidayMakerClient.View
         #region Fields
         private ObservableCollection<Home> testSearchList;
         SearchViewModel searchViewModel;
+        TempReservation tempReservation;
         #endregion
 
         #region Constructors
@@ -81,9 +82,20 @@ namespace HolidayMakerClient.View
 
         private void ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            Home selectedHome = (Home)lv_SearchList.SelectedItem;
-            Frame.Navigate(typeof(SelectedLivingView), selectedHome);
-
+            CreateTempRes();
+            Frame.Navigate(typeof(SelectedLivingView), tempReservation);
+        }
+        public void CreateTempRes ()
+        {
+            tempReservation = new TempReservation();
+            SetDates();
+            tempReservation.NumberOfGuests = txtBox_NumberOfGuests.Text;
+            tempReservation.Home = (Home)lv_SearchList.SelectedItem;
+        }
+        public void SetDates()
+        { 
+            tempReservation.StartDate = new DateTime(datePicker_StartDate.Date.Value.Year, datePicker_StartDate.Date.Value.Month, datePicker_StartDate.Date.Value.Day);
+            tempReservation.EndDate = new DateTime(datePicker_EndDate.Date.Value.Year, datePicker_EndDate.Date.Value.Month, datePicker_EndDate.Date.Value.Day);
         }
 
         private async void Login_Click(object sender, RoutedEventArgs e)
