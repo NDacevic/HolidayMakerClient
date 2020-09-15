@@ -56,11 +56,13 @@ namespace HolidayMakerClient.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             myPageViewModel.GetReservations();
-           //TODO: GET user reservations and populate listview
+         
         }
         private void Lv_MyReservations_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-          //TODO: GET Home, populate Listviews Home/Reservation/Addon
+            Reservation selectedReservation = (Reservation)Lv_MyReservations.SelectedItem;
+            myPageViewModel.SelectedUserReservation(selectedReservation);
+       
         }
 
         private void bttn_CancelReservation_Click(object sender, RoutedEventArgs e)
@@ -72,8 +74,12 @@ namespace HolidayMakerClient.View
         {
             //TODO: goto SelectedLiving with the selected booking
         }
+
         #endregion
 
-
+        private void bttn_navigateBack_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: go back to search/main page
+        }
     }
 }
