@@ -79,13 +79,27 @@ namespace HolidayMakerClient.View
             }
         }
 
-        #endregion
-
         private void ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             Home selectedHome = (Home)lv_SearchList.SelectedItem;
             Frame.Navigate(typeof(SelectedLivingView), selectedHome);
 
         }
+
+        private async void Login_Click(object sender, RoutedEventArgs e)
+        {
+            await new LoginView().ShowAsync();
+            bttn_Login.Visibility = Visibility.Collapsed;
+            bttn_UserOptions.Visibility = Visibility.Visible;
+        }
+        private void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MyPageView));
+        }
+
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+        }
+        #endregion
     }
 }
