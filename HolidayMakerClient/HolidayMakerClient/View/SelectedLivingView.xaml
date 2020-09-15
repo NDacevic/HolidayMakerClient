@@ -89,7 +89,7 @@
                             HorizontalAlignment="Left"
                             Width="300">
                             <ListView.ItemTemplate>
-                                        <DataTemplate x:Name="lv_Addons" x:DataType="data:Addon"  >
+                                        <DataTemplate x:Name="lv_chooseAddons" x:DataType="data:Addon"  >
                                             <StackPanel Orientation="Horizontal" Spacing="10">
                                                 <CheckBox
                                                     x:Name="cb_Addon">
@@ -98,7 +98,7 @@
                                                             <Run Text="{x:Bind AddonType}"
                                                             x:DefaultBindMode="OneWay"/> 
                                                             <Run Text="{x:Bind AddonPrice}"
-                                                                 x:DefaultBindMode="OneWay"/>
+                                                             x:DefaultBindMode="OneWay"/>
                                                 </TextBlock>
                                             </CheckBox.Content>
                                         </CheckBox>
