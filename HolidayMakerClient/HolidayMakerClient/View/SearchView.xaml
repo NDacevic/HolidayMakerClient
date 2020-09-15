@@ -160,7 +160,9 @@
             <!--#endregion-->
             <!--#region Search Results-->
             <ListView
-                ItemsSource="{x:Bind testSearchList}">
+                x:Name="lv_SearchList"
+                ItemsSource="{x:Bind testSearchList}"
+                DoubleTapped="ListView_DoubleTapped">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel
