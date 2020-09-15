@@ -269,7 +269,7 @@
             </StackPanel>
             <ListView
                 x:Name="lv_SearchList"
-                ItemsSource="{x:Bind searchViewModel.HomeList}"
+                ItemsSource="{x:Bind searchViewModel.SortedHomeList}"
                 DoubleTapped="ListView_DoubleTapped">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
