@@ -29,7 +29,6 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Fields
-        private ObservableCollection<Home> testSearchList;
         SearchViewModel searchViewModel;
         TempReservation tempReservation;
         #endregion
@@ -38,8 +37,6 @@ namespace HolidayMakerClient.View
         public SearchView()
         {
             this.InitializeComponent();
-            testSearchList = new ObservableCollection<Home>();
-            PopulateListView();
             searchViewModel = new SearchViewModel();
         }
         #endregion
@@ -71,13 +68,6 @@ namespace HolidayMakerClient.View
                 (DateTimeOffset)datePicker_EndDate.Date,
                 numberOfGuests
                 );
-        }
-        private void PopulateListView()
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                testSearchList.Add(new Home(1, "Hotel", i, "Sweden", 3299, true, false, true, "ms-appx:///Assets/hotelroom.jpg", true, false, false, true, 10, 5, i, true, false, "An awesome hotelroom", 15, 85));
-            }
         }
 
         private void ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
