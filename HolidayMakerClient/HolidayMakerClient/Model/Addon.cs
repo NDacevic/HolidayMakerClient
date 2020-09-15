@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,6 +37,7 @@ namespace HolidayMakerClient.Model
         #region Properties
         public int AddonId { get; set; }
         public string AddonType { get; set; }
+        [JsonProperty("Price")]
         public decimal AddonPrice { get; set; }
         #endregion
 

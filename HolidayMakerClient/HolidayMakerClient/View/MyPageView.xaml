@@ -27,7 +27,9 @@
                        Margin="0,0,30,0"/>
             <Button    Content="Tillbaka"
                        HorizontalAlignment="Right"
-                       Margin="0,0,30,0"/>
+                       Margin="0,0,30,0"
+                       x:Name="bttn_navigateBack"
+                       Click="bttn_navigateBack_Click"/>
             <Button    Content="Ändra reservation"
                        x:Name="bttn_ChangeReservation"
                        Click="bttn_ChangeReservation_Click"
