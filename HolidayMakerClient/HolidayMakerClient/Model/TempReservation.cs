@@ -15,7 +15,7 @@ namespace HolidayMakerClient.Model
         #endregion
 
         #region Constructors
-        public TempReservation(int numberOfGuests, DateTime startDate, DateTime endDate, Home home)
+        public TempReservation(string numberOfGuests, DateTime startDate, DateTime endDate, Home home)
         {
             NumberOfGuests = numberOfGuests;
             StartDate = startDate;
@@ -32,7 +32,7 @@ namespace HolidayMakerClient.Model
         #endregion
 
         #region Properties
-        public int NumberOfGuests { get; set; }
+        public string NumberOfGuests { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public Home Home { get; set; }

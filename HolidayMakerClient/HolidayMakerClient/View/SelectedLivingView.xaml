@@ -123,17 +123,17 @@
                         <StackPanel Orientation="Horizontal" Spacing="10">
                             <CalendarDatePicker x:Name="Cdp_StartDate"
                                     Margin="10,0,0,0"
-                                    PlaceholderText="Incheckningsdatum"
+                                    PlaceholderText="{x:Bind tempReservation.StartDate}"
                                     FirstDayOfWeek="Monday"
                                     DateFormat="{}{day.integer} {month.full} {year.full}"/>
                             <CalendarDatePicker x:Name="Cdp_EndDate"
                                     Margin="10,0,0,0"
-                                    PlaceholderText="Utcheckningsdatum"
+                                    PlaceholderText="{x:Bind tempReservation.EndDate}"
                                     FirstDayOfWeek="Monday"
                                     DateFormat="{}{day.integer} {month.full} {year.full}"/>
                             <TextBlock
                                 x:Name="txt_NumberOfGuests"
-                                Text="Antal gäster: "
+                                Text="{x:Bind tempReservation.NumberOfGuests}"
                                 VerticalAlignment="Center"/>
                         </StackPanel>
 

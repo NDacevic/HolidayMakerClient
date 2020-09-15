@@ -33,6 +33,7 @@ namespace HolidayMakerClient
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             tempReservation = (TempReservation)e.Parameter;
+
         }
 
     }

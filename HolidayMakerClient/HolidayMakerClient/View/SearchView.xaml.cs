@@ -91,7 +91,7 @@ namespace HolidayMakerClient.View
         {
             tempReservation = new TempReservation();
             SetDates();
-            tempReservation.NumberOfGuests = int.Parse(txtBox_NumberOfGuests.Text);
+            tempReservation.NumberOfGuests = txtBox_NumberOfGuests.Text;
             tempReservation.Home = (Home)lv_SearchList.SelectedItem;
         }
         public void SetDates()
