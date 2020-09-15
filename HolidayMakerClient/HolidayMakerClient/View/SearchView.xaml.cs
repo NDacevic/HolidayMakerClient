@@ -112,6 +112,8 @@ namespace HolidayMakerClient.View
                 else
                     fontIcon_SortLocation.Glyph = "\uE96E";
 
+                searchViewModel.SortList("location");
+
                 fontIcon_SortPrice.Glyph = "";
                 fontIcon_SortRooms.Glyph = "";
             }
