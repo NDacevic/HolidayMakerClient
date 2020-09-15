@@ -57,7 +57,30 @@
                     <DataTemplate x:Name="lv_MyReservations"
                                   x:DataType="holidaymakerclient:Reservation">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{x:Bind Summary}"/>
+                            <TextBlock>
+                                <Run Text="Bokningsnummer: "/>
+                                <Run Text="{x:Bind ReservationId}"/>
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text=" Incheckning: "/>
+                                <Run Text="{x:Bind StartDate.ToString('yyyy-MM-dd', x:Null)}"/>
+                               
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text=" Utcheckning: "/>
+                                <Run Text="{x:Bind EndDate.ToString('yyyy-MM-dd', x:Null)}"/>
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text=" Antal personer: "/>
+                                <Run Text="{x:Bind NumberOfGuests}"/>
+                            </TextBlock>
+
+                            <TextBlock>
+                                <Run Text=" Totalpris: "/>
+                                <Run Text="{x:Bind TotalPrice}"/>
+                                <Run Text=" SEK"/>
+                            </TextBlock>
+
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -147,11 +170,11 @@
                                 </TextBlock>
                                 <TextBlock>
                                       <Run Text="Incheckning:"/>
-                                    <Run Text="{x:Bind StartDate.Date}"/>
+                                    <Run Text="{x:Bind StartDate.ToString('yyyy-MM-dd', x:Null)}"/>
                                 </TextBlock>
                                 <TextBlock>
                                       <Run Text="Utcheckning:"/>
-                                    <Run Text="{x:Bind EndDate.Date}"/>
+                                    <Run Text="{x:Bind EndDate.ToString('yyyy-MM-dd', x:Null)}"/>
                                 </TextBlock>
                                 <TextBlock>
                                      <Run Text="Antal personer:"/>
