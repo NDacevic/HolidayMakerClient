@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HolidayMakerClient.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,10 +23,16 @@ namespace HolidayMakerClient
     /// </summary>
     public sealed partial class SelectedLivingView : Page
     {
+        SelectedLivingViewModel SelectedLivingViewModel = new SelectedLivingViewModel(); //Tillfällig 
         public SelectedLivingView()
         {
             this.InitializeComponent();
+           
         }
-        SelectedLivingViewModel SelectedLivingViewModel = new SelectedLivingViewModel(); //Tillfällig 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            SelectedLivingViewModel.SelectedHome = (Home)e.Parameter;
+        }
+
     }
 }

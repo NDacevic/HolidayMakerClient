@@ -81,5 +81,11 @@ namespace HolidayMakerClient.View
 
         #endregion
 
+        private void ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            Home selectedHome = (Home)lv_SearchList.SelectedItem;
+            Frame.Navigate(typeof(SelectedLivingView), selectedHome);
+
+        }
     }
 }
