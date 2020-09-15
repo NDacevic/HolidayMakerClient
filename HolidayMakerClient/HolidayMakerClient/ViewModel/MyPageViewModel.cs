@@ -50,6 +50,7 @@ namespace HolidayMakerClient.ViewModel
         /// </summary>
         public async void GetReservations()
         {
+            //TODO:Send in active users id to the ApiHelper
           var res = await ApiHelper.Instance.GetUserReservations();
             foreach(Reservation r in res)
             {
@@ -61,6 +62,7 @@ namespace HolidayMakerClient.ViewModel
         /// </summary>
         public async void SelectedUserReservation(Reservation reservation)
         {
+            ResetLists();
             SelectedReservation.Add(reservation);
             Home home = await ApiHelper.Instance.GetHome(reservation.HomeId);
             SelectedHome.Add(home);
@@ -68,9 +70,14 @@ namespace HolidayMakerClient.ViewModel
             foreach(Addon a in addonlist)
             {
                 SelectedReservationAddon.Add(a);
-                
             }
 
+        }
+        public void ResetLists()
+        {
+            SelectedReservationAddon.Clear();
+            SelectedReservation.Clear();
+            SelectedHome.Clear();
         }
         #endregion
 

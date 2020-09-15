@@ -62,7 +62,7 @@ namespace HolidayMakerClient.View
         {
             Reservation selectedReservation = (Reservation)Lv_MyReservations.SelectedItem;
             myPageViewModel.SelectedUserReservation(selectedReservation);
-          //TODO: GET Home, populate Listviews Addon
+       
         }
 
         private void bttn_CancelReservation_Click(object sender, RoutedEventArgs e)

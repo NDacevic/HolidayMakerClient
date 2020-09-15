@@ -122,7 +122,7 @@ namespace HolidayMakerClient
         }
         public async Task<ObservableCollection<Reservation>> GetUserReservations()
         {
-            //TODO:Only GET the users reservations. Send in User id and get a list of reservations linked to that id
+            //TODO:Send in active users id instead of "1"
             HttpResponseMessage response = await httpClient.GetAsync("UsersReservations/1");
 
             if (response.IsSuccessStatusCode)
