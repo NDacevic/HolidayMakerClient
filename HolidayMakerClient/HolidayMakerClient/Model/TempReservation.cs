@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,12 @@ namespace HolidayMakerClient.Model
         #endregion
 
         #region Constructors
-        public TempReservation(string numberOfGuests, DateTime startDate, DateTime endDate, Home home)
+        public TempReservation(string numberOfGuests, DateTime startDate, DateTime endDate, ObservableCollection<Addon> addonList, Home home)
         {
             NumberOfGuests = numberOfGuests;
             StartDate = startDate;
             EndDate = endDate;
+            AddonList = addonList;
             Home = home;
         }
         public TempReservation() { }
@@ -35,6 +37,7 @@ namespace HolidayMakerClient.Model
         public string NumberOfGuests { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public ObservableCollection<Addon> AddonList { get; set; }
         public Home Home { get; set; }
         #endregion
 
