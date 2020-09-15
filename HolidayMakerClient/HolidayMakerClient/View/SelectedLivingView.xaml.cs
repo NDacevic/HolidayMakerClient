@@ -28,6 +28,7 @@ namespace HolidayMakerClient
         public SelectedLivingView()
         {
             this.InitializeComponent();
+            GetAddonList();
            
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -35,6 +36,10 @@ namespace HolidayMakerClient
             tempReservation = (TempReservation)e.Parameter;
 
         }
-
+        public void GetAddonList()
+        {
+            SelectedLivingViewModel.GetAddonList();
+            
+        }
     }
 }

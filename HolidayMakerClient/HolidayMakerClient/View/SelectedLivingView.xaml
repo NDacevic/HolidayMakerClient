@@ -80,7 +80,7 @@
                         </Grid.ColumnDefinitions>
                         <CheckBox
                             x:Name="cb_ExtraBed"
-                            Content="Exta säng"
+                            
                             Grid.Column="0"
                             Grid.Row="0"
                             />
