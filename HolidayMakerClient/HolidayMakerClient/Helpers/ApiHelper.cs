@@ -200,9 +200,26 @@ namespace HolidayMakerClient
 
         }
 
-        public void DeleteReservation()
+        public async void DeleteReservation(int reservationId)
         {
+            try
+            {
+                HttpResponseMessage response = await httpClient.DeleteAsync($"reservations/{reservationId}");
 
+                if (response.IsSuccessStatusCode)
+                {
+                    await new MessageDialog("Reservationen är nu borttagen.").ShowAsync();
+                }
+                else
+                {
+                    Debug.WriteLine($"Http Error: {response.StatusCode}. {response.ReasonPhrase}");
+                    throw new HttpRequestException();
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+            }
         }
 
         public void PostReservationAddon()
