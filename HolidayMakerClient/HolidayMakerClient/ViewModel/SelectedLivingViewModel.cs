@@ -1,6 +1,7 @@
 ﻿using HolidayMakerClient.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
@@ -25,7 +26,7 @@ namespace HolidayMakerClient
         {
             SelectedHome = selectedHome;
             SelectedReservation = selectedReservation;
-            AddonList = new List<Addon>();
+            AddonList = new ObservableCollection<Addon>();
         }
         #endregion
 
@@ -38,7 +39,7 @@ namespace HolidayMakerClient
         #region Properties
         public Home SelectedHome { get; set; }
         public Reservation SelectedReservation { get; set; }
-        public List<Addon> AddonList { get; set; }
+        public ObservableCollection<Addon> AddonList { get; set; }
         public TempReservation TempReservation { get; set; }
         #endregion
 
