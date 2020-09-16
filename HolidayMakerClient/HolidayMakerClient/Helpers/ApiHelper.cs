@@ -64,17 +64,17 @@ namespace HolidayMakerClient
         #endregion
 
         #region Methods
-        public static void PostUser()
+        public void PostUser()
         {
 
         }
 
-        public static void GetUser()
+        public void GetUser()
         {
 
         }
 
-        public static void DeleteUser()
+        public void DeleteUser()
         {
 
         }
@@ -116,9 +116,39 @@ namespace HolidayMakerClient
                 return new ObservableCollection<Home>();
             }
         }
-        public static void PostReservation()
+        public async Task PostReservation(Reservation reservation)
         {
+            try
+            {
+                //Convert the object to a json string.
+                jsonString = JsonConvert.SerializeObject(reservation);
 
+                //Set this part of the code into a scope so we don't have to worry about it not getting disposed.
+                using (HttpContent content = new StringContent(jsonString))
+                {
+                    //Set the type of content
+                    content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                    //Call the api and send the Json string.
+                    HttpResponseMessage response = await httpClient.PostAsync("reservations", content);
+
+                    //Check if it is successfull. In that case display a message telling the user.
+                    //Otherwise throw an error and tell the user that the reservation was not posted.
+                    if (response.IsSuccessStatusCode)
+                    {
+                        await new MessageDialog("Din reservation är nu slutörd!\nHoppas att du kommer trivas i ditt boende!").ShowAsync();
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"Http Error: {response.StatusCode}. {response.ReasonPhrase}");
+                        throw new HttpRequestException("Reservation ej genomförd. Kontakta administratör");
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+            }
         }
         public async Task<ObservableCollection<Reservation>> GetUserReservations()
         {
@@ -160,22 +190,22 @@ namespace HolidayMakerClient
             }
         }
 
-        public static void GetReservation()
+        public void GetReservation()
         {
 
         }
 
-        public static void PatchReservation()
+        public void PatchReservation()
         {
 
         }
 
-        public static void DeleteReservation()
+        public void DeleteReservation()
         {
 
         }
 
-        public static void PostReservationAddon()
+        public void PostReservationAddon()
         {
 
         }
@@ -223,7 +253,7 @@ namespace HolidayMakerClient
                 return addonList;
             }
         }
-        private static async void BasicNoConnectionMessage(Exception exc)
+        private async void BasicNoConnectionMessage(Exception exc)
         {
             Debug.WriteLine(exc.Message);
             await new MessageDialog("Ingen kontakt med servern. Kontakta admin").ShowAsync();
