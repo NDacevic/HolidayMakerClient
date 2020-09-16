@@ -110,8 +110,7 @@ namespace HolidayMakerClient
         {
             try
             {
-                int days = 2; 
-                    //= (tempReservation.EndDate - tempReservation.StartDate).Days;
+                int days = (tempReservation.EndDate - tempReservation.StartDate).Days;
                 tempReservation.TotalPrice = tempReservation.Home.Price * days;
 
                 if (tempReservation.AddonList.Count > 0)
