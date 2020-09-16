@@ -177,7 +177,8 @@
                 <Button
                     x:Name="bttn_RemoveAddon"
                     Content="Ta bort tilägg"
-                    Margin="10"/>   
+                    Margin="10"
+                    Click="bttn_RemoveAddon_Click"/>   
                 </StackPanel>
                 
                 <StackPanel Grid.Row="2" Margin="20,10,0,0" Spacing="20">
