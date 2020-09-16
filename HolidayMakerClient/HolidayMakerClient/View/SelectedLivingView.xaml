@@ -92,7 +92,8 @@
                                         <DataTemplate x:Name="lv_chooseAddons" x:DataType="data:Addon"  >
                                             <StackPanel Orientation="Horizontal" Spacing="10">
                                                 <CheckBox
-                                                    x:Name="cb_Addon">
+                                                    x:Name="cb_Addon"
+                                                    Checked="cb_Addon_Checked">
                                             <CheckBox.Content>
                                                 <TextBlock>
                                                             <Run Text="{x:Bind AddonType}"
@@ -155,13 +156,13 @@
                     </StackPanel>
 
                 </Border>
-                <ListView
+                <StackPanel Grid.Row="1" Spacing="10">
+                 <ListView
                   BorderThickness="2"
                   x:Name="lv_DisplayAddons"
                     ItemsSource="{x:Bind tempReservation.AddonList}"
-                    Grid.Row="1"
                     Height="200"
-                    Margin="20,50,20,10">
+                    Margin="20,50,20,0">
                     <ListView.ItemTemplate>
                         <DataTemplate x:Name="lv_Addons" x:DataType="data:Addon"  >
                             <StackPanel Orientation="Horizontal" Spacing="10">
@@ -173,13 +174,23 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <StackPanel Grid.Row="2" Margin="20,30,0,0" Spacing="20">
+                <Button
+                    x:Name="bttn_RemoveAddon"
+                    Content="Ta bort tilägg"
+                    Margin="10"/>   
+                </StackPanel>
+                
+                <StackPanel Grid.Row="2" Margin="20,10,0,0" Spacing="20">
                     <TextBlock
                     x:Name="txt_TotalPrice"
-                    Text="Totalpris: "
                         FontSize="16"
                         FontWeight="Medium"
-                        Margin="0,0,0,20"/>
+                        Margin="0,0,0,10">
+                        <Run Text="Totalpris: "/>
+                        <Run Text="{x:Bind SelectedLivingViewModel.SelectedReservation.TotalPrice}"
+                                x:DefaultBindMode="OneWay"/>
+                         <Run Text=" kr."/>
+                    </TextBlock>
                     <Button
                         x:Name="bttn_bookChange"
                         Content="Boka/Ändra"
