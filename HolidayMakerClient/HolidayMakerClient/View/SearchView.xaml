@@ -137,6 +137,7 @@
                     OnContent="Ja"
                     OffContent="Nej"
                     IsOn="False"
+                    Toggled="ToggleFilterList"
                     />
                 <ToggleSwitch
                     x:Name="toggle_HasBalcony"
@@ -144,6 +145,7 @@
                     OnContent="Ja"
                     OffContent="Nej"
                     IsOn="False"
+                    Toggled="ToggleFilterList"
                     />
                 <ToggleSwitch
                     x:Name="toggle_AllowPets"
@@ -151,6 +153,7 @@
                     OnContent="Ja"
                     OffContent="Nej"
                     IsOn="False"
+                    Toggled="ToggleFilterList"
                     />
                 <ToggleSwitch
                     x:Name="toggle_HasWifi"
@@ -158,6 +161,7 @@
                     OnContent="Ja"
                     OffContent="Nej"
                     IsOn="False"
+                    Toggled="ToggleFilterList"
                     />
                 <ToggleSwitch
                     x:Name="toggle_AllowSmoking"
@@ -165,6 +169,7 @@
                     OnContent="Ja"
                     OffContent="Nej"
                     IsOn="False"
+                    Toggled="ToggleFilterList"
                     />
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -190,6 +195,7 @@
                         Maximum="50"
                         Grid.Column="1"
                         Grid.Row="0"
+                        PointerReleased="DragFilterList"
                         />
                     <TextBlock
                         Grid.Row="1"
@@ -208,7 +214,9 @@
                         Maximum="50.0"
                         Grid.Column="1"
                         Grid.Row="1"
-                        IsThumbToolTipEnabled="False"/>
+                        IsThumbToolTipEnabled="False"
+                        PointerReleased="DragFilterList"
+                        />
                 </Grid>
             </StackPanel>
             <!--#endregion-->
