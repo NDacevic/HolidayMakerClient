@@ -40,6 +40,8 @@ namespace HolidayMakerClient.View
         {
             this.InitializeComponent();
             searchViewModel = new SearchViewModel();
+            datePicker_StartDate.Date = DateTime.Now;
+            datePicker_EndDate.Date = DateTime.Now.AddDays(1.0);
         }
         #endregion
 
