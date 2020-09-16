@@ -61,7 +61,15 @@ namespace HolidayMakerClient
         }
         public async void GetAddonList()
         {
-            AddonList = await ApiHelper.Instance.GetAllAddon();
+            try
+            {
+                AddonList = await ApiHelper.Instance.GetAllAddon();
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            
         }
         public void TempTotalPrice()
         {

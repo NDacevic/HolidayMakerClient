@@ -46,8 +46,7 @@ namespace HolidayMakerClient
             catch (Exception)
             {
                 return;
-            }
-            
+            }          
             
         }
 
@@ -73,6 +72,19 @@ namespace HolidayMakerClient
             catch (Exception)
             {
                 await new MessageDialog("Något gick fel, kan inte visa totalpriset.").ShowAsync();
+            }
+            
+        }
+
+        private async void bttn_RemoveAddon_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SelectedLivingViewModel.TempReservation.AddonList.Remove((Addon)lv_DisplayAddons.SelectedItem);
+            }
+            catch (Exception)
+            {
+                await new MessageDialog("Kunde inte ta bort tillval, vänligen försök ien.").ShowAsync();
             }
             
         }
