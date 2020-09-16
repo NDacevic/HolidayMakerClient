@@ -1,4 +1,5 @@
 ﻿using HolidayMakerClient.Model;
+using HolidayMakerClient.View;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -89,10 +90,21 @@ namespace HolidayMakerClient
             
         }
 
-        private void bttn_bookChange_Click(object sender, RoutedEventArgs e)
+        private async void bttn_bookChange_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                SelectedLivingViewModel.CreateReservation();
+                await new MessageDialog("Din bokning är skapad.").ShowAsync();
+                Frame.Navigate(typeof(MyPageView));
+            }
+            catch (Exception)
+            {
+                await new MessageDialog("Din bokning kunde inte sparas, vänligen testa igen eller kontakta admin.").ShowAsync();
+                return;
+            }
         }
+
 
         private void bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
         {

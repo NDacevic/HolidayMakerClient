@@ -45,9 +45,17 @@ namespace HolidayMakerClient
         #endregion
 
         #region Methods
-        public void CreateReservation()
+        public async void CreateReservation()
         {
-
+            try
+            {
+                await ApiHelper.Instance.PostReservation(SelectedReservation);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            
         }
 
         public void DeleteReservation()
@@ -99,6 +107,10 @@ namespace HolidayMakerClient
                 TempReservation.TotalPrice = 0;
                 
             }
+
+        }
+        public void CreateReservationForPost()
+        {
 
         }
 
