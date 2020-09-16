@@ -88,5 +88,15 @@ namespace HolidayMakerClient
             }
             
         }
+
+        private void bttn_bookChange_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

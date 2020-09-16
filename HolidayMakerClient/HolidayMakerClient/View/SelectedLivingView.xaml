@@ -196,12 +196,14 @@
                         x:Name="bttn_bookChange"
                         Content="Boka/Ändra"
                         HorizontalAlignment="Center"
-                        Width="120"/>
+                        Width="120"
+                        Click="bttn_bookChange_Click"/>
                     <Button
                         x:Name="bttn_deleteReservation"
                         Content="Ta bort bokning"
                         HorizontalAlignment="Center"
-                        Width="120"/>
+                        Width="120"
+                        Click="bttn_deleteReservation_Click"/>
                 </StackPanel>
 
             </Grid>
