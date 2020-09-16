@@ -15,12 +15,13 @@ namespace HolidayMakerClient.Model
         #endregion
 
         #region Constructors
-        public TempReservation(string numberOfGuests, DateTime startDate, DateTime endDate, Home home)
+        public TempReservation(string numberOfGuests, DateTime startDate, DateTime endDate, Home home, Reservation oldReservation)
         {
             NumberOfGuests = numberOfGuests;
             StartDate = startDate;
             EndDate = endDate;
             Home = home;
+            OldReservation = oldReservation;
         }
         public TempReservation() { }
         #endregion
@@ -36,6 +37,7 @@ namespace HolidayMakerClient.Model
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public Home Home { get; set; }
+        public Reservation OldReservation { get; set; }
         #endregion
 
         #region Methods
