@@ -22,11 +22,12 @@ namespace HolidayMakerClient
         {
 
         }
-        public SelectedLivingViewModel(Home selectedHome, Reservation selectedReservation)
+        public SelectedLivingViewModel(Home selectedHome, Reservation selectedReservation, TempReservation tempReservation)
         {
             SelectedHome = selectedHome;
             SelectedReservation = selectedReservation;
             AddonList = new ObservableCollection<Addon>();
+            TempReservation = tempReservation;
         }
         #endregion
 
@@ -61,6 +62,10 @@ namespace HolidayMakerClient
         public async void GetAddonList()
         {
             AddonList = await ApiHelper.Instance.GetAllAddon();
+        }
+        public void TempTotalPrice()
+        {
+            
         }
 
         #endregion
