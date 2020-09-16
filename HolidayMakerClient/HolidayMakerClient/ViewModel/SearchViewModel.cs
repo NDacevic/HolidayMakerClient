@@ -66,9 +66,21 @@ namespace HolidayMakerClient.ViewModel
         /// <summary>
         /// TBD
         /// </summary>
-        public void Filter()
+        public void Filter(Home advancedFilterParams)
         {
+            SortedHomeList.Clear();
 
+            var filteredHomeList = HomeList.Where(x =>
+            x.AllowPets == advancedFilterParams.AllowPets &&
+            x.AllowSmoking == advancedFilterParams.AllowSmoking &&
+            x.HasBalcony == advancedFilterParams.HasBalcony &&
+            x.HasPool == advancedFilterParams.HasPool &&
+            x.HasWifi == advancedFilterParams.HasWifi &&
+            x.CityDistance <= advancedFilterParams.CityDistance &&
+            x.BeachDistance <= advancedFilterParams.BeachDistance);
+
+            foreach (var x in filteredHomeList)
+                SortedHomeList.Add(x);
         }
         /// <summary>
         /// TBD
@@ -80,6 +92,7 @@ namespace HolidayMakerClient.ViewModel
 
         public void SortList(string parameter)
         {
+            
             switch (parameter)
             {
                 case "location":
