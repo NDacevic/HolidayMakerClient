@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -60,6 +61,7 @@ namespace HolidayMakerClient.View
         }
         private void Search(object sender, RoutedEventArgs args)
         {
+            //TODO: Add error handling when search parameters are empty //MO
             int.TryParse(txtBox_NumberOfGuests.Text, out int numberOfGuests);
             searchViewModel.Search
                 (
