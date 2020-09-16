@@ -24,7 +24,7 @@ namespace HolidayMakerClient
     /// </summary>
     public sealed partial class SelectedLivingView : Page
     {
-        SelectedLivingViewModel SelectedLivingViewModel; //Tillfällig 
+        SelectedLivingViewModel SelectedLivingViewModel; 
         public SelectedLivingView()
         {
             this.InitializeComponent();
@@ -39,13 +39,30 @@ namespace HolidayMakerClient
         }
         public void GetAddonList()
         {
-            SelectedLivingViewModel.GetAddonList();
+            try
+            {
+                SelectedLivingViewModel.GetAddonList();
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            
             
         }
 
-        private void cb_Addon_Checked(object sender, RoutedEventArgs e)
+        private async void cb_Addon_Checked(object sender, RoutedEventArgs e)
         {
-            SelectedLivingViewModel.TempReservation.AddonList.Add((Addon)lv_ChooseAddons.SelectedItem);
+            try
+            {
+                SelectedLivingViewModel.TempReservation.AddonList.Add((Addon)lv_ChooseAddons.SelectedItem);
+                GetTotalPrice();
+            }
+            catch (Exception)
+            {
+                await new MessageDialog("Kunde inte läggas till tillägg.").ShowAsync();
+            }
+
         }
         public async void GetTotalPrice()
         {
