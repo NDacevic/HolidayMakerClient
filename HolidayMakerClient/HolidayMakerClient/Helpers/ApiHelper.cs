@@ -196,9 +196,9 @@ namespace HolidayMakerClient
                 throw new HttpRequestException("Kunde inte hämta några boende, var vänlig försök igen.");
             }
         }
-        public async Task<List<Addon>> GetAllAddon ()
+        public async Task<ObservableCollection<Addon>> GetAllAddon ()
         {
-            List<Addon> addonList = new List<Addon>();
+            ObservableCollection<Addon> addonList = new ObservableCollection<Addon>();
             try
             {               
                 HttpResponseMessage response = await httpClient.GetAsync("Addons");
