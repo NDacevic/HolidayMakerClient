@@ -47,19 +47,19 @@
                         FontWeight="Medium"/>
                     <TextBlock
                     x:Name="txt_HomeDescription"
-                    Text="{x:Bind tempReservation.Home.Description}"
+                    Text="{x:Bind SelectedLivingViewModel.TempReservation.Home.Description}"
                     TextWrapping="WrapWholeWords"/>
                     <TextBlock
                     x:Name="txt_BeachDistance">
                         <Run Text="Avstånd till stranden, km: "/>
-                        <Run Text="{x:Bind tempReservation.Home.BeachDistance}"
+                        <Run Text="{x:Bind SelectedLivingViewModel.TempReservation.Home.BeachDistance}"
                                 x:DefaultBindMode="OneWay"/>
                     </TextBlock>
 
                     <TextBlock
                     x:Name="txt_CityDistance">
                         <Run Text="Avstånd till city, km: "/>
-                        <Run Text="{x:Bind tempReservation.Home.CityDistance}"
+                        <Run Text="{x:Bind SelectedLivingViewModel.TempReservation.Home.CityDistance}"
                                 x:DefaultBindMode="OneWay"/>
                     </TextBlock>
                 </StackPanel>
@@ -137,18 +137,18 @@
                         <StackPanel Orientation="Horizontal" Spacing="10">
                             <CalendarDatePicker x:Name="Cdp_StartDate"
                                     Margin="10,0,0,0"
-                                    PlaceholderText="{x:Bind tempReservation.StartDate}"
+                                    PlaceholderText="{x:Bind SelectedLivingViewModel.TempReservation.StartDate}"
                                     FirstDayOfWeek="Monday"
                                     DateFormat="{}{day.integer} {month.full} {year.full}"/>
                             <CalendarDatePicker x:Name="Cdp_EndDate"
                                     Margin="10,0,0,0"
-                                    PlaceholderText="{x:Bind tempReservation.EndDate}"
+                                    PlaceholderText="{x:Bind SelectedLivingViewModel.TempReservation.EndDate}"
                                     FirstDayOfWeek="Monday"
                                     DateFormat="{}{day.integer} {month.full} {year.full}"/>
                             <TextBlock
                                 x:Name="txt_NumberOfGuests">
                                 <Run Text="Antal gäster: "/>
-                                <Run Text="{x:Bind tempReservation.NumberOfGuests}"
+                                <Run Text="{x:Bind SelectedLivingViewModel.TempReservation.NumberOfGuests}"
                                 x:DefaultBindMode="OneWay"/>
                             </TextBlock>
                         </StackPanel>
@@ -160,7 +160,7 @@
                  <ListView
                   BorderThickness="2"
                   x:Name="lv_DisplayAddons"
-                    ItemsSource="{x:Bind tempReservation.AddonList}"
+                    ItemsSource="{x:Bind SelectedLivingViewModel.TempReservation.AddonList}"
                     Height="200"
                     Margin="20,50,20,0">
                     <ListView.ItemTemplate>
