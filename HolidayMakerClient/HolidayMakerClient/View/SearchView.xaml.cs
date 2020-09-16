@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Security.Cryptography.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -101,6 +102,22 @@ namespace HolidayMakerClient.View
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void FilterList()
+        {
+            Home advancedFilterParams = new Home()
+            {
+                AllowPets = toggle_AllowPets.IsOn,
+                AllowSmoking = toggle_AllowSmoking.IsOn,
+                HasBalcony = toggle_HasBalcony.IsOn,
+                HasPool = toggle_HasPool.IsOn,
+                HasWifi = toggle_HasWifi.IsOn,
+                CityDistance = (int)slider_CityDistance.Value,
+                BeachDistance = (int)slider_BeachDistance.Value
+            };
+
+            searchViewModel.Filter(advancedFilterParams);
         }
 
         private void SortColumns_Click(object sender, RoutedEventArgs e)
