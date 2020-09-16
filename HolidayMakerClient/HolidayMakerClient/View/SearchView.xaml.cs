@@ -42,6 +42,12 @@ namespace HolidayMakerClient.View
             searchViewModel = new SearchViewModel();
             datePicker_StartDate.Date = DateTime.Now;
             datePicker_EndDate.Date = DateTime.Now.AddDays(1.0);
+
+            for (int i = 1; i <= 20; i++)
+            {
+                comboBox_NumberOfGuests.Items.Add(i);
+            }
+            
         }
         #endregion
 
@@ -57,22 +63,33 @@ namespace HolidayMakerClient.View
         #region Methods
         private void ShowHideAdvancedSearch(object sender, RoutedEventArgs args)
         {
-            if (stckPnl_AdvancedSearch.Visibility == Visibility.Collapsed)
-                stckPnl_AdvancedSearch.Visibility = Visibility.Visible;
+            if (grid_AdvancedSearch.Visibility == Visibility.Collapsed)
+                grid_AdvancedSearch.Visibility = Visibility.Visible;
             else
-                stckPnl_AdvancedSearch.Visibility = Visibility.Collapsed;
+                grid_AdvancedSearch.Visibility = Visibility.Collapsed;
         }
         private void Search(object sender, RoutedEventArgs args)
         {
             //TODO: Add error handling when search parameters are empty //MO
-            int.TryParse(txtBox_NumberOfGuests.Text, out int numberOfGuests);
+            int.TryParse(comboBox_NumberOfGuests.SelectedValue.ToString(), out int numberOfGuests);
+
+            bool advancedSearchActive = grid_AdvancedSearch.Visibility == Visibility.Visible ? true : false;
+
             searchViewModel.Search
                 (
                 txtBox_Search.Text,
                 (DateTimeOffset)datePicker_StartDate.Date,
                 (DateTimeOffset)datePicker_EndDate.Date,
-                numberOfGuests
+                numberOfGuests,
+                advancedSearchActive,
+                CreateAdvancedFilterParams()
                 );
+        }
+
+        private void UpdateFilter(object obj, RoutedEventArgs e)
+        {
+           
+            searchViewModel.Filter(CreateAdvancedFilterParams());
         }
 
         private void ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -84,7 +101,7 @@ namespace HolidayMakerClient.View
         {
             tempReservation = new TempReservation();
             SetDates();
-            tempReservation.NumberOfGuests = txtBox_NumberOfGuests.Text;
+            tempReservation.NumberOfGuests = comboBox_NumberOfGuests.SelectedValue.ToString();
             tempReservation.Home = (Home)lv_SearchList.SelectedItem;
         }
         public void SetDates()
@@ -106,37 +123,6 @@ namespace HolidayMakerClient.View
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-        }
-
-        private void ToggleFilterList(object sender, RoutedEventArgs e)
-        {
-            Home advancedFilterParams = new Home()
-            {
-                AllowPets = toggle_AllowPets.IsOn,
-                AllowSmoking = toggle_AllowSmoking.IsOn,
-                HasBalcony = toggle_HasBalcony.IsOn,
-                HasPool = toggle_HasPool.IsOn,
-                HasWifi = toggle_HasWifi.IsOn,
-                CityDistance = (int)slider_CityDistance.Value,
-                BeachDistance = (int)slider_BeachDistance.Value
-            };
-
-            searchViewModel.Filter(advancedFilterParams);
-        }
-        private void DragFilterList(object sender, PointerRoutedEventArgs e)
-        {
-            Home advancedFilterParams = new Home()
-            {
-                AllowPets = toggle_AllowPets.IsOn,
-                AllowSmoking = toggle_AllowSmoking.IsOn,
-                HasBalcony = toggle_HasBalcony.IsOn,
-                HasPool = toggle_HasPool.IsOn,
-                HasWifi = toggle_HasWifi.IsOn,
-                CityDistance = (int)slider_CityDistance.Value,
-                BeachDistance = (int)slider_BeachDistance.Value
-            };
-
-            searchViewModel.Filter(advancedFilterParams);
         }
 
         private void SortColumns_Click(object sender, RoutedEventArgs e)
@@ -173,6 +159,21 @@ namespace HolidayMakerClient.View
                 fontIcon_SortLocation.Glyph = "";
                 fontIcon_SortPrice.Glyph = "";
             }
+        }
+
+        private Home CreateAdvancedFilterParams()
+        {
+            Home advancedFilterParams = new Home()
+            {
+                AllowPets = toggle_AllowPets.IsOn,
+                AllowSmoking = toggle_AllowSmoking.IsOn,
+                HasBalcony = toggle_HasBalcony.IsOn,
+                HasPool = toggle_HasPool.IsOn,
+                HasWifi = toggle_HasWifi.IsOn,
+                CityDistance = (int)slider_CityDistance.Value,
+                BeachDistance = (int)slider_BeachDistance.Value
+            };
+            return advancedFilterParams;
         }
         #endregion
     }
