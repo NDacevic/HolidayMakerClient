@@ -23,8 +23,7 @@ namespace HolidayMakerClient
     /// </summary>
     public sealed partial class SelectedLivingView : Page
     {
-        SelectedLivingViewModel SelectedLivingViewModel = new SelectedLivingViewModel(); //Tillfällig 
-        TempReservation tempReservation = new TempReservation();
+        SelectedLivingViewModel SelectedLivingViewModel; //Tillfällig 
         public SelectedLivingView()
         {
             this.InitializeComponent();
@@ -33,13 +32,18 @@ namespace HolidayMakerClient
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            tempReservation = (TempReservation)e.Parameter;
+            SelectedLivingViewModel.TempReservation = (TempReservation)e.Parameter;
 
         }
         public void GetAddonList()
         {
             SelectedLivingViewModel.GetAddonList();
             
+        }
+
+        private void cb_Addon_Checked(object sender, RoutedEventArgs e)
+        {
+            SelectedLivingViewModel.TempReservation.AddonList.Add((Addon)lv_ChooseAddons.SelectedItem);
         }
     }
 }
