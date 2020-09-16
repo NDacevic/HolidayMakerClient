@@ -65,19 +65,30 @@ namespace HolidayMakerClient
         }
         public void TempTotalPrice()
         {
-            int days = (TempReservation.EndDate - TempReservation.StartDate).Days;
-            TempReservation.TotalPrice = TempReservation.Home.Price * days;
-
-            foreach (var a in TempReservation.AddonList)
+            try
             {
-               if(a.AddonType == "All-inclusive" || a.AddonType == "Helpension" || a.AddonType == "Halvpension")
+                int days = (TempReservation.EndDate - TempReservation.StartDate).Days;
+                TempReservation.TotalPrice = TempReservation.Home.Price * days;
+
+                if (TempReservation.AddonList.Count > 0)
                 {
-                    TempReservation.TotalPrice += a.AddonPrice * int.Parse(TempReservation.NumberOfGuests);
+                     foreach (var a in TempReservation.AddonList)
+                     {
+                        if(a.AddonType == "All-inclusive" || a.AddonType == "Helpension" || a.AddonType == "Halvpension")
+                        {
+                            TempReservation.TotalPrice += a.AddonPrice * int.Parse(TempReservation.NumberOfGuests);
+                        }
+                        if(a.AddonType == "Extrasäng")
+                        {
+                            TempReservation.TotalPrice += a.AddonPrice;
+                        }
+                     }
                 }
-               if(a.AddonType == "Extrasäng")
-                {
-                    TempReservation.TotalPrice += a.AddonPrice;
-                }
+
+            }
+            catch (Exception)
+            {
+                TempReservation.TotalPrice = 0;
                 
             }
 

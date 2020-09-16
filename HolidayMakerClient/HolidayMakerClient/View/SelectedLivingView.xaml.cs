@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,6 +29,7 @@ namespace HolidayMakerClient
         {
             this.InitializeComponent();
             GetAddonList();
+            SelectedLivingViewModel.TempTotalPrice();
            
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -44,6 +46,18 @@ namespace HolidayMakerClient
         private void cb_Addon_Checked(object sender, RoutedEventArgs e)
         {
             SelectedLivingViewModel.TempReservation.AddonList.Add((Addon)lv_ChooseAddons.SelectedItem);
+        }
+        public async void GetTotalPrice()
+        {
+            try
+            {
+                SelectedLivingViewModel.TempTotalPrice();
+            }
+            catch (Exception)
+            {
+                await new MessageDialog("Något gick fel, kan inte visa totalpriset.").ShowAsync();
+            }
+            
         }
     }
 }
