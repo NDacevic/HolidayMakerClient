@@ -99,6 +99,7 @@
                                                             x:DefaultBindMode="OneWay"/> 
                                                             <Run Text="{x:Bind AddonPrice}"
                                                              x:DefaultBindMode="OneWay"/>
+                                                            <Run Text=" kr."/>
                                                 </TextBlock>
                                             </CheckBox.Content>
                                         </CheckBox>
