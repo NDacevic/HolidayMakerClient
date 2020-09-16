@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -29,7 +30,6 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Fields
-        private ObservableCollection<Home> testSearchList;
         SearchViewModel searchViewModel;
         TempReservation tempReservation;
         #endregion
@@ -38,8 +38,6 @@ namespace HolidayMakerClient.View
         public SearchView()
         {
             this.InitializeComponent();
-            testSearchList = new ObservableCollection<Home>();
-            PopulateListView();
             searchViewModel = new SearchViewModel();
         }
         #endregion
@@ -63,6 +61,7 @@ namespace HolidayMakerClient.View
         }
         private void Search(object sender, RoutedEventArgs args)
         {
+            //TODO: Add error handling when search parameters are empty //MO
             int.TryParse(txtBox_NumberOfGuests.Text, out int numberOfGuests);
             searchViewModel.Search
                 (
@@ -71,13 +70,6 @@ namespace HolidayMakerClient.View
                 (DateTimeOffset)datePicker_EndDate.Date,
                 numberOfGuests
                 );
-        }
-        private void PopulateListView()
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                testSearchList.Add(new Home(1, "Hotel", i, "Sweden", 3299, true, false, true, "ms-appx:///Assets/hotelroom.jpg", true, false, false, true, 10, 5, i, true, false, "An awesome hotelroom", 15, 85));
-            }
         }
 
         private void ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -111,6 +103,42 @@ namespace HolidayMakerClient.View
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void SortColumns_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender == bttn_SortLocation)
+            {
+                if (fontIcon_SortLocation.Glyph == "\uE96E")
+                    fontIcon_SortLocation.Glyph = "\uE96D";
+                else
+                    fontIcon_SortLocation.Glyph = "\uE96E";
+
+                searchViewModel.SortList("location");
+
+                fontIcon_SortPrice.Glyph = "";
+                fontIcon_SortRooms.Glyph = "";
+            }
+            else if (sender == bttn_SortPrice)
+            {
+                if (fontIcon_SortPrice.Glyph == "\uE96E")
+                    fontIcon_SortPrice.Glyph = "\uE96D";
+                else
+                    fontIcon_SortPrice.Glyph = "\uE96E";
+
+                fontIcon_SortLocation.Glyph = "";
+                fontIcon_SortRooms.Glyph = "";
+            }
+            else if (sender == bttn_SortRooms)
+            {
+                if (fontIcon_SortRooms.Glyph == "\uE96E")
+                    fontIcon_SortRooms.Glyph = "\uE96D";
+                else
+                    fontIcon_SortRooms.Glyph = "\uE96E";
+
+                fontIcon_SortLocation.Glyph = "";
+                fontIcon_SortPrice.Glyph = "";
+            }
         }
         #endregion
     }
