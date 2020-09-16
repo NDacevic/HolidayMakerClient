@@ -235,11 +235,11 @@ namespace HolidayMakerClient
                 if(response.IsSuccessStatusCode)
                 {
                      jsonString = response.Content.ReadAsStringAsync().Result;
-                     var addon = JsonConvert.DeserializeObject<List<Addon>>(jsonString);
-                     foreach(var a in addon)
-                     {
-                        addonList.Add(a);
-                     }
+                     addonList = JsonConvert.DeserializeObject<ObservableCollection<Addon>>(jsonString);
+                     //foreach(var a in addon)
+                     //{
+                     //   addonList.Add(a);
+                     //}
                         return addonList;
                 }
                 else

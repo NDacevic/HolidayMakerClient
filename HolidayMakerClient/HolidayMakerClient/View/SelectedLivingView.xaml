@@ -47,19 +47,19 @@
                         FontWeight="Medium"/>
                     <TextBlock
                     x:Name="txt_HomeDescription"
-                    Text="{x:Bind SelectedLivingViewModel.TempReservation.Home.Description}"
+                    Text="{x:Bind selectedLivingViewModel.TempRes.Home.Description}"
                     TextWrapping="WrapWholeWords"/>
                     <TextBlock
                     x:Name="txt_BeachDistance">
                         <Run Text="Avstånd till stranden, km: "/>
-                        <Run Text="{x:Bind SelectedLivingViewModel.TempReservation.Home.BeachDistance}"
+                        <Run Text="{x:Bind selectedLivingViewModel.TempRes.Home.BeachDistance}"
                                 x:DefaultBindMode="OneWay"/>
                     </TextBlock>
 
                     <TextBlock
                     x:Name="txt_CityDistance">
                         <Run Text="Avstånd till city, km: "/>
-                        <Run Text="{x:Bind SelectedLivingViewModel.TempReservation.Home.CityDistance}"
+                        <Run Text="{x:Bind selectedLivingViewModel.TempRes.Home.CityDistance}"
                                 x:DefaultBindMode="OneWay"/>
                     </TextBlock>
                 </StackPanel>
@@ -79,9 +79,10 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <ListView
-                          BorderThickness="2"
                           x:Name="lv_ChooseAddons"
-                            ItemsSource="{x:Bind SelectedLivingViewModel.AddonList}"
+                            ItemsSource="{x:Bind selectedLivingViewModel.AddonList}"
+                            BorderThickness="1"
+                            BorderBrush="Black"
                             Grid.Column="0"
                             Grid.Row="0"
                             Grid.ColumnSpan="2"
@@ -91,19 +92,10 @@
                             <ListView.ItemTemplate>
                                         <DataTemplate x:Name="lv_chooseAddons" x:DataType="data:Addon"  >
                                             <StackPanel Orientation="Horizontal" Spacing="10">
-                                                <CheckBox
-                                                    x:Name="cb_Addon"
-                                                    Checked="cb_Addon_Checked">
-                                            <CheckBox.Content>
-                                                <TextBlock>
-                                                            <Run Text="{x:Bind AddonType}"
-                                                            x:DefaultBindMode="OneWay"/> 
-                                                            <Run Text="{x:Bind AddonPrice}"
-                                                             x:DefaultBindMode="OneWay"/>
-                                                            <Run Text=" kr."/>
-                                                </TextBlock>
-                                            </CheckBox.Content>
-                                        </CheckBox>
+                                        <TextBlock 
+                                    Text="{x:Bind AddonType}"/>
+                                        <TextBlock 
+                                    Text="{x:Bind AddonPrice}"/>
 
                                     </StackPanel>
                                 </DataTemplate>
@@ -137,18 +129,18 @@
                         <StackPanel Orientation="Horizontal" Spacing="10">
                             <CalendarDatePicker x:Name="Cdp_StartDate"
                                     Margin="10,0,0,0"
-                                    PlaceholderText="{x:Bind SelectedLivingViewModel.TempReservation.StartDate}"
+                                    PlaceholderText="{x:Bind selectedLivingViewModel.TempRes.StartDate}"
                                     FirstDayOfWeek="Monday"
                                     DateFormat="{}{day.integer} {month.full} {year.full}"/>
                             <CalendarDatePicker x:Name="Cdp_EndDate"
                                     Margin="10,0,0,0"
-                                    PlaceholderText="{x:Bind SelectedLivingViewModel.TempReservation.EndDate}"
+                                    PlaceholderText="{x:Bind selectedLivingViewModel.TempRes.EndDate}"
                                     FirstDayOfWeek="Monday"
                                     DateFormat="{}{day.integer} {month.full} {year.full}"/>
                             <TextBlock
                                 x:Name="txt_NumberOfGuests">
                                 <Run Text="Antal gäster: "/>
-                                <Run Text="{x:Bind SelectedLivingViewModel.TempReservation.NumberOfGuests}"
+                                <Run Text="{x:Bind selectedLivingViewModel.TempRes.NumberOfGuests}"
                                 x:DefaultBindMode="OneWay"/>
                             </TextBlock>
                         </StackPanel>
@@ -158,11 +150,12 @@
                 </Border>
                 <StackPanel Grid.Row="1" Spacing="10">
                  <ListView
-                  BorderThickness="2"
                   x:Name="lv_DisplayAddons"
-                    ItemsSource="{x:Bind SelectedLivingViewModel.TempReservation.AddonList}"
-                    Height="200"
-                    Margin="20,50,20,0">
+                  ItemsSource="{x:Bind selectedLivingViewModel.TempRes.AddonList}"
+                  BorderThickness="1"
+                  BorderBrush="Black"
+                  Height="200"
+                  Margin="20,50,20,0">
                     <ListView.ItemTemplate>
                         <DataTemplate x:Name="lv_Addons" x:DataType="data:Addon"  >
                             <StackPanel Orientation="Horizontal" Spacing="10">
@@ -188,7 +181,7 @@
                         FontWeight="Medium"
                         Margin="0,0,0,10">
                         <Run Text="Totalpris: "/>
-                        <Run Text="{x:Bind SelectedLivingViewModel.SelectedReservation.TotalPrice}"
+                        <Run Text="{x:Bind selectedLivingViewModel.TempRes.TotalPrice}"
                                 x:DefaultBindMode="OneWay"/>
                          <Run Text=" kr."/>
                     </TextBlock>

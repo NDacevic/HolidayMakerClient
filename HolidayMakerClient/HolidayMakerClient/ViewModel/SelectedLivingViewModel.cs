@@ -22,12 +22,12 @@ namespace HolidayMakerClient
         {
 
         }
-        public SelectedLivingViewModel(Home selectedHome, Reservation selectedReservation, TempReservation tempReservation)
+        public SelectedLivingViewModel(Home selectedHome, Reservation selectedReservation, TempReservation tempRes)
         {
             SelectedHome = selectedHome;
             SelectedReservation = selectedReservation;
             AddonList = new ObservableCollection<Addon>();
-            TempReservation = tempReservation;
+            TempRes = tempRes;
         }
         #endregion
 
@@ -41,12 +41,24 @@ namespace HolidayMakerClient
         public Home SelectedHome { get; set; }
         public Reservation SelectedReservation { get; set; }
         public ObservableCollection<Addon> AddonList { get; set; }
-        public TempReservation TempReservation { get; set; }
+        public TempReservation TempRes { get; set; }
+        public LoginViewModel loginViewModel { get; }
         #endregion
 
         #region Methods
-        public async void CreateReservation()
+        public async void CreateReservation(TempReservation reservation)
         {
+            SelectedReservation = new Reservation();
+            SelectedReservation.HomeId = reservation.Home.HomeId;
+            SelectedReservation.UserId = loginViewModel.ActiveUser.UserId;
+            SelectedReservation.StartDate = reservation.StartDate;
+            SelectedReservation.EndDate = reservation.EndDate;
+            SelectedReservation.TotalPrice = reservation.TotalPrice;
+            foreach(var ad in reservation.AddonList)
+            {
+                SelectedReservation.AddonList.Add(ad);
+            }
+
             try
             {
                 await ApiHelper.Instance.PostReservation(SelectedReservation);
@@ -69,48 +81,61 @@ namespace HolidayMakerClient
         }
         public async void GetAddonList()
         {
+            //ObservableCollection<Addon> HomeAddons = new ObservableCollection<Addon>();
             try
-            {
-                AddonList = await ApiHelper.Instance.GetAllAddon();
+            {             
+                var addons = await ApiHelper.Instance.GetAllAddon();
+                foreach (var a in addons)
+                {
+                    AddonList.Add(a);
+                }
+                    
+                //foreach(var a in AddonList)
+                //{
+                //    if (tempReservation.Home.HasAllInclusive == true)
+                //    {
+                //        HomeAddons.Add();
+
+                //    }
+                //}
+
             }
             catch (Exception)
             {
-                return;
+                
             }
             
         }
-        public void TempTotalPrice()
+        public decimal TempTotalPrice(TempReservation tempReservation)
         {
             try
             {
-                int days = (TempReservation.EndDate - TempReservation.StartDate).Days;
-                TempReservation.TotalPrice = TempReservation.Home.Price * days;
+                int days = 2; 
+                    //= (tempReservation.EndDate - tempReservation.StartDate).Days;
+                tempReservation.TotalPrice = tempReservation.Home.Price * days;
 
-                if (TempReservation.AddonList.Count > 0)
+                if (tempReservation.AddonList.Count > 0)
                 {
-                     foreach (var a in TempReservation.AddonList)
-                     {
-                        if(a.AddonType == "All-inclusive" || a.AddonType == "Helpension" || a.AddonType == "Halvpension")
+                    foreach (var a in tempReservation.AddonList)
+                    {
+                        if (a.AddonType == "All-inclusive" || a.AddonType == "Helpension" || a.AddonType == "Halvpension")
                         {
-                            TempReservation.TotalPrice += a.AddonPrice * int.Parse(TempReservation.NumberOfGuests);
+                            tempReservation.TotalPrice += a.AddonPrice * int.Parse(tempReservation.NumberOfGuests);
                         }
-                        if(a.AddonType == "Extrasäng")
+                        if (a.AddonType == "Extrasäng")
                         {
-                            TempReservation.TotalPrice += a.AddonPrice;
+                            tempReservation.TotalPrice += a.AddonPrice;
                         }
-                     }
+                    }
                 }
 
             }
             catch (Exception)
             {
-                TempReservation.TotalPrice = 0;
-                
-            }
+                tempReservation.TotalPrice = 0;
 
-        }
-        public void CreateReservationForPost()
-        {
+            }
+            return tempReservation.TotalPrice;
 
         }
 
