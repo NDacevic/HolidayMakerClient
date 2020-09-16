@@ -46,13 +46,13 @@
         </StackPanel>
         <StackPanel Grid.Row="1">
             <ListView 
-                      CornerRadius="5"
-                      BorderBrush="Black"
-                      BorderThickness="2"
-                      ItemsSource="{x:Bind myPageViewModel.MyReservations}"
-                      x:Name="Lv_MyReservations" 
-                      DoubleTapped="Lv_MyReservations_DoubleTapped"
-                      >
+                CornerRadius="5"
+                BorderBrush="Black"
+                BorderThickness="2"
+                ItemsSource="{x:Bind myPageViewModel.MyReservations}"
+                x:Name="Lv_MyReservations" 
+                DoubleTapped="Lv_MyReservations_DoubleTapped"  
+                >
                 <ListView.ItemTemplate>
                     <DataTemplate x:Name="lv_MyReservations"
                                   x:DataType="holidaymakerclient:Reservation">
@@ -107,7 +107,8 @@
             </Grid.ColumnDefinitions>
             <StackPanel>
                 <ListView x:Name="Lv_SelectedHome"
-                          ItemsSource="{x:Bind myPageViewModel.SelectedHome}">
+                          ItemsSource="{x:Bind myPageViewModel.SelectedHome}"
+                          SelectionMode="None">
                     <ListView.ItemTemplate>
                         <DataTemplate x:Name="lv_SelectedHome"
                                       x:DataType="holidaymakerclient1:Home">
@@ -159,6 +160,7 @@
                 <ListView 
                 CornerRadius="5"
                 x:Name="Lv_SelectedReservation"
+                SelectionMode="None"
                 ItemsSource="{x:Bind myPageViewModel.SelectedReservation}" Margin="0,0,0,236">
                     <ListView.ItemTemplate >
                         <DataTemplate x:Name="Lv_selectedReservation" x:DataType="holidaymakerclient:Reservation">
@@ -192,15 +194,13 @@
                 
             </StackPanel>
             
-            
-            
-            
             <StackPanel Grid.Column="2">
                
                 <ListView 
                 CornerRadius="5"
                 x:Name="Lv_SelectedReservationAddons"
-                ItemsSource="{x:Bind myPageViewModel.SelectedReservationAddon}" Margin="0,0,0,236">
+                SelectionMode="None"
+                ItemsSource="{x:Bind myPageViewModel.SelectedReservationAddons}" Margin="0,0,0,236">
                     <ListView.ItemTemplate >
                         <DataTemplate x:Name="Lv_selectedReservationAddons" x:DataType="holidaymakerclient1:Addon">
                             <StackPanel>

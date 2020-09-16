@@ -274,6 +274,13 @@
                                 />
                     </StackPanel>
                 </Button>
+                                         
+                <Button
+                x:Name="bttn_RefreshSearch"
+                Click="Search" Margin="540,0,0,0"
+                >
+                    Uppdatera sökresultat
+                </Button>             
             </StackPanel>
             <ListView
                 x:Name="lv_SearchList"
