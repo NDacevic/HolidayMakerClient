@@ -104,7 +104,22 @@ namespace HolidayMakerClient.View
         {
         }
 
-        private void FilterList()
+        private void ToggleFilterList(object sender, RoutedEventArgs e)
+        {
+            Home advancedFilterParams = new Home()
+            {
+                AllowPets = toggle_AllowPets.IsOn,
+                AllowSmoking = toggle_AllowSmoking.IsOn,
+                HasBalcony = toggle_HasBalcony.IsOn,
+                HasPool = toggle_HasPool.IsOn,
+                HasWifi = toggle_HasWifi.IsOn,
+                CityDistance = (int)slider_CityDistance.Value,
+                BeachDistance = (int)slider_BeachDistance.Value
+            };
+
+            searchViewModel.Filter(advancedFilterParams);
+        }
+        private void DragFilterList(object sender, PointerRoutedEventArgs e)
         {
             Home advancedFilterParams = new Home()
             {
