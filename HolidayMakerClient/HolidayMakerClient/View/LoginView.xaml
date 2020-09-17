@@ -50,16 +50,13 @@
                 Name="Bttn_LogIn"
                 Content="Logga in"
                 FontSize="10"
-                Width="60"/>
+                Width="60" Click="Bttn_LogIn_Click"/>
             <Button
                 Name="Bttn_Abort"
                 Content="Avbryt"
                 FontSize="10"
                 Margin="0,5,0,0"
-                Width="60"/>
+                Width="60" Click="Bttn_Abort_Click"/>
         </StackPanel>
-
-
-
     </Grid>
 </ContentDialog>
