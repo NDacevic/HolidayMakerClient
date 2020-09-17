@@ -12,18 +12,16 @@ namespace HolidayMakerClient
         #endregion
 
         #region Fields
+        private static LoginViewModel instance = null;
+        private static readonly object padlock = new object();
         #endregion
 
         #region Constructors
-        public LoginViewModel()
+        private LoginViewModel()
         {
 
         }
 
-        public LoginViewModel(User activeUser)
-        {
-            ActiveUser = activeUser;
-        }
         #endregion
 
         #region Delegates
@@ -34,6 +32,20 @@ namespace HolidayMakerClient
 
         #region Properties
         public User ActiveUser { get; set; }
+        public static LoginViewModel Instance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new LoginViewModel();
+                    }
+                    return instance;
+                }
+            }
+        }
 
         #endregion
 
