@@ -42,12 +42,10 @@ namespace HolidayMakerClient.View
             searchViewModel = new SearchViewModel();
             datePicker_StartDate.Date = DateTime.Now;
             datePicker_EndDate.Date = DateTime.Now.AddDays(1.0);
-
             for (int i = 1; i <= 20; i++)
             {
                 comboBox_NumberOfGuests.Items.Add(i);
             }
-            
         }
         #endregion
 
@@ -68,7 +66,11 @@ namespace HolidayMakerClient.View
             else
                 grid_AdvancedSearch.Visibility = Visibility.Collapsed;
         }
-        private void Search(object sender, RoutedEventArgs args)
+        private void SearchButton_Clicked(object sender, RoutedEventArgs args)
+        {
+            Search();
+        }
+        private void Search()
         {
             //TODO: Add error handling when search parameters are empty //MO
             int.TryParse(comboBox_NumberOfGuests.SelectedValue.ToString(), out int numberOfGuests);
@@ -85,7 +87,6 @@ namespace HolidayMakerClient.View
                 CreateAdvancedFilterParams()
                 );
         }
-
         private void UpdateFilter(object obj, RoutedEventArgs e)
         {
            
@@ -125,6 +126,42 @@ namespace HolidayMakerClient.View
         {
         }
 
+        private void SortColumns_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender == bttn_SortLocation)
+            {
+                if (fontIcon_SortLocation.Glyph == "\uE96E")
+                    fontIcon_SortLocation.Glyph = "\uE96D";
+                else
+                    fontIcon_SortLocation.Glyph = "\uE96E";
+
+                searchViewModel.SortList("location");
+
+                fontIcon_SortPrice.Glyph = "";
+                fontIcon_SortRooms.Glyph = "";
+            }
+            else if (sender == bttn_SortPrice)
+            {
+                if (fontIcon_SortPrice.Glyph == "\uE96E")
+                    fontIcon_SortPrice.Glyph = "\uE96D";
+                else
+                    fontIcon_SortPrice.Glyph = "\uE96E";
+
+                fontIcon_SortLocation.Glyph = "";
+                fontIcon_SortRooms.Glyph = "";
+            }
+            else if (sender == bttn_SortRooms)
+            {
+                if (fontIcon_SortRooms.Glyph == "\uE96E")
+                    fontIcon_SortRooms.Glyph = "\uE96D";
+                else
+                    fontIcon_SortRooms.Glyph = "\uE96E";
+
+                fontIcon_SortLocation.Glyph = "";
+                fontIcon_SortPrice.Glyph = "";
+            }
+        }
+
         private Home CreateAdvancedFilterParams()
         {
             Home advancedFilterParams = new Home()
@@ -140,5 +177,11 @@ namespace HolidayMakerClient.View
             return advancedFilterParams;
         }
         #endregion
+
+        private void SearchKeydown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+                Search();
+        }
     }
 }
