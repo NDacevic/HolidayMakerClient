@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HolidayMakerClient.View;
+using HolidayMakerClient.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,12 +27,23 @@ namespace HolidayMakerClient
     public sealed partial class LoginView //: ContentDialog
     {
 
+
         private LoginViewModel loginViewModel;
+
 
         public LoginView()
         {
             this.InitializeComponent();
+           
         }
+
+
+        private async void Bttn_Register_Click(object sender, RoutedEventArgs e)
+        {
+            Vw_LoginPage.Hide();
+            await new RegisterAccountView().ShowAsync();
+        }
+     
 
         //private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
         //{
@@ -53,5 +66,6 @@ namespace HolidayMakerClient
             }
                        
         }        
+
     }
 }
