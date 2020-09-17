@@ -3,11 +3,13 @@ using HolidayMakerClient.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Security.Cryptography.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -39,6 +41,15 @@ namespace HolidayMakerClient.View
         {
             this.InitializeComponent();
             searchViewModel = new SearchViewModel();
+            datePicker_StartDate.Date = DateTime.Now;
+            datePicker_EndDate.Date = DateTime.Now.AddDays(1.0);
+
+            for (int i = 1; i <= 20; i++)
+            {
+                comboBox_NumberOfGuests.Items.Add(i);
+            }
+
+            CreateSortList();
         }
         #endregion
 
@@ -54,24 +65,46 @@ namespace HolidayMakerClient.View
         #region Methods
         private void ShowHideAdvancedSearch(object sender, RoutedEventArgs args)
         {
-            if (stckPnl_AdvancedSearch.Visibility == Visibility.Collapsed)
-                stckPnl_AdvancedSearch.Visibility = Visibility.Visible;
+            if (grid_AdvancedSearch.Visibility == Visibility.Collapsed)
+                grid_AdvancedSearch.Visibility = Visibility.Visible;
             else
-                stckPnl_AdvancedSearch.Visibility = Visibility.Collapsed;
+                grid_AdvancedSearch.Visibility = Visibility.Collapsed;
         }
-        private void Search(object sender, RoutedEventArgs args)
+        private void SearchButton_Clicked(object sender, RoutedEventArgs args)
+        {
+            Search();
+        }
+        private void Search()
         {
             //TODO: Add error handling when search parameters are empty //MO
-            int.TryParse(txtBox_NumberOfGuests.Text, out int numberOfGuests);
+            int.TryParse(comboBox_NumberOfGuests.SelectedValue.ToString(), out int numberOfGuests);
+
+            bool advancedSearchActive = grid_AdvancedSearch.Visibility == Visibility.Visible ? true : false;
+
             searchViewModel.Search
                 (
                 txtBox_Search.Text,
                 (DateTimeOffset)datePicker_StartDate.Date,
                 (DateTimeOffset)datePicker_EndDate.Date,
-                numberOfGuests
+                numberOfGuests,
+                advancedSearchActive,
+                CreateAdvancedFilterParams()
                 );
         }
-
+        private Home CreateAdvancedFilterParams()
+        {
+            Home advancedFilterParams = new Home()
+            {
+                AllowPets = toggle_AllowPets.IsOn,
+                AllowSmoking = toggle_AllowSmoking.IsOn,
+                HasBalcony = toggle_HasBalcony.IsOn,
+                HasPool = toggle_HasPool.IsOn,
+                HasWifi = toggle_HasWifi.IsOn,
+                CityDistance = (int)slider_CityDistance.Value,
+                BeachDistance = (int)slider_BeachDistance.Value
+            };
+            return advancedFilterParams;
+        }
         private void ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             CreateTempRes();
@@ -81,7 +114,7 @@ namespace HolidayMakerClient.View
         {
             tempReservation = new TempReservation();
             SetDates();
-            tempReservation.NumberOfGuests = txtBox_NumberOfGuests.Text;
+            tempReservation.NumberOfGuests = comboBox_NumberOfGuests.SelectedValue.ToString();
             tempReservation.Home = (Home)lv_SearchList.SelectedItem;
         }
         public void SetDates()
@@ -93,8 +126,11 @@ namespace HolidayMakerClient.View
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
             await new LoginView().ShowAsync();
-            bttn_Login.Visibility = Visibility.Collapsed;
-            bttn_UserOptions.Visibility = Visibility.Visible;
+            if (LoginViewModel.Instance.ActiveUser != null)
+            {
+                bttn_Login.Visibility = Visibility.Collapsed;
+                bttn_UserOptions.Visibility = Visibility.Visible;
+            }                       
         }
         private void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
         {
@@ -107,38 +143,24 @@ namespace HolidayMakerClient.View
 
         private void SortColumns_Click(object sender, RoutedEventArgs e)
         {
-            if (sender == bttn_SortLocation)
-            {
-                if (fontIcon_SortLocation.Glyph == "\uE96E")
-                    fontIcon_SortLocation.Glyph = "\uE96D";
-                else
-                    fontIcon_SortLocation.Glyph = "\uE96E";
+            searchViewModel.SortColumns((Button)sender);
+        }
+        
+        private void SearchKeydown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+                Search();
+        }
 
-                searchViewModel.SortList("location");
-
-                fontIcon_SortPrice.Glyph = "";
-                fontIcon_SortRooms.Glyph = "";
-            }
-            else if (sender == bttn_SortPrice)
-            {
-                if (fontIcon_SortPrice.Glyph == "\uE96E")
-                    fontIcon_SortPrice.Glyph = "\uE96D";
-                else
-                    fontIcon_SortPrice.Glyph = "\uE96E";
-
-                fontIcon_SortLocation.Glyph = "";
-                fontIcon_SortRooms.Glyph = "";
-            }
-            else if (sender == bttn_SortRooms)
-            {
-                if (fontIcon_SortRooms.Glyph == "\uE96E")
-                    fontIcon_SortRooms.Glyph = "\uE96D";
-                else
-                    fontIcon_SortRooms.Glyph = "\uE96E";
-
-                fontIcon_SortLocation.Glyph = "";
-                fontIcon_SortPrice.Glyph = "";
-            }
+        private void CreateSortList()
+        {
+            searchViewModel.FontIconList.Add(fontIcon_SortLocation);
+            searchViewModel.FontIconList.Add(fontIcon_SortPrice);
+            searchViewModel.FontIconList.Add(fontIcon_SortRooms);
+            searchViewModel.FontIconList.Add(fontIcon_SortBeds);
+            searchViewModel.FontIconList.Add(fontIcon_SortCityDistance);
+            searchViewModel.FontIconList.Add(fontIcon_SortBeachDistance);
+            searchViewModel.FontIconList.Add(fontIcon_SortAverageRating);
         }
         #endregion
     }
