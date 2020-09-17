@@ -125,42 +125,6 @@ namespace HolidayMakerClient.View
         {
         }
 
-        private void SortColumns_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender == bttn_SortLocation)
-            {
-                if (fontIcon_SortLocation.Glyph == "\uE96E")
-                    fontIcon_SortLocation.Glyph = "\uE96D";
-                else
-                    fontIcon_SortLocation.Glyph = "\uE96E";
-
-                searchViewModel.SortList("location");
-
-                fontIcon_SortPrice.Glyph = "";
-                fontIcon_SortRooms.Glyph = "";
-            }
-            else if (sender == bttn_SortPrice)
-            {
-                if (fontIcon_SortPrice.Glyph == "\uE96E")
-                    fontIcon_SortPrice.Glyph = "\uE96D";
-                else
-                    fontIcon_SortPrice.Glyph = "\uE96E";
-
-                fontIcon_SortLocation.Glyph = "";
-                fontIcon_SortRooms.Glyph = "";
-            }
-            else if (sender == bttn_SortRooms)
-            {
-                if (fontIcon_SortRooms.Glyph == "\uE96E")
-                    fontIcon_SortRooms.Glyph = "\uE96D";
-                else
-                    fontIcon_SortRooms.Glyph = "\uE96E";
-
-                fontIcon_SortLocation.Glyph = "";
-                fontIcon_SortPrice.Glyph = "";
-            }
-        }
-
         private Home CreateAdvancedFilterParams()
         {
             Home advancedFilterParams = new Home()
