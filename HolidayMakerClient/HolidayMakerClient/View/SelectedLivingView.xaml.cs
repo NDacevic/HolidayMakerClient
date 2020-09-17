@@ -30,7 +30,7 @@ namespace HolidayMakerClient
         {
             selectedLivingViewModel.TempRes = (TempReservation)e.Parameter;
             selectedLivingViewModel.TempRes.AddonList = new ObservableCollection<Addon>();
-            GetTotalPrice();
+            SetUpPage();
 
         }
         public void AddonList()
@@ -51,12 +51,28 @@ namespace HolidayMakerClient
             selectedLivingViewModel.GetAddonExtraBed();
 
         }
-        public void GetTotalPrice()
+        public void SetUpPage()
         {
            price = selectedLivingViewModel.TempRes.Home.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
+            CheckHome();
+        }
+        public void CheckHome()
+        {
             if (selectedLivingViewModel.TempRes.Home.HasExtraBed == false)
             {
                 cb_ExtraBed.Visibility = Visibility.Collapsed;
+            }
+            if (selectedLivingViewModel.TempRes.Home.HasAllInclusive == false)
+            {
+                Rb_addon0.Visibility = Visibility.Collapsed;
+            }
+            if (selectedLivingViewModel.TempRes.Home.HasFullPension == false)
+            {
+                Rb_addon1.Visibility = Visibility.Collapsed;
+            }
+            if (selectedLivingViewModel.TempRes.Home.HasHalfPension == false)
+            {
+                Rb_addon2.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -90,7 +106,7 @@ namespace HolidayMakerClient
         {
             try
             {
-                selectedLivingViewModel.TempRes.AddonList.Remove((Addon)lv_DisplayAddons.SelectedItem);
+                ChosenAddons.Remove((Addon)lv_DisplayAddons.SelectedItem);
             }
             catch (Exception)
             {
@@ -103,7 +119,7 @@ namespace HolidayMakerClient
         {
             try
             {
-                selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes);
+                selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes, ChosenAddons, price);
                 await new MessageDialog("Din bokning är skapad.").ShowAsync();
                 Frame.Navigate(typeof(MyPageView));
             }
@@ -128,8 +144,28 @@ namespace HolidayMakerClient
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            
-            
+            if(Rb_addon0.IsChecked == true)
+            {
+                foreach (var a in selectedLivingViewModel.AddonList)
+                {
+                    if (a.AddonType == "All-inclusive") ChosenAddons.Add(a);
+                }               
+            }
+            if (Rb_addon1.IsChecked == true)
+            {
+                foreach (var a in selectedLivingViewModel.AddonList)
+                {
+                    if (a.AddonType == "Helpension") ChosenAddons.Add(a);
+                }
+            }
+            if (Rb_addon2.IsChecked == true)
+            {
+                foreach (var a in selectedLivingViewModel.AddonList)
+                {
+                    if (a.AddonType == "Halvpension") ChosenAddons.Add(a);
+                }
+            }
+
         }
 
         private void cb_ExtraBed_Checked(object sender, RoutedEventArgs e)
@@ -142,5 +178,29 @@ namespace HolidayMakerClient
             ChosenAddons.Remove((Addon)selectedLivingViewModel.ExtraBed);
         }
 
+        private void Rb_addon_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (Rb_addon0.IsChecked == false)
+            {
+                foreach (var a in selectedLivingViewModel.AddonList)
+                {
+                    if (a.AddonType == "All-inclusive") ChosenAddons.Remove(a);
+                }
+            }
+            if (Rb_addon1.IsChecked == false)
+            {
+                foreach (var a in selectedLivingViewModel.AddonList)
+                {
+                    if (a.AddonType == "Helpension") ChosenAddons.Remove(a);
+                }
+            }
+            if (Rb_addon2.IsChecked == false)
+            {
+                foreach (var a in selectedLivingViewModel.AddonList)
+                {
+                    if (a.AddonType == "Halvpension") ChosenAddons.Remove(a);
+                }
+            }
+        }
     }
 }

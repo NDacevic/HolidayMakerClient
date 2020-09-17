@@ -41,15 +41,15 @@ namespace HolidayMakerClient
         #endregion
 
         #region Methods
-        public async void CreateReservation(TempReservation reservation)
+        public async void CreateReservation(TempReservation reservation, ObservableCollection<Addon> addonList, decimal price)
         {
             SelectedReservation = new Reservation();
             SelectedReservation.HomeId = reservation.Home.HomeId;
             SelectedReservation.UserId = loginViewModel.ActiveUser.UserId;
             SelectedReservation.StartDate = reservation.StartDate;
             SelectedReservation.EndDate = reservation.EndDate;
-            SelectedReservation.TotalPrice = reservation.TotalPrice;
-            foreach(var ad in reservation.AddonList)
+            SelectedReservation.TotalPrice = price;
+            foreach(var ad in addonList)
             {
                 SelectedReservation.AddonList.Add(ad);
             }
