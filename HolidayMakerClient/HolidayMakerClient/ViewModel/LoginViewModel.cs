@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
 
 namespace HolidayMakerClient
 {
@@ -17,7 +18,7 @@ namespace HolidayMakerClient
         #endregion
 
         #region Constructors
-        private LoginViewModel()
+        public LoginViewModel()
         {
 
         }
@@ -50,14 +51,22 @@ namespace HolidayMakerClient
         #endregion
 
         #region Methods
-        public void GetUser()
+        public async Task GetUser(string email, string enteredPassword)
         {
-
+            User user = await ApiHelper.Instance.GetUser(email);
+            await ConfirmPassword(user, enteredPassword);
         }
 
-        public void ConfirmPassword()
+        public async Task ConfirmPassword(User user, string enteredPassword)
         {
+            if (user.Email == null)
+            {
 
+            }
+            else if (user.Password == enteredPassword)
+                ActiveUser = user;
+            else
+                await new MessageDialog("Inkorrekt lösenord, vänligen försök igen.").ShowAsync();
         }
         #endregion
     }

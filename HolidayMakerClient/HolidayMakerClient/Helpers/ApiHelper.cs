@@ -13,6 +13,7 @@ using Windows.UI.Popups;
 using System.Net.Http.Headers;
 using Windows.UI.Xaml.Documents;
 using HolidayMakerClient.Dto;
+using System.Net;
 
 namespace HolidayMakerClient
 {
@@ -94,9 +95,37 @@ namespace HolidayMakerClient
             }
         }
 
-        public void GetUser()
+        public async Task<User> GetUser(string email)
         {
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync($"LoginUsers/{email}");
 
+                if (response.IsSuccessStatusCode)
+                {
+                    jsonString = response.Content.ReadAsStringAsync().Result;
+
+                    var user = JsonConvert.DeserializeObject<User>(jsonString);
+
+                    return user;
+                }
+                else
+                {
+                    throw new ArgumentNullException("Angiven e-mail är ej registrerad i systemet. Vänligen registrera ett konto eller kontrollera angiven e-mail.");
+                }
+
+            }
+            catch (ArgumentNullException exc)
+            {
+                Debug.WriteLine(exc.Message);
+                await new MessageDialog(exc.ParamName).ShowAsync();
+                return new User();
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+                return new User();
+            }
         }
 
         public void DeleteUser()
