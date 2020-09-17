@@ -113,8 +113,11 @@ namespace HolidayMakerClient.View
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
             await new LoginView().ShowAsync();
-            bttn_Login.Visibility = Visibility.Collapsed;
-            bttn_UserOptions.Visibility = Visibility.Visible;
+            if (LoginViewModel.Instance.ActiveUser != null)
+            {
+                bttn_Login.Visibility = Visibility.Collapsed;
+                bttn_UserOptions.Visibility = Visibility.Visible;
+            }                       
         }
         private void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
         {
