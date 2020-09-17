@@ -53,29 +53,52 @@ namespace HolidayMakerClient.View
 
         private async void Bttn_Register_Click(object sender, RoutedEventArgs e)
         {
-           
-            bool userType = true;
-            //TODO: Encrypt password
-            try
+            if(!CheckTextBoxes())
             {
-                if(Rb_Private.IsChecked==true)
+                await new MessageDialog("Du måste fylla i alla fält").ShowAsync();
+            }
+            else
+            {
+                string encryptedPassword;
+                bool userType = true;
+
+                if (Rb_Private.IsChecked == true)
                 {
                     userType = false;
                 }
-               
-                regAccountVM.CreateNewUser(Tb_FirstName.Text, Tb_LastName.Text, Tb_Email.Text, Pwb_Password1.Password, userType);
 
+                if (CheckPassword(Pwb_Password1.Password, Pwb_Password2.Password))
+                {
+                    //Go to method for encryption of password. Pass in the encrypted version "endryptedPassword" as parameter
+                    regAccountVM.CreateNewUser(Tb_FirstName.Text, Tb_LastName.Text, Tb_Email.Text, Pwb_Password1.Password, userType);
+                }
+                else
+                {
+                    await new MessageDialog("Lösenorden stämmer inte, var god kontrollera").ShowAsync();
+                }
             }
-            catch (Exception)
+         
+        }
+        private bool CheckTextBoxes()
+        {
+            if(Tb_FirstName.Text=="" || Tb_LastName.Text=="" || Tb_Email.Text=="" || Pwb_Password1.Password==""||Pwb_Password2.Password=="")
             {
-                await new MessageDialog("Felaktig inmatning, var god fyll i alla fält.").ShowAsync();
-
+                return false;
             }
+            return true;
+        }
+        private bool CheckPassword(string pass1,string pass2)
+        {
+            if(pass1==pass2)
+            {
+                return true;
+            }
+            return false;
         }
 
         private void Bttn_Abort_Click(object sender, RoutedEventArgs e)
         {
-
+            Vw_RegisterAccountPage.Hide();
         }
     }
 }
