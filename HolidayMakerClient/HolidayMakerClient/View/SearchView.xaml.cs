@@ -95,7 +95,7 @@ namespace HolidayMakerClient.View
         public void SetDates()
         {
             tempReservation.StartDate = (DateTimeOffset)datePicker_StartDate.Date;
-            tempReservation.EndDate = (DatetimeOffset)datePicker_EndDate.Date;
+            tempReservation.EndDate = (DateTimeOffset)datePicker_EndDate.Date;
         }
 
         private async void Login_Click(object sender, RoutedEventArgs e)
