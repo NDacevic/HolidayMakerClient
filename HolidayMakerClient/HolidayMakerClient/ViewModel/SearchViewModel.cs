@@ -112,14 +112,17 @@ namespace HolidayMakerClient.ViewModel
                         orderedList = HomeList.OrderBy(x => x.Location);
                     else
                         orderedList = HomeList.OrderByDescending(x => x.Location);
+
                     foreach (var x in orderedList)
                         SortedHomeList.Add(x);
                     break;
+
                 case "bttn_SortPrice":
                     if(IsAscending)
                         orderedList = HomeList.OrderBy(x => x.Price);
                     else
                         orderedList = HomeList.OrderByDescending(x => x.Price);
+
                     foreach (var x in orderedList)
                         SortedHomeList.Add(x);
                     break;
@@ -129,6 +132,47 @@ namespace HolidayMakerClient.ViewModel
                         orderedList = HomeList.OrderBy(x => x.Rooms);
                     else
                         orderedList = HomeList.OrderByDescending(x => x.Rooms);
+
+                    foreach (var x in orderedList)
+                        SortedHomeList.Add(x);
+                    break;
+
+                case "bttn_SortBeds":
+                    if (IsAscending)
+                        orderedList = HomeList.OrderBy(x => x.NumberOfBeds);
+                    else
+                        orderedList = HomeList.OrderByDescending(x => x.NumberOfBeds);
+
+                    foreach (var x in orderedList)
+                        SortedHomeList.Add(x);
+                    break;
+
+                case "bttn_SortCityDistance":
+                    if (IsAscending)
+                        orderedList = HomeList.OrderBy(x => x.CityDistance);
+                    else
+                        orderedList = HomeList.OrderByDescending(x => x.CityDistance);
+
+                    foreach (var x in orderedList)
+                        SortedHomeList.Add(x);
+                    break;
+
+                case "bttn_SortBeachDistance":
+                    if (IsAscending)
+                        orderedList = HomeList.OrderBy(x => x.BeachDistance);
+                    else
+                        orderedList = HomeList.OrderByDescending(x => x.BeachDistance);
+
+                    foreach (var x in orderedList)
+                        SortedHomeList.Add(x);
+                    break;
+
+                case "bttn_SortAverageRating":
+                    if (IsAscending)
+                        orderedList = HomeList.OrderBy(x => x.AverageRating);
+                    else
+                        orderedList = HomeList.OrderByDescending(x => x.AverageRating);
+
                     foreach (var x in orderedList)
                         SortedHomeList.Add(x);
                     break;

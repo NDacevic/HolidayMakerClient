@@ -152,6 +152,10 @@ namespace HolidayMakerClient.View
             searchViewModel.FontIconList.Add(fontIcon_SortLocation);
             searchViewModel.FontIconList.Add(fontIcon_SortPrice);
             searchViewModel.FontIconList.Add(fontIcon_SortRooms);
+            searchViewModel.FontIconList.Add(fontIcon_SortBeds);
+            searchViewModel.FontIconList.Add(fontIcon_SortCityDistance);
+            searchViewModel.FontIconList.Add(fontIcon_SortBeachDistance);
+            searchViewModel.FontIconList.Add(fontIcon_SortAverageRating);
         }
         #endregion
     }

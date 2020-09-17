@@ -294,6 +294,70 @@
                         />
                 </StackPanel>
             </Button>
+            <Button
+                x:Name="bttn_SortBeds"
+                Click="SortColumns_Click"
+                >
+                <StackPanel
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Text="Sängar"
+                        />
+                    <FontIcon
+                        x:Name="fontIcon_SortBeds"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="10"
+                        />
+                </StackPanel>
+            </Button>
+            <Button
+                x:Name="bttn_SortCityDistance"
+                Click="SortColumns_Click"
+                >
+                <StackPanel
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Text="km Centrum"
+                        />
+                    <FontIcon
+                        x:Name="fontIcon_SortCityDistance"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="10"
+                        />
+                </StackPanel>
+            </Button>
+            <Button
+                x:Name="bttn_SortBeachDistance"
+                Click="SortColumns_Click"
+                >
+                <StackPanel
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Text="km Strand"
+                        />
+                    <FontIcon
+                        x:Name="fontIcon_SortBeachDistance"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="10"
+                        />
+                </StackPanel>
+            </Button>
+            <Button
+                x:Name="bttn_SortAverageRating"
+                Click="SortColumns_Click"
+                >
+                <StackPanel
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Text="Bedömning"
+                        />
+                    <FontIcon
+                        x:Name="fontIcon_SortAverageRating"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="10"
+                        />
+                </StackPanel>
+            </Button>
         </StackPanel>
         <ScrollViewer
             Width="1280">
