@@ -130,6 +130,7 @@
             <!--#region Advanced Search Box-->
             <Grid
                 x:Name="grid_AdvancedSearch"
+                Visibility="Collapsed"
                 BorderBrush="Black"
                 BorderThickness="1"
                 HorizontalAlignment="Center"
