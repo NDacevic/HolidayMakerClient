@@ -69,9 +69,34 @@ namespace HolidayMakerClient
 
         }
 
-        public void GetUser()
+        public async Task<User> GetUser(string email)
         {
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync($"LoginUsers/{email}");
 
+                if (response.IsSuccessStatusCode)
+                {
+                    jsonString = response.Content.ReadAsStringAsync().Result;
+
+                    var user = JsonConvert.DeserializeObject<User>(jsonString);
+
+                    return user;
+                }
+                else if (response.Content == null)
+                {
+                    throw new HttpRequestException("Här var det tomt! Gå in och gör en reservation för att se listan.");
+                }
+                else
+                {
+                    throw new HttpRequestException("Kunde inte hämta några reservationer, var vänlig försök igen.");
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+                return new User();
+            }
         }
 
         public void DeleteUser()
