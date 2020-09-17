@@ -35,6 +35,7 @@ namespace HolidayMakerClient
         public ObservableCollection<Addon> AddonList { get; set; }
         public TempReservation TempRes { get; set; }
         public LoginViewModel loginViewModel { get; }
+        public decimal TotalPrice { get; set; }
         #endregion
 
         #region Methods
@@ -104,21 +105,22 @@ namespace HolidayMakerClient
             {
                 int days = (tempReservation.EndDate - tempReservation.StartDate).Days;
                 tempReservation.TotalPrice = tempReservation.Home.Price * days;
+                return tempReservation.TotalPrice;
 
-                if (tempReservation.AddonList.Count > 0)
-                {
-                    foreach (var a in tempReservation.AddonList)
-                    {
-                        if (a.AddonType == "All-inclusive" || a.AddonType == "Helpension" || a.AddonType == "Halvpension")
-                        {
-                            tempReservation.TotalPrice += a.AddonPrice * int.Parse(tempReservation.NumberOfGuests);
-                        }
-                        if (a.AddonType == "Extrasäng")
-                        {
-                            tempReservation.TotalPrice += a.AddonPrice;
-                        }
-                    }
-                }
+                //if (tempReservation.AddonList.Count > 0)
+                //{
+                //    foreach (var a in tempReservation.AddonList)
+                //    {
+                //        if (a.AddonType == "All-inclusive" || a.AddonType == "Helpension" || a.AddonType == "Halvpension")
+                //        {
+                //            tempReservation.TotalPrice += a.AddonPrice * int.Parse(tempReservation.NumberOfGuests);
+                //        }
+                //        if (a.AddonType == "Extrasäng")
+                //        {
+                //            tempReservation.TotalPrice += a.AddonPrice;
+                //        }
+                //    }
+                //}
 
             }
             catch (Exception)
@@ -127,6 +129,10 @@ namespace HolidayMakerClient
 
             }
             return tempReservation.TotalPrice;
+
+        }
+        public void GetPrice ()
+        {
 
         }
 

@@ -15,16 +15,18 @@ namespace HolidayMakerClient
     /// </summary>
     public sealed partial class SelectedLivingView : Page
     {
-        SelectedLivingViewModel selectedLivingViewModel; 
+        SelectedLivingViewModel selectedLivingViewModel;
+        public decimal price;
         public SelectedLivingView()
         {
             this.InitializeComponent();
             selectedLivingViewModel = new SelectedLivingViewModel();
-           
+            
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             selectedLivingViewModel.TempRes = (TempReservation)e.Parameter;
+            GetTotalPrice();
 
         }
         public void AddonList()
@@ -39,32 +41,36 @@ namespace HolidayMakerClient
             }          
             
         }
-
-        private async void cb_Addon_Checked(object sender, RoutedEventArgs e)
+        public void GetTotalPrice()
         {
-            try
-            {
-                selectedLivingViewModel.TempRes.AddonList.Add((Addon)lv_ChooseAddons.SelectedItem);
-                GetTotalPrice();
-            }
-            catch (Exception)
-            {
-                await new MessageDialog("Kunde inte läggas till tillägg.").ShowAsync();
-            }
-
+           price = selectedLivingViewModel.TempRes.Home.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
         }
-        public async void GetTotalPrice()
-        {
-            try
-            {
-               selectedLivingViewModel.TempRes.TotalPrice = selectedLivingViewModel.TempTotalPrice(selectedLivingViewModel.TempRes);
-            }
-            catch (Exception)
-            {
-                await new MessageDialog("Något gick fel, kan inte visa totalpriset.").ShowAsync();
-            }
 
-        }
+        //private async void cb_Addon_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        selectedLivingViewModel.TempRes.AddonList.Add((Addon)lv_ChooseAddons.SelectedItem);
+        //        GetTotalPrice();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        await new MessageDialog("Kunde inte läggas till tillägg.").ShowAsync();
+        //    }
+
+        //}
+        //public async void GetTotalPrice()
+        //{
+        //    try
+        //    {
+        //       selectedLivingViewModel.TempRes.TotalPrice = selectedLivingViewModel.TempTotalPrice(selectedLivingViewModel.TempRes);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        await new MessageDialog("Något gick fel, kan inte visa totalpriset.").ShowAsync();
+        //    }
+
+        //}
 
         private async void bttn_RemoveAddon_Click(object sender, RoutedEventArgs e)
         {
@@ -76,7 +82,7 @@ namespace HolidayMakerClient
             {
                 await new MessageDialog("Kunde inte ta bort tillval, vänligen försök igen.").ShowAsync();
             }
-            
+
         }
 
         private async void bttn_bookChange_Click(object sender, RoutedEventArgs e)
@@ -103,7 +109,7 @@ namespace HolidayMakerClient
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             AddonList();
-            GetTotalPrice();
+            //GetTotalPrice();
         }
     }
 }
