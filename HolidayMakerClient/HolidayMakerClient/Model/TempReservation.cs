@@ -16,7 +16,7 @@ namespace HolidayMakerClient.Model
         #endregion
 
         #region Constructors
-        public TempReservation(string numberOfGuests, DateTime startDate, DateTime endDate, decimal totalPrice, ObservableCollection<Addon> addonList, Home home)
+        public TempReservation(string numberOfGuests, DateTimeOffset startDate, DateTimeOffset endDate, decimal totalPrice, ObservableCollection<Addon> addonList, Home home)
         {
             NumberOfGuests = numberOfGuests;
             StartDate = startDate;
@@ -36,8 +36,8 @@ namespace HolidayMakerClient.Model
 
         #region Properties
         public string NumberOfGuests { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
+        public DateTimeOffset EndDate { get; set; }
         public decimal TotalPrice { get; set; }
         public ObservableCollection<Addon> AddonList { get; set; }
         public Home Home { get; set; }

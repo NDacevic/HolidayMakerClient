@@ -93,9 +93,9 @@ namespace HolidayMakerClient.View
             tempReservation.Home = (Home)lv_SearchList.SelectedItem;
         }
         public void SetDates()
-        { 
-            tempReservation.StartDate = new DateTime(datePicker_StartDate.Date.Value.Year, datePicker_StartDate.Date.Value.Month, datePicker_StartDate.Date.Value.Day);
-            tempReservation.EndDate = new DateTime(datePicker_EndDate.Date.Value.Year, datePicker_EndDate.Date.Value.Month, datePicker_EndDate.Date.Value.Day);
+        {
+            tempReservation.StartDate = (DateTimeOffset)datePicker_StartDate.Date;
+            tempReservation.EndDate = (DatetimeOffset)datePicker_EndDate.Date;
         }
 
         private async void Login_Click(object sender, RoutedEventArgs e)
