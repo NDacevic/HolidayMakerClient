@@ -2,6 +2,7 @@
 using HolidayMakerClient.View;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -14,11 +15,27 @@ namespace HolidayMakerClient
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SelectedLivingView : Page
+    public sealed partial class SelectedLivingView : Page, INotifyPropertyChanged 
     {
         SelectedLivingViewModel selectedLivingViewModel;
+        private decimal totalPrice;
         public decimal price;
         public ObservableCollection<Addon> ChosenAddons;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public decimal TotalPrice
+        {
+            get => totalPrice;
+            set
+            {
+                if (totalPrice != value)
+                {
+                    totalPrice = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalPrice)));
+                }
+            }
+        }
+
         public SelectedLivingView()
         {
             this.InitializeComponent();
@@ -26,6 +43,10 @@ namespace HolidayMakerClient
             ChosenAddons = new ObservableCollection<Addon>();
             
         }
+        /// <summary>
+        /// Recieves a TempReservation object when navigated to
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             selectedLivingViewModel.TempRes = (TempReservation)e.Parameter;
@@ -33,6 +54,9 @@ namespace HolidayMakerClient
             SetUpPage();
 
         }
+        /// <summary>
+        /// Get list of all addons except for ExtraBed from DB, this because ExtraBed is treated differently from the other addons
+        /// </summary>
         public void AddonList()
         {
             try
@@ -46,16 +70,26 @@ namespace HolidayMakerClient
             }          
             
         }
+        /// <summary>
+        /// Gets Addon object ExtraBed from DB
+        /// </summary>
         public void ExtraBed()
         {
             selectedLivingViewModel.GetAddonExtraBed();
 
         }
+        /// <summary>
+        /// Prepare page to display correct information, not all homes have the same addons nor price
+        /// </summary>
         public void SetUpPage()
         {
-           price = selectedLivingViewModel.TempRes.Home.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
+            price = selectedLivingViewModel.TempRes.Home.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
+            TotalPrice = price;
             CheckHome();
         }
+        /// <summary>
+        /// Method checks wich addons are available
+        /// </summary>
         public void CheckHome()
         {
             if (selectedLivingViewModel.TempRes.Home.HasExtraBed == false)
@@ -75,38 +109,18 @@ namespace HolidayMakerClient
                 Rb_addon2.Visibility = Visibility.Collapsed;
             }
         }
-
-        //private async void cb_Addon_Checked(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        selectedLivingViewModel.TempRes.AddonList.Add((Addon)lv_ChooseAddons.SelectedItem);
-        //        GetTotalPrice();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        await new MessageDialog("Kunde inte läggas till tillägg.").ShowAsync();
-        //    }
-
-        //}
-        //public async void GetTotalPrice()
-        //{
-        //    try
-        //    {
-        //       selectedLivingViewModel.TempRes.TotalPrice = selectedLivingViewModel.TempTotalPrice(selectedLivingViewModel.TempRes);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        await new MessageDialog("Något gick fel, kan inte visa totalpriset.").ShowAsync();
-        //    }
-
-        //}
+        /// <summary>
+        /// Removes addons from the ObservableCollection and updates TotalPrice
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private async void bttn_RemoveAddon_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 ChosenAddons.Remove((Addon)lv_DisplayAddons.SelectedItem);
+                UpdatePrice();
             }
             catch (Exception)
             {
@@ -114,12 +128,17 @@ namespace HolidayMakerClient
             }
 
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private async void bttn_bookChange_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes, ChosenAddons, price);
+                selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes, ChosenAddons, TotalPrice);
                 await new MessageDialog("Din bokning är skapad.").ShowAsync();
                 Frame.Navigate(typeof(MyPageView));
             }
@@ -141,6 +160,11 @@ namespace HolidayMakerClient
             AddonList();
             ExtraBed();
         }
+        /// <summary>
+        /// Adding the chosen addon to the ObservableCollection ChosenAddons and updates TotalPrice
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -165,17 +189,30 @@ namespace HolidayMakerClient
                     if (a.AddonType == "Halvpension") ChosenAddons.Add(a);
                 }
             }
-
+            UpdatePrice();
         }
+        /// <summary>
+        /// Adding ExtraBed to the ObservableCollection ChosenAddons and updates TotalPrice
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void cb_ExtraBed_Checked(object sender, RoutedEventArgs e)
         {
             ChosenAddons.Add((Addon)selectedLivingViewModel.ExtraBed);
+            UpdatePrice();
         }
+        /// <summary>
+        /// Removes ExtraBed from ObservableCollection ChosenAdoons 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void cb_ExtraBed_Unchecked(object sender, RoutedEventArgs e)
         {
             ChosenAddons.Remove((Addon)selectedLivingViewModel.ExtraBed);
+            UpdatePrice();
+
         }
 
         private void Rb_addon_Unchecked(object sender, RoutedEventArgs e)
@@ -201,6 +238,33 @@ namespace HolidayMakerClient
                     if (a.AddonType == "Halvpension") ChosenAddons.Remove(a);
                 }
             }
+            UpdatePrice();
+
+        }
+        /// <summary>
+        /// Update TotalPrice for home plus addons
+        /// </summary>
+        public void UpdatePrice ()
+        {
+            if(ChosenAddons.Count == 0)
+            {
+                TotalPrice = price;
+            }
+            else
+            {
+                foreach(var ad in ChosenAddons)
+                {
+                    if(ad.AddonType != "Extrasäng")
+                    {
+                        TotalPrice += ad.AddonPrice * int.Parse(selectedLivingViewModel.TempRes.NumberOfGuests);
+                    }
+                    else
+                    {
+                        TotalPrice += ad.AddonPrice;
+                    }
+                } 
+            }
+
         }
     }
 }

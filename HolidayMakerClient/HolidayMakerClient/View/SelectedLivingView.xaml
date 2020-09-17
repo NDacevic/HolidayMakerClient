@@ -36,7 +36,8 @@
                     BorderThickness="1" 
                     BorderBrush="Gray">
                     <Image 
-                    x:Name="img_SelectedLiving" 
+                    x:Name="img_SelectedLiving"
+                        Source="{x:Bind selectedLivingViewModel.TempRes.Home.Image}"
                     Grid.Row="0" 
                     Height="200"/>
                 </Border>
@@ -131,7 +132,7 @@
                   x:Name="lv_DisplayAddons"
                   ItemsSource="{x:Bind ChosenAddons}"
                   BorderThickness="1"
-                  BorderBrush="Black"
+                  BorderBrush="Gray"
                   Height="200"
                   Margin="20,50,20,0">
                     <ListView.ItemTemplate>
@@ -159,7 +160,7 @@
                         FontWeight="Medium"
                         Margin="0,0,0,10">
                         <Run Text="Totalpris: "/>
-                        <Run Text="{x:Bind price}"
+                        <Run Text="{x:Bind TotalPrice}"
                                 x:DefaultBindMode="OneWay"/>
                          <Run Text=" kr."/>
                     </TextBlock>
