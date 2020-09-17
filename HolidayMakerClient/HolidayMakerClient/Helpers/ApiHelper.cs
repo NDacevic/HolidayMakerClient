@@ -69,19 +69,24 @@ namespace HolidayMakerClient
             try
             {
                 jsonString = JsonConvert.SerializeObject(user);
-                HttpContent httpContent = new StringContent(jsonString);
-                HttpResponseMessage respons = await httpClient.PostAsync("Users", httpContent);
+                using (HttpContent httpContent = new StringContent(jsonString))
+                {
+                    httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                    HttpResponseMessage respons = await httpClient.PostAsync("Users", httpContent);
 
-                //Check if succesfull
-                if (respons.IsSuccessStatusCode)
-                {
-                    await new MessageDialog("Registrering lyckades!").ShowAsync();
+                    //Check if succesfull
+                    if (respons.IsSuccessStatusCode)
+                    {
+                        await new MessageDialog("Registrering lyckades!").ShowAsync();
+                    }
+
+                    else
+                    {
+                        await new MessageDialog("Denna epost är redan registrerad. Var vänlig försök igen.").ShowAsync();
+                    }
                 }
-                else
-                {
-                    Debug.WriteLine($"Http Error: {respons.StatusCode}. {respons.ReasonPhrase}");
-                    throw new HttpRequestException("Det gick inte att registrera,försök igen.");
-                }
+
+          
             }
             catch (Exception exc)
             {

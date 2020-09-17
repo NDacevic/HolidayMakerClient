@@ -34,14 +34,15 @@ namespace HolidayMakerClient.ViewModel
         /// <summary>
         /// TBD
         /// </summary>
-        public async Task PostUser(User tempUser)
+        public async void PostUser(User tempUser)
         {
-            await ApiHelper.Instance.PostUser(tempUser);
+           await ApiHelper.Instance.PostUser(tempUser);
+
         }
         /// <summary>
         /// TBD
         /// </summary>
-        public async Task CreateNewUser(string name, string surName,string email,string password,bool isCompany)
+        public void CreateNewUser(string name, string surName,string email,string password,bool isCompany)
         {
             User tempUser = new User();
             tempUser.Name = name;
@@ -49,7 +50,7 @@ namespace HolidayMakerClient.ViewModel
             tempUser.Email = email;
             tempUser.Password = password;
             tempUser.IsCompany = isCompany;
-           await PostUser(tempUser);
+           PostUser(tempUser);
         }
         /// <summary>
         /// TBD
