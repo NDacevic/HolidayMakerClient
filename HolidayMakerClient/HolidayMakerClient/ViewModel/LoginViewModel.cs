@@ -17,7 +17,7 @@ namespace HolidayMakerClient
         #endregion
 
         #region Constructors
-        private LoginViewModel()
+        public LoginViewModel()
         {
 
         }
@@ -50,14 +50,22 @@ namespace HolidayMakerClient
         #endregion
 
         #region Methods
-        public void GetUser()
+        public async Task<bool?> GetUser(string email, string enteredPassword)
         {
-
+            User user = await ApiHelper.Instance.GetUser(email);
+            return ConfirmPassword(user, enteredPassword);
         }
 
-        public void ConfirmPassword()
+        public bool? ConfirmPassword(User user, string enteredPassword)
         {
-
+            if (user.Email==null)
+            {
+                return null;
+            }
+            else if (user.Password == enteredPassword)
+                return true;
+            else
+                return false;
         }
         #endregion
     }

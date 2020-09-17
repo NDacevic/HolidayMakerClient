@@ -13,6 +13,7 @@ using Windows.UI.Popups;
 using System.Net.Http.Headers;
 using Windows.UI.Xaml.Documents;
 using HolidayMakerClient.Dto;
+using System.Net;
 
 namespace HolidayMakerClient
 {
@@ -83,14 +84,17 @@ namespace HolidayMakerClient
 
                     return user;
                 }
-                else if (response.Content == null)
-                {
-                    throw new HttpRequestException("Här var det tomt! Gå in och gör en reservation för att se listan.");
-                }
                 else
                 {
-                    throw new HttpRequestException("Kunde inte hämta några reservationer, var vänlig försök igen.");
+                    throw new ArgumentNullException("Angiven e-mail är ej registrerad i systemet. Vänligen registrera ett konto eller kontrollera angiven e-mail.");
                 }
+
+            }
+            catch (ArgumentNullException exc)
+            {
+                Debug.WriteLine(exc.Message);
+                await new MessageDialog(exc.ParamName).ShowAsync();
+                return new User();
             }
             catch (Exception exc)
             {
