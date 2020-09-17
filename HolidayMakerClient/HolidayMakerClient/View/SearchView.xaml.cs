@@ -3,6 +3,7 @@ using HolidayMakerClient.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -42,10 +43,13 @@ namespace HolidayMakerClient.View
             searchViewModel = new SearchViewModel();
             datePicker_StartDate.Date = DateTime.Now;
             datePicker_EndDate.Date = DateTime.Now.AddDays(1.0);
+
             for (int i = 1; i <= 20; i++)
             {
                 comboBox_NumberOfGuests.Items.Add(i);
             }
+
+            CreateSortList();
         }
         #endregion
 
@@ -87,12 +91,20 @@ namespace HolidayMakerClient.View
                 CreateAdvancedFilterParams()
                 );
         }
-        private void UpdateFilter(object obj, RoutedEventArgs e)
+        private Home CreateAdvancedFilterParams()
         {
-           
-            searchViewModel.Filter(CreateAdvancedFilterParams());
+            Home advancedFilterParams = new Home()
+            {
+                AllowPets = toggle_AllowPets.IsOn,
+                AllowSmoking = toggle_AllowSmoking.IsOn,
+                HasBalcony = toggle_HasBalcony.IsOn,
+                HasPool = toggle_HasPool.IsOn,
+                HasWifi = toggle_HasWifi.IsOn,
+                CityDistance = (int)slider_CityDistance.Value,
+                BeachDistance = (int)slider_BeachDistance.Value
+            };
+            return advancedFilterParams;
         }
-
         private void ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             CreateTempRes();
@@ -129,26 +141,27 @@ namespace HolidayMakerClient.View
         {
         }
 
-        private Home CreateAdvancedFilterParams()
+        private void SortColumns_Click(object sender, RoutedEventArgs e)
         {
-            Home advancedFilterParams = new Home()
-            {
-                AllowPets = toggle_AllowPets.IsOn,
-                AllowSmoking = toggle_AllowSmoking.IsOn,
-                HasBalcony = toggle_HasBalcony.IsOn,
-                HasPool = toggle_HasPool.IsOn,
-                HasWifi = toggle_HasWifi.IsOn,
-                CityDistance = (int)slider_CityDistance.Value,
-                BeachDistance = (int)slider_BeachDistance.Value
-            };
-            return advancedFilterParams;
+            searchViewModel.SortColumns((Button)sender);
         }
-        #endregion
-
+        
         private void SearchKeydown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
                 Search();
         }
+
+        private void CreateSortList()
+        {
+            searchViewModel.FontIconList.Add(fontIcon_SortLocation);
+            searchViewModel.FontIconList.Add(fontIcon_SortPrice);
+            searchViewModel.FontIconList.Add(fontIcon_SortRooms);
+            searchViewModel.FontIconList.Add(fontIcon_SortBeds);
+            searchViewModel.FontIconList.Add(fontIcon_SortCityDistance);
+            searchViewModel.FontIconList.Add(fontIcon_SortBeachDistance);
+            searchViewModel.FontIconList.Add(fontIcon_SortAverageRating);
+        }
+        #endregion
     }
 }
