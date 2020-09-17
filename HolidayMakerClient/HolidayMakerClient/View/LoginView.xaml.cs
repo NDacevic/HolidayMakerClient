@@ -32,10 +32,10 @@ namespace HolidayMakerClient
             this.InitializeComponent();
         }
 
-        private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
-        {
-            loginViewModel = new LoginViewModel();
-        }
+        //private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    loginViewModel = new LoginViewModel();
+        //}
 
 
         private void Bttn_Abort_Click(object sender, RoutedEventArgs e)
@@ -45,18 +45,13 @@ namespace HolidayMakerClient
 
         private async void Bttn_LogIn_Click(object sender, RoutedEventArgs e)
         {
-            bool? validatedToLogin;
-            validatedToLogin = await loginViewModel.GetUser(Tb_EnterUsername.Text, Pwb_EnterPassword.Password);
 
-            if (validatedToLogin == true)
+            await LoginViewModel.Instance.GetUser(Tb_EnterUsername.Text, Pwb_EnterPassword.Password);
+            if (LoginViewModel.Instance.ActiveUser!=null)
             {
-                await new MessageDialog("Korrekt lösenord!").ShowAsync();
+                Hide();
             }
-            else if (validatedToLogin == false)
-            {
-                await new MessageDialog("Inkorrekt lösenord, vänligen försök igen.").ShowAsync();
-            }
-                
+                       
         }        
     }
 }
