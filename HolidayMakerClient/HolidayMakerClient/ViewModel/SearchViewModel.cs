@@ -97,13 +97,33 @@ namespace HolidayMakerClient.ViewModel
 
         public void SortList(string parameter)
         {
-            
+            SortedHomeList.Clear();
+            IOrderedEnumerable<Home> orderedList;
             switch (parameter)
             {
-                case "location":
-                    SortedHomeList.Clear();
+                case "bttn_SortLocation":
+                    if (IsAscending)
+                        orderedList = HomeList.OrderBy(x => x.Location);
+                    else
+                        orderedList = HomeList.OrderByDescending(x => x.Location);
+                    foreach (var x in orderedList)
+                        SortedHomeList.Add(x);
+                    break;
+                case "bttn_SortPrice":
+                    if(IsAscending)
+                        orderedList = HomeList.OrderBy(x => x.Price);
+                    else
+                        orderedList = HomeList.OrderByDescending(x => x.Price);
+                    foreach (var x in orderedList)
+                        SortedHomeList.Add(x);
+                    break;
 
-                    foreach (var x in HomeList)
+                case "bttn_SortRooms":
+                    if (IsAscending)
+                        orderedList = HomeList.OrderBy(x => x.Rooms);
+                    else
+                        orderedList = HomeList.OrderByDescending(x => x.Rooms);
+                    foreach (var x in orderedList)
                         SortedHomeList.Add(x);
                     break;
             }
