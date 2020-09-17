@@ -64,9 +64,29 @@ namespace HolidayMakerClient
         #endregion
 
         #region Methods
-        public void PostUser()
+        public async Task PostUser(User user)
         {
+            try
+            {
+                jsonString = JsonConvert.SerializeObject(user);
+                HttpContent httpContent = new StringContent(jsonString);
+                HttpResponseMessage respons = await httpClient.PostAsync("Users", httpContent);
 
+                //Check if succesfull
+                if (respons.IsSuccessStatusCode)
+                {
+                    await new MessageDialog("Registrering lyckades!").ShowAsync();
+                }
+                else
+                {
+                    Debug.WriteLine($"Http Error: {respons.StatusCode}. {respons.ReasonPhrase}");
+                    throw new HttpRequestException("Det gick inte att registrera,försök igen.");
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+            }
         }
 
         public void GetUser()

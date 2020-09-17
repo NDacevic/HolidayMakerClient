@@ -1,10 +1,12 @@
-﻿using System;
+﻿using HolidayMakerClient.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -26,12 +28,14 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Fields
+        RegisterAccountViewModel regAccountVM;
         #endregion
 
         #region Constructors
         public RegisterAccountView()
         {
             this.InitializeComponent();
+            regAccountVM = new RegisterAccountViewModel();
         }
         #endregion
 
@@ -47,5 +51,31 @@ namespace HolidayMakerClient.View
         #region Methods
         #endregion
 
+        private async void Bttn_Register_Click(object sender, RoutedEventArgs e)
+        {
+           
+            bool userType = true;
+            //TODO: Encrypt password
+            try
+            {
+                if(Rb_Private.IsChecked==true)
+                {
+                    userType = false;
+                }
+               
+                regAccountVM.CreateNewUser(Tb_FirstName.Text, Tb_LastName.Text, Tb_Email.Text, Pwb_Password1.Password, userType);
+
+            }
+            catch (Exception)
+            {
+                await new MessageDialog("Felaktig inmatning, var god fyll i alla fält.").ShowAsync();
+
+            }
+        }
+
+        private void Bttn_Abort_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

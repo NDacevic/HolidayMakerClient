@@ -40,12 +40,13 @@
             Grid.Column="1">
             <RadioButton 
                 Name="Rb_Private"
-                Content="Private"
+                Content="Privatperson"
+                
                 
                 />
             <RadioButton 
                 Name="Rb_Business"
-                Content="Business"/>
+                Content="Företag"/>
         </StackPanel>
 
         <StackPanel
@@ -56,7 +57,8 @@
                 Text="Förnamn:"
                 TextAlignment="Right"
                 Width="115"
-                VerticalAlignment="Center"/>
+                VerticalAlignment="Center"
+                />
             <TextBox
                 Name="Tb_FirstName"
                 Width="150"
@@ -145,10 +147,12 @@
             <Button
                 Name="Bttn_Register"
                 Content="Registrera användare"
+                Click="Bttn_Register_Click"
                 FontSize="10"/>
             <Button
                 Name="Bttn_Abort"
                 Content="Avbryt"
+                Click="Bttn_Abort_Click"
                 FontSize="10"
                 Margin="0,5,0,0"
                 HorizontalAlignment="Stretch"/>
