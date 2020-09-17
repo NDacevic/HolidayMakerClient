@@ -43,10 +43,13 @@ namespace HolidayMakerClient.View
             searchViewModel = new SearchViewModel();
             datePicker_StartDate.Date = DateTime.Now;
             datePicker_EndDate.Date = DateTime.Now.AddDays(1.0);
+
             for (int i = 1; i <= 20; i++)
             {
                 comboBox_NumberOfGuests.Items.Add(i);
             }
+
+            CreateSortList();
         }
         #endregion
 
@@ -88,12 +91,20 @@ namespace HolidayMakerClient.View
                 CreateAdvancedFilterParams()
                 );
         }
-        private void UpdateFilter(object obj, RoutedEventArgs e)
+        private Home CreateAdvancedFilterParams()
         {
-           
-            searchViewModel.Filter(CreateAdvancedFilterParams());
+            Home advancedFilterParams = new Home()
+            {
+                AllowPets = toggle_AllowPets.IsOn,
+                AllowSmoking = toggle_AllowSmoking.IsOn,
+                HasBalcony = toggle_HasBalcony.IsOn,
+                HasPool = toggle_HasPool.IsOn,
+                HasWifi = toggle_HasWifi.IsOn,
+                CityDistance = (int)slider_CityDistance.Value,
+                BeachDistance = (int)slider_BeachDistance.Value
+            };
+            return advancedFilterParams;
         }
-
         private void ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             CreateTempRes();
@@ -129,76 +140,19 @@ namespace HolidayMakerClient.View
 
         private void SortColumns_Click(object sender, RoutedEventArgs e)
         {
-
-            FontIcon glyph = FindFontIconChild((DependencyObject)sender);
-            if ((glyph).Glyph == "\uE96E")
-            {
-                (glyph).Glyph = "\uE96D";
-                searchViewModel.IsAscending = false;
-            }
-            else
-            {
-                (glyph).Glyph = "\uE96E";
-                searchViewModel.IsAscending = true;
-            }
-
-            ClearGlyphs(glyph);
-            searchViewModel.SortList(((FrameworkElement)sender).Name);
+            searchViewModel.SortColumns((Button)sender);
         }
-        private void ClearGlyphs(FontIcon fontIcon)
-        {
-            if(fontIcon != fontIcon_SortLocation)
-                fontIcon_SortLocation.Glyph = "";
-
-            if (fontIcon != fontIcon_SortPrice)
-                fontIcon_SortPrice.Glyph = "";
-
-            if (fontIcon != fontIcon_SortRooms)
-                fontIcon_SortRooms.Glyph = "";
-        }
-        private FontIcon FindFontIconChild(DependencyObject parent)
-        {
-            //If the font icon is found then we just exit the method with the object in hand.
-            if (parent is FontIcon)
-                return (FontIcon)parent;
-            
-            //create a fonticon variable.
-            FontIcon foundFontIcon = null;
-            
-            //go through the children of the visual element and see if one of them is of the type FontIcon
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-            {
-                var child = VisualTreeHelper.GetChild(parent, i);
-
-                if (child is FontIcon)
-                    foundFontIcon = (FontIcon)child;
-                else
-                    //If the icon isn't found. Recurse through this method again
-                    foundFontIcon = FindFontIconChild(child);
-            }
-            //return with the fonticon
-            return foundFontIcon;
-        }
-        private Home CreateAdvancedFilterParams()
-        {
-            Home advancedFilterParams = new Home()
-            {
-                AllowPets = toggle_AllowPets.IsOn,
-                AllowSmoking = toggle_AllowSmoking.IsOn,
-                HasBalcony = toggle_HasBalcony.IsOn,
-                HasPool = toggle_HasPool.IsOn,
-                HasWifi = toggle_HasWifi.IsOn,
-                CityDistance = (int)slider_CityDistance.Value,
-                BeachDistance = (int)slider_BeachDistance.Value
-            };
-            return advancedFilterParams;
-        }
-        #endregion
-
         private void SearchKeydown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
                 Search();
         }
+        private void CreateSortList()
+        {
+            searchViewModel.FontIconList.Add(fontIcon_SortLocation);
+            searchViewModel.FontIconList.Add(fontIcon_SortPrice);
+            searchViewModel.FontIconList.Add(fontIcon_SortRooms);
+        }
+        #endregion
     }
 }
