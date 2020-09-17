@@ -21,6 +21,7 @@ namespace HolidayMakerClient
         public SelectedLivingViewModel()
         {
             AddonList = new ObservableCollection<Addon>();
+            ExtraBed = new Addon();
         }
         #endregion
 
@@ -36,6 +37,7 @@ namespace HolidayMakerClient
         public TempReservation TempRes { get; set; }
         public LoginViewModel loginViewModel { get; }
         public decimal TotalPrice { get; set; }
+        public Addon ExtraBed { get; set; }
         #endregion
 
         #region Methods
@@ -74,23 +76,17 @@ namespace HolidayMakerClient
         }
         public async void GetAddonList()
         {
-            //ObservableCollection<Addon> HomeAddons = new ObservableCollection<Addon>();
             try
             {             
                 var addons = await ApiHelper.Instance.GetAllAddon();
                 foreach (var a in addons)
                 {
-                    AddonList.Add(a);
-                }
-                    
-                //foreach(var a in AddonList)
-                //{
-                //    if (tempReservation.Home.HasAllInclusive == true)
-                //    {
-                //        HomeAddons.Add();
+                    if(a.AddonType != "Extrasäng")
+                    {
+                        AddonList.Add(a);
+                    }
 
-                //    }
-                //}
+                }
 
             }
             catch (Exception)
@@ -98,6 +94,20 @@ namespace HolidayMakerClient
                 
             }
             
+        }
+        public async void GetAddonExtraBed()
+        {
+            var addons = await ApiHelper.Instance.GetAllAddon();
+            foreach (var a in addons)
+            {
+                if (a.AddonType == "Extrasäng")
+                {
+                    ExtraBed.AddonId = a.AddonId;
+                    ExtraBed.AddonType = a.AddonType;
+                    ExtraBed.AddonPrice = a.AddonPrice;
+                }
+
+            }
         }
         public decimal TempTotalPrice(TempReservation tempReservation)
         {

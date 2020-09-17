@@ -1,6 +1,7 @@
 ﻿using HolidayMakerClient.Model;
 using HolidayMakerClient.View;
 using System;
+using System.Collections.ObjectModel;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -17,15 +18,18 @@ namespace HolidayMakerClient
     {
         SelectedLivingViewModel selectedLivingViewModel;
         public decimal price;
+        public ObservableCollection<Addon> ChosenAddons;
         public SelectedLivingView()
         {
             this.InitializeComponent();
             selectedLivingViewModel = new SelectedLivingViewModel();
+            ChosenAddons = new ObservableCollection<Addon>();
             
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             selectedLivingViewModel.TempRes = (TempReservation)e.Parameter;
+            selectedLivingViewModel.TempRes.AddonList = new ObservableCollection<Addon>();
             GetTotalPrice();
 
         }
@@ -34,6 +38,7 @@ namespace HolidayMakerClient
             try
             {
                  selectedLivingViewModel.GetAddonList();
+
             }
             catch (Exception)
             {
@@ -41,9 +46,18 @@ namespace HolidayMakerClient
             }          
             
         }
+        public void ExtraBed()
+        {
+            selectedLivingViewModel.GetAddonExtraBed();
+
+        }
         public void GetTotalPrice()
         {
            price = selectedLivingViewModel.TempRes.Home.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
+            if (selectedLivingViewModel.TempRes.Home.HasExtraBed == false)
+            {
+                cb_ExtraBed.Visibility = Visibility.Collapsed;
+            }
         }
 
         //private async void cb_Addon_Checked(object sender, RoutedEventArgs e)
@@ -109,7 +123,24 @@ namespace HolidayMakerClient
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             AddonList();
-            //GetTotalPrice();
+            ExtraBed();
         }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            
+            
+        }
+
+        private void cb_ExtraBed_Checked(object sender, RoutedEventArgs e)
+        {
+            ChosenAddons.Add((Addon)selectedLivingViewModel.ExtraBed);
+        }
+
+        private void cb_ExtraBed_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ChosenAddons.Remove((Addon)selectedLivingViewModel.ExtraBed);
+        }
+
     }
 }

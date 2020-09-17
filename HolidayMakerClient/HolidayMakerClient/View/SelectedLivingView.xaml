@@ -40,7 +40,7 @@
                     Grid.Row="0" 
                     Height="200"/>
                 </Border>
-                <StackPanel Grid.Row="1" Spacing="20" Margin="20,0,20,20" >
+                <StackPanel Grid.Row="1" Spacing="20" Margin="20,0,20,10" >
                     <TextBlock
                         x:Name="txt_InformationLabel"
                         Text="Information"
@@ -64,46 +64,52 @@
                                 x:DefaultBindMode="OneWay"/>
                     </TextBlock>
                 </StackPanel>
-                <StackPanel Grid.Row="2" Spacing="20" Margin="20,0,20,20" >
+                <StackPanel Grid.Row="2" Spacing="10" Margin="20,0,20,20" >
                     <TextBlock
                         x:Name="txt_AddonLabel"
                         Text="Tillval"
                         FontSize="20"
                         FontWeight="Medium"/>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <ListView
-                          x:Name="lv_ChooseAddons"
-                            ItemsSource="{x:Bind selectedLivingViewModel.AddonList}"
-                            BorderThickness="1"
-                            BorderBrush="Black"
-                            Grid.Column="0"
-                            Grid.Row="0"
-                            Grid.ColumnSpan="2"
-                            Grid.RowSpan="2"
-                            HorizontalAlignment="Left"
-                            Width="300">
-                            <ListView.ItemTemplate>
-                                        <DataTemplate x:Name="lv_chooseAddons" x:DataType="data:Addon"  >
-                                            <StackPanel Orientation="Horizontal" Spacing="10">
-                                        <TextBlock 
-                                    Text="{x:Bind AddonType}"/>
-                                        <TextBlock 
-                                    Text="{x:Bind AddonPrice}"/>
-
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-
-                    </Grid>
+                    <StackPanel >
+                        <RadioButton x:Name="Rb_addon0" Checked="RadioButton_Checked">
+                            <RadioButton.Content>
+                                <TextBlock>
+                                    <Run Text="{x:Bind selectedLivingViewModel.AddonList[0].AddonType}"
+                                            x:DefaultBindMode="OneWay"/>
+                                    <Run Text="{x:Bind selectedLivingViewModel.AddonList[0].AddonPrice}"
+                                        x:DefaultBindMode="OneWay"/>
+                                    <Run Text="kr."/>
+                                </TextBlock>
+                            </RadioButton.Content>
+                        </RadioButton>
+                        <RadioButton x:Name="Rb_addon1" Checked="RadioButton_Checked">
+                            <RadioButton.Content>
+                                <TextBlock>
+                                    <Run Text="{x:Bind selectedLivingViewModel.AddonList[1].AddonType}"
+                                            x:DefaultBindMode="OneWay"/>
+                                    <Run Text="{x:Bind selectedLivingViewModel.AddonList[1].AddonPrice}"
+                                        x:DefaultBindMode="OneWay"/>
+                                    <Run Text="kr."/>
+                                </TextBlock>
+                            </RadioButton.Content>
+                        </RadioButton>
+                        <RadioButton x:Name="Rb_addon2" Checked="RadioButton_Checked">
+                            <RadioButton.Content>
+                                <TextBlock>
+                                    <Run Text="{x:Bind selectedLivingViewModel.AddonList[2].AddonType}"
+                                            x:DefaultBindMode="OneWay"/>
+                                    <Run Text="{x:Bind selectedLivingViewModel.AddonList[2].AddonPrice}"
+                                        x:DefaultBindMode="OneWay"/>
+                                    <Run Text="kr."/>
+                                </TextBlock>
+                            </RadioButton.Content>
+                        </RadioButton>
+                    </StackPanel>
+                    <CheckBox 
+                        x:Name="cb_ExtraBed" 
+                        Content="Extra säng 100 kr. "
+                        Checked="cb_ExtraBed_Checked"
+                        Unchecked="cb_ExtraBed_Unchecked"/>
                 </StackPanel>
             </Grid>
         </StackPanel>
@@ -152,8 +158,7 @@
                 <StackPanel Grid.Row="1" Spacing="10">
                  <ListView
                   x:Name="lv_DisplayAddons"
-                  ItemsSource="{x:Bind selectedLivingViewModel.TempRes.AddonList}"
-                  x:DefaultBindMode="TwoWay"
+                  ItemsSource="{x:Bind ChosenAddons}"
                   BorderThickness="1"
                   BorderBrush="Black"
                   Height="200"
