@@ -20,8 +20,6 @@ namespace HolidayMakerClient
         {
             this.InitializeComponent();
             selectedLivingViewModel = new SelectedLivingViewModel();
-            AddonList();
-            GetTotalPrice();
            
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -100,6 +98,12 @@ namespace HolidayMakerClient
         private void bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            AddonList();
+            GetTotalPrice();
         }
     }
 }
