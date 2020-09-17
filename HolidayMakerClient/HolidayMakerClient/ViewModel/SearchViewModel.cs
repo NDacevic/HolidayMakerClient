@@ -52,6 +52,8 @@ namespace HolidayMakerClient.ViewModel
 
             foreach (var x in homeList)
             {
+                x.AverageRating = ((double)x.SumOfRatings / (double)x.NumberOfRatings);
+
                 HomeList.Add(x);
                 SortedHomeList.Add(x);
             }

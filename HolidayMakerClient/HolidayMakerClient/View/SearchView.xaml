@@ -9,268 +9,344 @@
     xmlns:test="using:HolidayMakerClient"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    MaxWidth="1280"
-    MaxHeight="1080">
+    Width="1280"
+    MaxHeight="1000">
 
-    <ScrollViewer>
-        <StackPanel
-            Margin="0,20,0,0"
-            Spacing="20"
-            HorizontalAlignment="Center">
-            <!--#region Title and LoginButton-->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel
-                        Orientation="Horizontal"
-                        Grid.Column="0">
-                    <Image
-                        Source="ms-appx:///Assets/travelicon.png"
-                        Width="100"
-                        />
-                    <TextBlock
-                        Text="Holiday Maker"
-                        FontSize="50"
-                        />
-                </StackPanel>
-                <Button
-                    x:Name="bttn_Login"
-                    Click="Login_Click"
-                    Grid.Column="1"
-                    Content="Logga in"
-                    Margin="20,0"
+    <StackPanel
+        Margin="0,20,0,0"
+        Spacing="20"
+        HorizontalAlignment="Stretch"
+        Width="1280">
+        <!--#region Title and LoginButton-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel
+                    Orientation="Horizontal"
+                    Grid.Column="0">
+                <Image
+                    Source="ms-appx:///Assets/travelicon.png"
+                    Width="100"
                     />
-                <Button
-                    Visibility="Collapsed"
-                    x:Name="bttn_UserOptions"
+                <TextBlock
+                    Text="Holiday Maker"
+                    FontSize="50"
+                    />
+            </StackPanel>
+            <Button
+                x:Name="bttn_Login"
+                Click="Login_Click"
+                Grid.Column="1"
+                Content="Logga in"
+                Margin="20,0"
+                />
+            <Button
+                Visibility="Collapsed"
+                x:Name="bttn_UserOptions"
 
-                    Grid.Column="1"
-                    Margin="20,0"
-                    >
-                    <Button.Content>
-                        <SymbolIcon
-                             Symbol="Admin"
+                Grid.Column="1"
+                Margin="20,0"
+                >
+                <Button.Content>
+                    <SymbolIcon
+                            Symbol="Admin"
+                        />
+                </Button.Content>
+                <Button.Flyout>
+                    <MenuFlyout
+                            Placement="BottomEdgeAlignedRight">
+                        <MenuFlyoutItem
+                            Text="Mina Sidor"
+                            Click="NavigateToMyPage_Click"/>
+                        <MenuFlyoutItem
+                            Text="Logga ut"
+                            Click="Logout_Click"
                             />
-                    </Button.Content>
-                    <Button.Flyout>
-                        <MenuFlyout
-                             Placement="BottomEdgeAlignedRight">
-                            <MenuFlyoutItem
-                                Text="Mina Sidor"
-                                Click="NavigateToMyPage_Click"/>
-                            <MenuFlyoutItem
-                                Text="Logga ut"
-                                Click="Logout_Click"
-                                />
-                        </MenuFlyout>
-                    </Button.Flyout>
-                </Button>
-            </Grid>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
+        <!--#endregion-->
+        
+        <!--#region Main Search Box-->
+        <Grid
+            Padding="10"
+            BorderBrush="Black"
+            BorderThickness="1"
+            ColumnSpacing="10"
+            >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox
+                x:Name="txtBox_Search"
+                Grid.Column="0"
+                Header="Ort"
+                PlaceholderText="Fyll i ort"
+                KeyDown="SearchKeydown"/>
+            <CalendarDatePicker
+                Grid.Column="1"
+                x:Name="datePicker_StartDate"
+                Header="Från datum"
+                PlaceholderText="Välj datum"
+                />
+            <CalendarDatePicker
+                Grid.Column="2"
+                x:Name="datePicker_EndDate"
+                Header="Till datum"
+                PlaceholderText="Välj datum"
+                />
+            <ComboBox
+                x:Name="comboBox_NumberOfGuests"
+                Grid.Column="3"
+                MaxDropDownHeight="200"
+                SelectedIndex="0"
+                Header="Antal boende"
+                />
+            <Button
+                Click="SearchButton_Clicked"
+                Grid.Column="4"
+                Margin="20,0,0,0"
+                VerticalAlignment="Bottom"
+                >
+                <SymbolIcon
+                    Symbol="Find"/>
+            </Button>
+            <Button
+                Click="ShowHideAdvancedSearch"
+                Grid.Column="5"
+                Margin="20,0,0,0"
+                VerticalAlignment="Bottom"
+                >
+                <SymbolIcon
+                Symbol="Setting"
+                />
+            </Button>
+
+        </Grid>
             <!--#endregion-->
-            <!--#region Main Search Box-->
+            
+        <!--#region Advanced Search Box-->
+        <Grid
+            x:Name="grid_AdvancedSearch"
+            Visibility="Collapsed"
+            BorderBrush="Black"
+            BorderThickness="1"
+            HorizontalAlignment="Center"
+            Padding="20,0"
+            >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
             <StackPanel
                 Orientation="Horizontal"
                 Padding="10"
-                
-                BorderBrush="Black"
-                BorderThickness="1"
                 >
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel
-                        Grid.Column="0"
-                        Orientation="Horizontal"
-                        Spacing="20"
-                        >
-                        <TextBox
-                            x:Name="txtBox_Search"
-                            Width="300"
-                            Header="Ort"
-                            PlaceholderText="Fyll i ort"/>
-                        <CalendarDatePicker
-                            x:Name="datePicker_StartDate"
-                            Header="Från datum"
-                            PlaceholderText="Välj datum"
-                            />
-                        <CalendarDatePicker
-                            x:Name="datePicker_EndDate"
-                            Header="Till datum"
-                            PlaceholderText="Välj datum"
-                            />
-                        <ComboBox
-                            x:Name="comboBox_NumberOfGuests"
-                            MaxDropDownHeight="200"
-                            SelectedIndex="0"
-                            Header="Antal boende"/>
-                    </StackPanel>
-                    <Button
-                        Click="Search"
-                        Content="Sök"
-                        Grid.Column="1"
-                        Margin="20,0,0,0"
-                        VerticalAlignment="Bottom"
-                        />
-                    <Button
-                        Click="ShowHideAdvancedSearch"
-                        Content="Avancerat"
-                        Grid.Column="2"
-                        Margin="20,0,0,0"
-                        VerticalAlignment="Bottom"
-                        />
-                </Grid>
+                <ToggleSwitch
+                    x:Name="toggle_HasPool"
+                    Header="Pool"
+                    OnContent="Ja"
+                    OffContent="Nej"
+                    IsOn="False"
+                    MaxWidth="100"
+                    />
+                <ToggleSwitch
+                    x:Name="toggle_HasBalcony"
+                    Header="Balkong"
+                    OnContent="Ja"
+                    OffContent="Nej"
+                    IsOn="False"
+                    MaxWidth="100"
+                    />
+                <ToggleSwitch
+                    x:Name="toggle_AllowPets"
+                    Header="Husdjur"
+                    OnContent="Ja"
+                    OffContent="Nej"
+                    IsOn="False"
+                    MaxWidth="100"
+                    />
+                <ToggleSwitch
+                    x:Name="toggle_HasWifi"
+                    Header="Wifi"
+                    OnContent="Ja"
+                    OffContent="Nej"
+                    IsOn="False"
+                    MaxWidth="100"
+                    />
+                <ToggleSwitch
+                    x:Name="toggle_AllowSmoking"
+                    Header="Rökning"
+                    OnContent="Ja"
+                    OffContent="Nej"
+                    IsOn="False"
+                    MaxWidth="100"
+                    />
             </StackPanel>
             <!--#endregion-->
             
             <!--#region Advanced Search Box-->
-            <Grid
-                x:Name="grid_AdvancedSearch"
-                Visibility="Collapsed"
-                BorderBrush="Black"
-                BorderThickness="1"
-                HorizontalAlignment="Center"
-                Padding="20,0"
-                >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <StackPanel
-                    Orientation="Horizontal"
-                    Padding="10"
+            <StackPanel
+                Orientation="Horizontal"
+                Grid.Row="1">
+                <TextBlock
+                    Width="50"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    VerticalAlignment="Bottom"
+                    Margin="0,0,0,10"
                     >
-                    <ToggleSwitch
-                        x:Name="toggle_HasPool"
-                        Header="Pool"
-                        OnContent="Ja"
-                        OffContent="Nej"
-                        IsOn="False"
-                        MaxWidth="100"
-                        />
-                    <ToggleSwitch
-                        x:Name="toggle_HasBalcony"
-                        Header="Balkong"
-                        OnContent="Ja"
-                        OffContent="Nej"
-                        IsOn="False"
-                        MaxWidth="100"
-                        />
-                    <ToggleSwitch
-                        x:Name="toggle_AllowPets"
-                        Header="Husdjur"
-                        OnContent="Ja"
-                        OffContent="Nej"
-                        IsOn="False"
-                        MaxWidth="100"
-                        />
-                    <ToggleSwitch
-                        x:Name="toggle_HasWifi"
-                        Header="Wifi"
-                        OnContent="Ja"
-                        OffContent="Nej"
-                        IsOn="False"
-                        MaxWidth="100"
-                        />
-                    <ToggleSwitch
-                        x:Name="toggle_AllowSmoking"
-                        Header="Rökning"
-                        OnContent="Ja"
-                        OffContent="Nej"
-                        IsOn="False"
-                        MaxWidth="100"
-                        />
-                </StackPanel>
-                <StackPanel
-                    Orientation="Horizontal"
-                    Grid.Row="1">
-                    <TextBlock
-                        Width="50"
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        VerticalAlignment="Bottom"
-                        Margin="0,0,0,10"
-                        >
-                        <Run Text="{x:Bind slider_CityDistance.Value}"
-                            x:DefaultBindMode="OneWay"/>
-                        <Run Text="km"/>
-                    </TextBlock>
+                    <Run Text="{x:Bind slider_CityDistance.Value}"
+                        x:DefaultBindMode="OneWay"/>
+                    <Run Text="km"/>
+                </TextBlock>
                     
-                    <StackPanel
-                    Orientation="Horizontal">
-                    <Slider
-                        x:Name="slider_CityDistance"
-                        Header="Maximal Avstånd Centrum"
-                        Minimum="0"
-                        Maximum="50"
-                        IsThumbToolTipEnabled="False"
-                        Value="50"
-                        Margin="0,10,0,0"
-                        />
-                    <TextBlock
-                        Width="50"
-                        VerticalAlignment="Bottom"
-                        Margin="50,0,0,10"
-                        >
-                        <Run Text="{x:Bind slider_BeachDistance.Value}"
-                                x:DefaultBindMode="OneWay"
-                                />
-                        <Run Text="km"/>
-                    </TextBlock>
-                    <Slider
-                        x:Name="slider_BeachDistance"
-                        Header="Maximal Avstånd Strand"
-                        Minimum="0.0"
-                        Maximum="50.0"
-                        IsThumbToolTipEnabled="False"
-                        Value="50"
-                        Margin="0,10,0,0"
-                        />
-                    </StackPanel>
+                <StackPanel
+                Orientation="Horizontal">
+                <Slider
+                    x:Name="slider_CityDistance"
+                    Header="Maximal Avstånd Centrum"
+                    Minimum="0"
+                    Maximum="50"
+                    IsThumbToolTipEnabled="False"
+                    Value="50"
+                    Margin="0,10,0,0"
+                    />
+                <TextBlock
+                    Width="50"
+                    VerticalAlignment="Bottom"
+                    Margin="50,0,0,10"
+                    >
+                    <Run Text="{x:Bind slider_BeachDistance.Value}"
+                            x:DefaultBindMode="OneWay"
+                            />
+                    <Run Text="km"/>
+                </TextBlock>
+                <Slider
+                    x:Name="slider_BeachDistance"
+                    Header="Maximal Avstånd Strand"
+                    Minimum="0.0"
+                    Maximum="50.0"
+                    IsThumbToolTipEnabled="False"
+                    Value="50"
+                    Margin="0,10,0,0"
+                    />
                 </StackPanel>
-            </Grid>
-            <!--#endregion-->
+            </StackPanel>
+        </Grid>
+        <!--#endregion-->
             
-            <!--#region Search Results-->
+        <!--#region Search Results-->
+        
+        <ScrollViewer
+            Width="1280">
             <ListView
                 x:Name="lv_SearchList"
                 ItemsSource="{x:Bind searchViewModel.SortedHomeList}"
-                DoubleTapped="ListView_DoubleTapped">
+                DoubleTapped="ListView_DoubleTapped"
+                HorizontalAlignment="Stretch"
+                Width="1280"
+                >
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel
-                            Spacing="10"/>
+                            Spacing="10"
+                            HorizontalAlignment="Stretch"
+                            Width="1280"
+                            />
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate
                         x:DataType="data:Home">
-                        <StackPanel
-                            Orientation="Horizontal"
-                            Spacing="10">
+                        <Grid
+                            HorizontalAlignment="Stretch"
+                            ColumnSpacing="10"
+                            RowSpacing="10"
+                            Width="1280"
+                            BorderBrush="LightGray"
+                            BorderThickness="0,0,0,0.25"
+                            >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
                             <Image
-                                Width="100"
+                                Stretch="Uniform"
                                 Height="100"
-                                Source="{x:Bind Image}"/>
+                                Margin="0,0,20,0"
+                                Source="{x:Bind Image}"
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
+                                />
+                            <StackPanel
+                                Spacing="10"
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Orientation="Horizontal"
+                                >
+                                <TextBlock
+                                    Text="{x:Bind HomeType}"
+                                    FontSize="20"
+                                    Height="30"/>
+                                <TextBlock
+                                    Text="{x:Bind Location}"
+                                    FontSize="20"
+                                    Height="30"
+                                />
+                            </StackPanel>
                             <TextBlock
-                                Text="{x:Bind Location}"
-                            />
-                            <TextBlock>
+                                Text="{x:Bind Description}"
+                                TextWrapping="WrapWholeWords"
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Top"
+                                />
+                            <RatingControl
+                                x:Name="ratingTest"
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Width="140"
+                                VerticalAlignment="Bottom"
+                                HorizontalAlignment="Left"
+                                Value="{x:Bind AverageRating}"
+                                x:DefaultBindMode="OneWay"
+                                IsReadOnly="True"
+                                IsTapEnabled="False"
+                                IsFocusEngagementEnabled="False"
+                                Caption="{x:Bind NumberOfRatings}"
+                                />
+                            <TextBlock
+                                Grid.Column="2"
+                                Grid.Row="2"
+                                VerticalAlignment="Bottom"
+                                HorizontalAlignment="Left"
+                                Margin="40,10"
+                                FontSize="20">
                                 <Run Text="{x:Bind Price}"/>
                                 <Run Text="kr"/>
                             </TextBlock>
-                            <TextBlock
-                                Text="{x:Bind Description}"
-                                />
-                        </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <!--#endregion-->
-        </StackPanel>
-    </ScrollViewer>
+        </ScrollViewer>
+        <!--#endregion-->
+    </StackPanel>
 </Page>
