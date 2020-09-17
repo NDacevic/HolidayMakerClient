@@ -20,14 +20,7 @@ namespace HolidayMakerClient
         #region Constructor
         public SelectedLivingViewModel()
         {
-
-        }
-        public SelectedLivingViewModel(Home selectedHome, Reservation selectedReservation, TempReservation tempRes)
-        {
-            SelectedHome = selectedHome;
-            SelectedReservation = selectedReservation;
             AddonList = new ObservableCollection<Addon>();
-            TempRes = tempRes;
         }
         #endregion
 
@@ -38,7 +31,6 @@ namespace HolidayMakerClient
         #endregion
 
         #region Properties
-        public Home SelectedHome { get; set; }
         public Reservation SelectedReservation { get; set; }
         public ObservableCollection<Addon> AddonList { get; set; }
         public TempReservation TempRes { get; set; }
