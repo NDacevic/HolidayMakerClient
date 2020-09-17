@@ -3,6 +3,7 @@ using HolidayMakerClient.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -128,40 +129,56 @@ namespace HolidayMakerClient.View
 
         private void SortColumns_Click(object sender, RoutedEventArgs e)
         {
-            if (sender == bttn_SortLocation)
+
+            FontIcon glyph = FindFontIconChild((DependencyObject)sender);
+            if ((glyph).Glyph == "\uE96E")
             {
-                if (fontIcon_SortLocation.Glyph == "\uE96E")
-                    fontIcon_SortLocation.Glyph = "\uE96D";
-                else
-                    fontIcon_SortLocation.Glyph = "\uE96E";
-
-                searchViewModel.SortList("location");
-
-                fontIcon_SortPrice.Glyph = "";
-                fontIcon_SortRooms.Glyph = "";
+                (glyph).Glyph = "\uE96D";
+                searchViewModel.IsAscending = false;
             }
-            else if (sender == bttn_SortPrice)
+            else
             {
-                if (fontIcon_SortPrice.Glyph == "\uE96E")
-                    fontIcon_SortPrice.Glyph = "\uE96D";
-                else
-                    fontIcon_SortPrice.Glyph = "\uE96E";
-
-                fontIcon_SortLocation.Glyph = "";
-                fontIcon_SortRooms.Glyph = "";
+                (glyph).Glyph = "\uE96E";
+                searchViewModel.IsAscending = true;
             }
-            else if (sender == bttn_SortRooms)
-            {
-                if (fontIcon_SortRooms.Glyph == "\uE96E")
-                    fontIcon_SortRooms.Glyph = "\uE96D";
-                else
-                    fontIcon_SortRooms.Glyph = "\uE96E";
 
-                fontIcon_SortLocation.Glyph = "";
-                fontIcon_SortPrice.Glyph = "";
-            }
+            ClearGlyphs(glyph);
+            searchViewModel.SortList(((FrameworkElement)sender).Name);
         }
+        private void ClearGlyphs(FontIcon fontIcon)
+        {
+            if(fontIcon != fontIcon_SortLocation)
+                fontIcon_SortLocation.Glyph = "";
 
+            if (fontIcon != fontIcon_SortPrice)
+                fontIcon_SortPrice.Glyph = "";
+
+            if (fontIcon != fontIcon_SortRooms)
+                fontIcon_SortRooms.Glyph = "";
+        }
+        private FontIcon FindFontIconChild(DependencyObject parent)
+        {
+            //If the font icon is found then we just exit the method with the object in hand.
+            if (parent is FontIcon)
+                return (FontIcon)parent;
+            
+            //create a fonticon variable.
+            FontIcon foundFontIcon = null;
+            
+            //go through the children of the visual element and see if one of them is of the type FontIcon
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+
+                if (child is FontIcon)
+                    foundFontIcon = (FontIcon)child;
+                else
+                    //If the icon isn't found. Recurse through this method again
+                    foundFontIcon = FindFontIconChild(child);
+            }
+            //return with the fonticon
+            return foundFontIcon;
+        }
         private Home CreateAdvancedFilterParams()
         {
             Home advancedFilterParams = new Home()
