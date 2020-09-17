@@ -242,7 +242,59 @@
         <!--#endregion-->
             
         <!--#region Search Results-->
-        
+        <StackPanel
+            Orientation="Horizontal"
+            Spacing="10"
+            Margin="0,0,10,0"
+            >
+            <Button
+                x:Name="bttn_SortLocation"
+                Click="SortColumns_Click">
+                <StackPanel
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Text="Ort"
+                        />
+                    <FontIcon
+                        x:Name="fontIcon_SortLocation"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="10"
+                        />
+                </StackPanel>
+            </Button>
+            <Button
+                x:Name="bttn_SortPrice"
+                Click="SortColumns_Click"
+                >
+                <StackPanel
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Text="Pris"
+                        />
+                    <FontIcon
+                        x:Name="fontIcon_SortPrice"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="10"
+                        />
+                </StackPanel>
+            </Button>
+            <Button
+                x:Name="bttn_SortRooms"
+                Click="SortColumns_Click"
+                >
+                <StackPanel
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Text="Rum"
+                        />
+                    <FontIcon
+                        x:Name="fontIcon_SortRooms"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="10"
+                        />
+                </StackPanel>
+            </Button>
+        </StackPanel>
         <ScrollViewer
             Width="1280">
             <ListView
