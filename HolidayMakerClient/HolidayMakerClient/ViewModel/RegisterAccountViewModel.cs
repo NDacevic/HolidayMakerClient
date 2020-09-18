@@ -34,9 +34,23 @@ namespace HolidayMakerClient.ViewModel
         /// <summary>
         /// TBD
         /// </summary>
-        public void PostUser()
+        public async void PostUser(User tempUser)
         {
+           await ApiHelper.Instance.PostUser(tempUser);
 
+        }
+        /// <summary>
+        /// TBD
+        /// </summary>
+        public void CreateNewUser(string name, string surName,string email,string password,bool isCompany)
+        {
+            User tempUser = new User();
+            tempUser.Name = name;
+            tempUser.Surname = surName;
+            tempUser.Email = email;
+            tempUser.Password = password;
+            tempUser.IsCompany = isCompany;
+           PostUser(tempUser);
         }
         /// <summary>
         /// TBD

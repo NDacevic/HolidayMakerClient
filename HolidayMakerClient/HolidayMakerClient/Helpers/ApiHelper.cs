@@ -13,6 +13,7 @@ using Windows.UI.Popups;
 using System.Net.Http.Headers;
 using Windows.UI.Xaml.Documents;
 using HolidayMakerClient.Dto;
+using System.Net;
 
 namespace HolidayMakerClient
 {
@@ -64,14 +65,67 @@ namespace HolidayMakerClient
         #endregion
 
         #region Methods
-        public void PostUser()
+        public async Task PostUser(User user)
         {
+            try
+            {
+                jsonString = JsonConvert.SerializeObject(user);
+                using (HttpContent httpContent = new StringContent(jsonString))
+                {
+                    httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                    HttpResponseMessage respons = await httpClient.PostAsync("Users", httpContent);
 
+                    //Check if succesfull
+                    if (respons.IsSuccessStatusCode)
+                    {
+                        await new MessageDialog("Registrering lyckades!").ShowAsync();
+                    }
+
+                    else
+                    {
+                        await new MessageDialog("Denna epost är redan registrerad. Var vänlig försök igen.").ShowAsync();
+                    }
+                }
+
+          
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+            }
         }
 
-        public void GetUser()
+        public async Task<User> GetUser(string email)
         {
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync($"LoginUsers/{email}");
 
+                if (response.IsSuccessStatusCode)
+                {
+                    jsonString = response.Content.ReadAsStringAsync().Result;
+
+                    var user = JsonConvert.DeserializeObject<User>(jsonString);
+
+                    return user;
+                }
+                else
+                {
+                    throw new ArgumentNullException("Angiven e-mail är ej registrerad i systemet. Vänligen registrera ett konto eller kontrollera angiven e-mail.");
+                }
+
+            }
+            catch (ArgumentNullException exc)
+            {
+                Debug.WriteLine(exc.Message);
+                await new MessageDialog(exc.ParamName).ShowAsync();
+                return new User();
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+                return new User();
+            }
         }
 
         public void DeleteUser()
@@ -152,42 +206,59 @@ namespace HolidayMakerClient
         }
         public async Task<ObservableCollection<Reservation>> GetUserReservations()
         {
-            //TODO:Send in active users id instead of "1"
-            HttpResponseMessage response = await httpClient.GetAsync("UsersReservations/1");
+            try
+            {
+                //TODO:Send in active users id instead of "1"
+                HttpResponseMessage response = await httpClient.GetAsync("UsersReservations/1");
 
-            if (response.IsSuccessStatusCode)
-            {
-                jsonString = response.Content.ReadAsStringAsync().Result;
-               
-                var reservations = JsonConvert.DeserializeObject<ObservableCollection<Reservation>>(jsonString);
+                if (response.IsSuccessStatusCode)
+                {
+                    jsonString = response.Content.ReadAsStringAsync().Result;
 
-                return reservations;
+                    var reservations = JsonConvert.DeserializeObject<ObservableCollection<Reservation>>(jsonString);
+
+                    return reservations;
+                }
+                else if (response.Content == null)
+                {
+                    throw new HttpRequestException("Här var det tomt! Gå in och gör en reservation för att se listan.");
+                }
+                else
+                {
+                    throw new HttpRequestException("Kunde inte hämta några reservationer, var vänlig försök igen.");
+                }
             }
-            else if(response.Content==null)
+            catch (Exception exc)
             {
-                throw new HttpRequestException("Här var det tomt! Gå in och gör en reservation för att se listan.");
+                BasicNoConnectionMessage(exc);
+                return new ObservableCollection<Reservation>();
             }
-            else
-            {
-                throw new HttpRequestException("Kunde inte hämta några reservationer, var vänlig försök igen.");
-            }
+
         }
         public async Task <Home> GetHome(int id)
         {
-            //Used to get Home details from the selected reservation in MyPage
-            HttpResponseMessage response = await httpClient.GetAsync($"Homes/{id}");
-            if (response.IsSuccessStatusCode)
+           try
             {
-                jsonString = response.Content.ReadAsStringAsync().Result;
+                HttpResponseMessage response = await httpClient.GetAsync($"Homes/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    jsonString = response.Content.ReadAsStringAsync().Result;
 
-                var home = JsonConvert.DeserializeObject<Home>(jsonString);
+                    var home = JsonConvert.DeserializeObject<Home>(jsonString);
 
-                return home;
+                    return home;
+                }
+                else
+                {
+                    throw new HttpRequestException("Kunde inte hämta några boende, var vänlig försök igen.");
+                }
             }
-            else
+            catch (Exception exc)
             {
-                throw new HttpRequestException("Kunde inte hämta några boende, var vänlig försök igen.");
+                BasicNoConnectionMessage(exc);
+                return new Home();
             }
+
         }
 
         public void GetReservation()
@@ -228,20 +299,29 @@ namespace HolidayMakerClient
         }
         public async Task<ObservableCollection<Addon>> GetReservationAddon(int id)
         {
-            //TODO: Send in reservation id, get a list of addons linked to that reservation and return.
-            HttpResponseMessage response = await httpClient.GetAsync($"ReservationAddons/{id}");
-            if (response.IsSuccessStatusCode)
+            try
             {
-                jsonString = response.Content.ReadAsStringAsync().Result;
+                //TODO: Send in reservation id, get a list of addons linked to that reservation and return.
+                HttpResponseMessage response = await httpClient.GetAsync($"ReservationAddons/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    jsonString = response.Content.ReadAsStringAsync().Result;
 
-                var addons = JsonConvert.DeserializeObject<ObservableCollection<Addon>>(jsonString);
+                    var addons = JsonConvert.DeserializeObject<ObservableCollection<Addon>>(jsonString);
 
-                return addons;
+                    return addons;
+                }
+                else
+                {
+                    throw new HttpRequestException("Kunde inte hämta några boende, var vänlig försök igen.");
+                }
             }
-            else
+            catch (Exception exc)
             {
-                throw new HttpRequestException("Kunde inte hämta några boende, var vänlig försök igen.");
+                BasicNoConnectionMessage(exc);
+                return new ObservableCollection<Addon>();
             }
+
         }
         public async Task<ObservableCollection<Addon>> GetAllAddon ()
         {

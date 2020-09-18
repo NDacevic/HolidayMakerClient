@@ -8,7 +8,9 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Width="190"
-    Height="500">
+    Height="500"
+    Visibility="Visible"
+    x:Name="Vw_LoginPage">
 
     <Grid Width="190">
         <Grid.RowDefinitions>
@@ -50,16 +52,26 @@
                 Name="Bttn_LogIn"
                 Content="Logga in"
                 FontSize="10"
-                Width="60"/>
+                Click="Bttn_LogIn_Click"
+                Width="65"/>
+            <Button
+                Name="Bttn_Register"
+                Content="Registrera"
+                Click="Bttn_Register_Click"
+                FontSize="10"
+                Width="65"
+                Margin="0,5,0,0"/>
+
+
+                
+
             <Button
                 Name="Bttn_Abort"
                 Content="Avbryt"
                 FontSize="10"
                 Margin="0,5,0,0"
-                Width="60"/>
+                Width="65" Click="Bttn_Abort_Click"/>
+
         </StackPanel>
-
-
-
     </Grid>
 </ContentDialog>

@@ -1,10 +1,14 @@
-﻿using System;
+﻿using HolidayMakerClient.View;
+using HolidayMakerClient.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,9 +26,46 @@ namespace HolidayMakerClient
     /// </summary>
     public sealed partial class LoginView //: ContentDialog
     {
+
+
+        private LoginViewModel loginViewModel;
+
+
         public LoginView()
         {
             this.InitializeComponent();
+           
         }
+
+
+        private async void Bttn_Register_Click(object sender, RoutedEventArgs e)
+        {
+            Vw_LoginPage.Hide();
+            await new RegisterAccountView().ShowAsync();
+        }
+     
+
+        //private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    loginViewModel = new LoginViewModel();
+        //}
+
+
+        private void Bttn_Abort_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+        }
+
+        private async void Bttn_LogIn_Click(object sender, RoutedEventArgs e)
+        {
+
+            await LoginViewModel.Instance.GetUser(Tb_EnterUsername.Text, Pwb_EnterPassword.Password);
+            if (LoginViewModel.Instance.ActiveUser!=null)
+            {
+                Hide();
+            }
+                       
+        }        
+
     }
 }

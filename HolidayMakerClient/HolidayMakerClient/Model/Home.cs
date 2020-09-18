@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace HolidayMakerClient.Model
 {
-    public class Home
+    public class Home : INotifyPropertyChanged
     {
         #region Constant Fields
         #endregion
 
         #region Fields
+        private double averageRating;
         #endregion
 
         #region Constructors
@@ -38,11 +40,11 @@ namespace HolidayMakerClient.Model
             Description = description;
             NumberOfRatings = numberOfRatings;
             SumOfRatings = sumOfRatings;
+            AverageRating = sumOfRatings / numberOfRatings;
 
         }
         public Home()
         {
-
         }
         #endregion
 
@@ -50,6 +52,7 @@ namespace HolidayMakerClient.Model
         #endregion
 
         #region Events
+        public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
         #region Properties
@@ -74,6 +77,13 @@ namespace HolidayMakerClient.Model
         public string Description { get; set; }
         public int NumberOfRatings { get; set; }
         public int SumOfRatings { get; set; }
+        public double AverageRating { get => averageRating; 
+            set
+            { 
+                averageRating = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AverageRating"));
+            }
+        }
         #endregion
 
         #region Methods

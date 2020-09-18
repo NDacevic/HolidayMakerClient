@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
 
 namespace HolidayMakerClient
 {
@@ -12,6 +13,8 @@ namespace HolidayMakerClient
         #endregion
 
         #region Fields
+        private static LoginViewModel instance = null;
+        private static readonly object padlock = new object();
         #endregion
 
         #region Constructors
@@ -20,10 +23,6 @@ namespace HolidayMakerClient
 
         }
 
-        public LoginViewModel(User activeUser)
-        {
-            ActiveUser = activeUser;
-        }
         #endregion
 
         #region Delegates
@@ -34,18 +33,40 @@ namespace HolidayMakerClient
 
         #region Properties
         public User ActiveUser { get; set; }
+        public static LoginViewModel Instance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new LoginViewModel();
+                    }
+                    return instance;
+                }
+            }
+        }
 
         #endregion
 
         #region Methods
-        public void GetUser()
+        public async Task GetUser(string email, string enteredPassword)
         {
-
+            User user = await ApiHelper.Instance.GetUser(email);
+            await ConfirmPassword(user, enteredPassword);
         }
 
-        public void ConfirmPassword()
+        public async Task ConfirmPassword(User user, string enteredPassword)
         {
+            if (user.Email == null)
+            {
 
+            }
+            else if (user.Password == enteredPassword)
+                ActiveUser = user;
+            else
+                await new MessageDialog("Inkorrekt lösenord, vänligen försök igen.").ShowAsync();
         }
         #endregion
     }
