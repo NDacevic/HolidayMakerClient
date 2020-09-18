@@ -36,7 +36,6 @@ namespace HolidayMakerClient
         public Reservation SelectedReservation { get; set; }
         public ObservableCollection<Addon> AddonList { get; set; }
         public TempReservation TempRes { get; set; }
-        public LoginViewModel loginViewModel { get; }
         public decimal TotalPrice { get; set; }
         public Addon ExtraBed { get; set; }
         #endregion
