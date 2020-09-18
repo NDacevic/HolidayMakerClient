@@ -47,6 +47,7 @@ namespace HolidayMakerClient
             SelectedReservation = new Reservation();
             SelectedReservation.HomeId = reservation.Home.HomeId;
             SelectedReservation.UserId = LoginViewModel.Instance.ActiveUser.UserId;
+            SelectedReservation.NumberOfGuests = int.Parse(reservation.NumberOfGuests);
             SelectedReservation.StartDate = reservation.StartDate;
             SelectedReservation.EndDate = reservation.EndDate;
             SelectedReservation.TotalPrice = price;
