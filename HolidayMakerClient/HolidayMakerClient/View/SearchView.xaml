@@ -96,12 +96,14 @@
                 x:Name="datePicker_StartDate"
                 Header="Från datum"
                 PlaceholderText="Välj datum"
+                CalendarViewDayItemChanging="datePicker_StartDate_CalendarViewDayItemChanging"
                 />
             <CalendarDatePicker
                 Grid.Column="2"
                 x:Name="datePicker_EndDate"
                 Header="Till datum"
                 PlaceholderText="Välj datum"
+                CalendarViewDayItemChanging="datePicker_StartDate_CalendarViewDayItemChanging"
                 />
             <ComboBox
                 x:Name="comboBox_NumberOfGuests"

@@ -162,6 +162,14 @@ namespace HolidayMakerClient.View
             searchViewModel.FontIconList.Add(fontIcon_SortBeachDistance);
             searchViewModel.FontIconList.Add(fontIcon_SortAverageRating);
         }
+
+        private void datePicker_StartDate_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
+        {
+            if( e.Item.Date < DateTime.Today)
+            {
+                e.Item.IsBlackout = true;
+            }
+        }
         #endregion
     }
 }
