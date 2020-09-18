@@ -208,8 +208,7 @@ namespace HolidayMakerClient
         {
             try
             {
-                //TODO:Send in active users id instead of "1"
-                HttpResponseMessage response = await httpClient.GetAsync("UsersReservations/1");
+                HttpResponseMessage response = await httpClient.GetAsync($"UsersReservations/{LoginViewModel.Instance.ActiveUser.UserId}");
 
                 if (response.IsSuccessStatusCode)
                 {

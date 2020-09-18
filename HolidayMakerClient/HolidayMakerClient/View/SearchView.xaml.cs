@@ -132,11 +132,16 @@ namespace HolidayMakerClient.View
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
             await new LoginView().ShowAsync();
+            CheckActiveUser();
+                
+        }
+        private void CheckActiveUser()
+        {
             if (LoginViewModel.Instance.ActiveUser != null)
             {
                 bttn_Login.Visibility = Visibility.Collapsed;
                 bttn_UserOptions.Visibility = Visibility.Visible;
-            }                       
+            }
         }
         private void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
         {
@@ -176,10 +181,15 @@ namespace HolidayMakerClient.View
 
         private void datePicker_StartDate_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
         {
-            if( e.Item.Date < DateTime.Today)
+            if (e.Item.Date < DateTime.Today)
             {
                 e.Item.IsBlackout = true;
+
             }
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            CheckActiveUser();
         }
         #endregion
     }
