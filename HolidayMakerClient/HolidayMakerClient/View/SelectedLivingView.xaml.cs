@@ -139,7 +139,7 @@ namespace HolidayMakerClient
             try
             {
                 selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes, ChosenAddons, TotalPrice);
-                await new MessageDialog("Din bokning är skapad.").ShowAsync();
+                //await new MessageDialog("Din bokning är skapad.").ShowAsync();
                 Frame.Navigate(typeof(MyPageView));
             }
             catch (Exception)

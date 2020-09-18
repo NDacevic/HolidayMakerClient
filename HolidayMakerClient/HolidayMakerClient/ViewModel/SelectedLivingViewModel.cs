@@ -50,8 +50,10 @@ namespace HolidayMakerClient
             SelectedReservation.StartDate = reservation.StartDate;
             SelectedReservation.EndDate = reservation.EndDate;
             SelectedReservation.TotalPrice = price;
+            SelectedReservation.AddonList = new List<Addon>();
             foreach(var ad in addonList)
             {
+                
                 SelectedReservation.AddonList.Add(ad);
             }
 
