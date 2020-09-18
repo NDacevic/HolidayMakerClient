@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
 
 namespace HolidayMakerClient
 {
@@ -87,62 +88,35 @@ namespace HolidayMakerClient
                     }
 
                 }
-
             }
             catch (Exception)
             {
-                
+                await new MessageDialog("Ingen kontakt med servern. Kontakta admin").ShowAsync();
+                return;
             }
             
         }
         public async void GetAddonExtraBed()
         {
-            var addons = await ApiHelper.Instance.GetAllAddon();
-            foreach (var a in addons)
-            {
-                if (a.AddonType == "Extrasäng")
-                {
-                    ExtraBed.AddonId = a.AddonId;
-                    ExtraBed.AddonType = a.AddonType;
-                    ExtraBed.AddonPrice = a.AddonPrice;
-                }
-
-            }
-        }
-        public decimal TempTotalPrice(TempReservation tempReservation)
-        {
             try
             {
-                int days = (tempReservation.EndDate - tempReservation.StartDate).Days;
-                tempReservation.TotalPrice = tempReservation.Home.Price * days;
-                return tempReservation.TotalPrice;
+                var addons = await ApiHelper.Instance.GetAllAddon();
+                foreach (var a in addons)
+                {
+                    if (a.AddonType == "Extrasäng")
+                    {
+                        ExtraBed.AddonId = a.AddonId;
+                        ExtraBed.AddonType = a.AddonType;
+                        ExtraBed.AddonPrice = a.AddonPrice;
+                    }
 
-                //if (tempReservation.AddonList.Count > 0)
-                //{
-                //    foreach (var a in tempReservation.AddonList)
-                //    {
-                //        if (a.AddonType == "All-inclusive" || a.AddonType == "Helpension" || a.AddonType == "Halvpension")
-                //        {
-                //            tempReservation.TotalPrice += a.AddonPrice * int.Parse(tempReservation.NumberOfGuests);
-                //        }
-                //        if (a.AddonType == "Extrasäng")
-                //        {
-                //            tempReservation.TotalPrice += a.AddonPrice;
-                //        }
-                //    }
-                //}
-
+                }
             }
             catch (Exception)
             {
-                tempReservation.TotalPrice = 0;
-
+                await new MessageDialog("Ingen kontakt med servern. Kontakta admin").ShowAsync();
+                return;
             }
-            return tempReservation.TotalPrice;
-
-        }
-        public void GetPrice ()
-        {
 
         }
 

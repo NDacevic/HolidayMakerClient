@@ -87,17 +87,25 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1" VerticalAlignment="Stretch">
+            <Button 
+                x:Name="Bttn_ToSearch" 
+                Content="Tillbaka" 
+                HorizontalAlignment="Right" 
+                Margin="0, 20, 20, 0" 
+                Click="Bttn_ToSearch_Click"/>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-
+               
                 <Border
-                    Margin="10,60,20,10"
+                    Margin="10,30,20,10"
                     Height="100"
-                    Grid.Row="0">
+                    Grid.Row="0"
+                    BorderThickness="1"
+                    BorderBrush="Gray">
                     <StackPanel>
                         <TextBlock
                         x:Name="txt_Reservation"
@@ -108,16 +116,19 @@
                         <StackPanel Orientation="Horizontal" Spacing="10">
                             <CalendarDatePicker x:Name="Cdp_StartDate"
                                     Margin="10,0,0,0"
-                                    PlaceholderText="{x:Bind selectedLivingViewModel.TempRes.StartDate}"
+                                    PlaceholderText="{x:Bind selectedLivingViewModel.TempRes.StartDate.ToString('yyyy-MM-dd', x:Null)}"
                                     FirstDayOfWeek="Monday"
-                                    DateFormat="{}{day.integer} {month.full} {year.full}"/>
+                                    DateFormat="{}{day.integer} {month.full} {year.full}"
+                                    />
                             <CalendarDatePicker x:Name="Cdp_EndDate"
                                     Margin="10,0,0,0"
-                                    PlaceholderText="{x:Bind selectedLivingViewModel.TempRes.EndDate}"
+                                    PlaceholderText="{x:Bind selectedLivingViewModel.TempRes.EndDate.ToString('yyyy-MM-dd', x:Null)}"
                                     FirstDayOfWeek="Monday"
                                     DateFormat="{}{day.integer} {month.full} {year.full}"/>
                             <TextBlock
-                                x:Name="txt_NumberOfGuests">
+                                x:Name="txt_NumberOfGuests"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center">
                                 <Run Text="Antal gäster: "/>
                                 <Run Text="{x:Bind selectedLivingViewModel.TempRes.NumberOfGuests}"
                                 x:DefaultBindMode="OneWay"/>
@@ -133,7 +144,7 @@
                   ItemsSource="{x:Bind ChosenAddons}"
                   BorderThickness="1"
                   BorderBrush="Gray"
-                  Height="200"
+                  Height="150"
                   Margin="20,50,20,0">
                     <ListView.ItemTemplate>
                         <DataTemplate x:Name="lv_Addons" x:DataType="data:Addon"  >
@@ -149,7 +160,7 @@
                 <Button
                     x:Name="bttn_RemoveAddon"
                     Content="Ta bort tilägg"
-                    Margin="10"
+                    Margin="20,15,0,10"
                     Click="bttn_RemoveAddon_Click"/>   
                 </StackPanel>
                 

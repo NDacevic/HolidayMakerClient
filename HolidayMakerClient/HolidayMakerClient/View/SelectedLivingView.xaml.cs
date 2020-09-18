@@ -266,5 +266,10 @@ namespace HolidayMakerClient
             }
 
         }
+
+        private void Bttn_ToSearch_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SearchView));
+        }
     }
 }
