@@ -66,9 +66,15 @@ namespace HolidayMakerClient.View
         private void ShowHideAdvancedSearch(object sender, RoutedEventArgs args)
         {
             if (grid_AdvancedSearch.Visibility == Visibility.Collapsed)
+            {
                 grid_AdvancedSearch.Visibility = Visibility.Visible;
+                searchViewModel.Filter(CreateAdvancedFilterParams());
+            }
             else
+            {
                 grid_AdvancedSearch.Visibility = Visibility.Collapsed;
+                searchViewModel.ClearFilter();
+            }
         }
         private void SearchButton_Clicked(object sender, RoutedEventArgs args)
         {
@@ -150,6 +156,11 @@ namespace HolidayMakerClient.View
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
                 Search();
+        }
+
+        private void RefreshSearch(object sender, RoutedEventArgs e)
+        {
+            searchViewModel.Filter(CreateAdvancedFilterParams());
         }
 
         private void CreateSortList()
