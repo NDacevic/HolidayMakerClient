@@ -1,4 +1,5 @@
 ﻿using HolidayMakerClient.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +48,7 @@ namespace HolidayMakerClient
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
         public decimal TotalPrice { get; set; }
+        [JsonProperty("Addons")]
         public List<Addon> AddonList { get; set; }
         //public string Summary
         //{ get { return $"Bokningsnummer: {ReservationId} Datum: {StartDate} - {EndDate} Totalpris: {TotalPrice}"; }

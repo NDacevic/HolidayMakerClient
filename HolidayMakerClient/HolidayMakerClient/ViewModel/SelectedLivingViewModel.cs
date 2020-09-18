@@ -46,12 +46,14 @@ namespace HolidayMakerClient
         {
             SelectedReservation = new Reservation();
             SelectedReservation.HomeId = reservation.Home.HomeId;
-            SelectedReservation.UserId = loginViewModel.ActiveUser.UserId;
+            SelectedReservation.UserId = LoginViewModel.Instance.ActiveUser.UserId;
             SelectedReservation.StartDate = reservation.StartDate;
             SelectedReservation.EndDate = reservation.EndDate;
             SelectedReservation.TotalPrice = price;
+            SelectedReservation.AddonList = new List<Addon>();
             foreach(var ad in addonList)
             {
+                
                 SelectedReservation.AddonList.Add(ad);
             }
 
