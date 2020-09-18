@@ -91,7 +91,10 @@ namespace HolidayMakerClient.View
 
         private void bttn_navigateBack_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(SearchView));
+            if(Frame.CanGoBack==true)
+            {
+                Frame.GoBack();
+            }
         }
 
         #endregion
