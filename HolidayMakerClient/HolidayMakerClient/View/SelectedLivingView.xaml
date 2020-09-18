@@ -7,7 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -35,11 +36,12 @@
                     BorderThickness="1" 
                     BorderBrush="Gray">
                     <Image 
-                    x:Name="img_SelectedLiving" 
+                    x:Name="img_SelectedLiving"
+                        Source="{x:Bind selectedLivingViewModel.TempRes.Home.Image}"
                     Grid.Row="0" 
                     Height="200"/>
                 </Border>
-                <StackPanel Grid.Row="1" Spacing="20" Margin="20,0,20,20" >
+                <StackPanel Grid.Row="1" Spacing="20" Margin="20,0,20,10" >
                     <TextBlock
                         x:Name="txt_InformationLabel"
                         Text="Information"
@@ -47,78 +49,63 @@
                         FontWeight="Medium"/>
                     <TextBlock
                     x:Name="txt_HomeDescription"
-                    Text="{x:Bind tempReservation.Home.Description}"
+                    Text="{x:Bind selectedLivingViewModel.TempRes.Home.Description}"
                     TextWrapping="WrapWholeWords"/>
                     <TextBlock
                     x:Name="txt_BeachDistance">
                         <Run Text="Avstånd till stranden, km: "/>
-                        <Run Text="{x:Bind tempReservation.Home.BeachDistance}"
+                        <Run Text="{x:Bind selectedLivingViewModel.TempRes.Home.BeachDistance}"
                                 x:DefaultBindMode="OneWay"/>
                     </TextBlock>
 
                     <TextBlock
                     x:Name="txt_CityDistance">
                         <Run Text="Avstånd till city, km: "/>
-                        <Run Text="{x:Bind tempReservation.Home.CityDistance}"
+                        <Run Text="{x:Bind selectedLivingViewModel.TempRes.Home.CityDistance}"
                                 x:DefaultBindMode="OneWay"/>
                     </TextBlock>
                 </StackPanel>
-                <StackPanel Grid.Row="2" Spacing="20" Margin="20,0,20,20" >
+                <StackPanel Grid.Row="2" Spacing="10" Margin="20,0,20,20" >
                     <TextBlock
                         x:Name="txt_AddonLabel"
                         Text="Tillval"
                         FontSize="20"
                         FontWeight="Medium"/>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <CheckBox
-                            x:Name="cb_ExtraBed"
-                            Content="Exta säng"
-                            Grid.Column="0"
-                            Grid.Row="0"
-                            />
-                        <CheckBox
-                            x:Name="cb_HalfPension"
-                            Content="Halvpension"
-                            Grid.Column="0"
-                            Grid.Row="1"
-                            />
-                        <CheckBox
-                            x:Name="cb_FullPension"
-                            Content="Helpension"
-                            Grid.Column="1"
-                            Grid.Row="0"
-                            />
-                        <CheckBox
-                            x:Name="cb_AllInclusive"
-                            Content="All-inclusive"
-                            Grid.Column="1"
-                            Grid.Row="1"
-                            />
-                    </Grid>
+                    <StackPanel >
+                        <RadioButton x:Name="Rb_addon0" Checked="RadioButton_Checked" Unchecked="Rb_addon_Unchecked" Content="All-inclusive 1000 kr/person."/>
+                        <RadioButton x:Name="Rb_addon1" Checked="RadioButton_Checked" Unchecked="Rb_addon_Unchecked" Content="Helpension 400 kr/person."/>
+                        <RadioButton x:Name="Rb_addon2" Checked="RadioButton_Checked" Unchecked="Rb_addon_Unchecked" Content="Halvpension 200 kr/person."/>
+
+                    </StackPanel>
+                    <CheckBox 
+                        x:Name="cb_ExtraBed" 
+                        Content="Extra säng 100 kr. "
+                        Checked="cb_ExtraBed_Checked"
+                        Unchecked="cb_ExtraBed_Unchecked"/>
                 </StackPanel>
             </Grid>
         </StackPanel>
 
         <StackPanel Grid.Column="1" VerticalAlignment="Stretch">
+            <Button 
+                x:Name="Bttn_ToSearch" 
+                Content="Tillbaka" 
+                HorizontalAlignment="Right" 
+                Margin="0, 20, 20, 0" 
+                Click="Bttn_ToSearch_Click"/>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-
+               
                 <Border
-                    Margin="10,60,20,10"
+                    Margin="10,30,20,10"
                     Height="100"
-                    Grid.Row="0">
+                    Grid.Row="0"
+                    BorderThickness="1"
+                    BorderBrush="Gray">
                     <StackPanel>
                         <TextBlock
                         x:Name="txt_Reservation"
@@ -129,18 +116,21 @@
                         <StackPanel Orientation="Horizontal" Spacing="10">
                             <CalendarDatePicker x:Name="Cdp_StartDate"
                                     Margin="10,0,0,0"
-                                    PlaceholderText="{x:Bind tempReservation.StartDate}"
+                                    PlaceholderText="{x:Bind selectedLivingViewModel.TempRes.StartDate.ToString('yyyy-MM-dd', x:Null)}"
                                     FirstDayOfWeek="Monday"
-                                    DateFormat="{}{day.integer} {month.full} {year.full}"/>
+                                    DateFormat="{}{day.integer} {month.full} {year.full}"
+                                    />
                             <CalendarDatePicker x:Name="Cdp_EndDate"
                                     Margin="10,0,0,0"
-                                    PlaceholderText="{x:Bind tempReservation.EndDate}"
+                                    PlaceholderText="{x:Bind selectedLivingViewModel.TempRes.EndDate.ToString('yyyy-MM-dd', x:Null)}"
                                     FirstDayOfWeek="Monday"
                                     DateFormat="{}{day.integer} {month.full} {year.full}"/>
                             <TextBlock
-                                x:Name="txt_NumberOfGuests">
+                                x:Name="txt_NumberOfGuests"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center">
                                 <Run Text="Antal gäster: "/>
-                                <Run Text="{x:Bind tempReservation.NumberOfGuests}"
+                                <Run Text="{x:Bind selectedLivingViewModel.TempRes.NumberOfGuests}"
                                 x:DefaultBindMode="OneWay"/>
                             </TextBlock>
                         </StackPanel>
@@ -148,13 +138,14 @@
                     </StackPanel>
 
                 </Border>
-                <ListView
-                  BorderThickness="2"
+                <StackPanel Grid.Row="1" Spacing="10">
+                 <ListView
                   x:Name="lv_DisplayAddons"
-                    ItemsSource="{x:Bind SelectedLivingViewModel.SelectedReservation.AddonList}"
-                    Grid.Row="1"
-                    Height="200"
-                    Margin="20,50,20,10">
+                  ItemsSource="{x:Bind ChosenAddons}"
+                  BorderThickness="1"
+                  BorderBrush="Gray"
+                  Height="150"
+                  Margin="20,50,20,0">
                     <ListView.ItemTemplate>
                         <DataTemplate x:Name="lv_Addons" x:DataType="data:Addon"  >
                             <StackPanel Orientation="Horizontal" Spacing="10">
@@ -166,23 +157,36 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <StackPanel Grid.Row="2" Margin="20,30,0,0" Spacing="20">
+                <Button
+                    x:Name="bttn_RemoveAddon"
+                    Content="Ta bort tilägg"
+                    Margin="20,15,0,10"
+                    Click="bttn_RemoveAddon_Click"/>   
+                </StackPanel>
+                
+                <StackPanel Grid.Row="2" Margin="20,10,0,0" Spacing="20">
                     <TextBlock
                     x:Name="txt_TotalPrice"
-                    Text="Totalpris: "
                         FontSize="16"
                         FontWeight="Medium"
-                        Margin="0,0,0,20"/>
+                        Margin="0,0,0,10">
+                        <Run Text="Totalpris: "/>
+                        <Run Text="{x:Bind TotalPrice}"
+                                x:DefaultBindMode="OneWay"/>
+                         <Run Text=" kr."/>
+                    </TextBlock>
                     <Button
                         x:Name="bttn_bookChange"
                         Content="Boka/Ändra"
                         HorizontalAlignment="Center"
-                        Width="120"/>
+                        Width="120"
+                        Click="bttn_bookChange_Click"/>
                     <Button
                         x:Name="bttn_deleteReservation"
                         Content="Ta bort bokning"
                         HorizontalAlignment="Center"
-                        Width="120"/>
+                        Width="120"
+                        Click="bttn_deleteReservation_Click"/>
                 </StackPanel>
 
             </Grid>
