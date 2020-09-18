@@ -208,8 +208,7 @@ namespace HolidayMakerClient
         {
             try
             {
-                //TODO:Send in active users id instead of "1"
-                HttpResponseMessage response = await httpClient.GetAsync("UsersReservations/1");
+                HttpResponseMessage response = await httpClient.GetAsync($"UsersReservations/{LoginViewModel.Instance.ActiveUser.UserId}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -323,20 +322,20 @@ namespace HolidayMakerClient
             }
 
         }
-        public async Task<List<Addon>> GetAllAddon ()
+        public async Task<ObservableCollection<Addon>> GetAllAddon ()
         {
-            List<Addon> addonList = new List<Addon>();
+            ObservableCollection<Addon> addonList = new ObservableCollection<Addon>();
             try
             {               
                 HttpResponseMessage response = await httpClient.GetAsync("Addons");
                 if(response.IsSuccessStatusCode)
                 {
                      jsonString = response.Content.ReadAsStringAsync().Result;
-                     var addon = JsonConvert.DeserializeObject<List<Addon>>(jsonString);
-                     foreach(var a in addon)
-                     {
-                        addonList.Add(a);
-                     }
+                     addonList = JsonConvert.DeserializeObject<ObservableCollection<Addon>>(jsonString);
+                     //foreach(var a in addon)
+                     //{
+                     //   addonList.Add(a);
+                     //}
                         return addonList;
                 }
                 else
