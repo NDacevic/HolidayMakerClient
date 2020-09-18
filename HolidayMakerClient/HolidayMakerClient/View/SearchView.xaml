@@ -10,6 +10,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Width="1280"
+    NavigationCacheMode="Enabled"
     >
 
     <RelativePanel
