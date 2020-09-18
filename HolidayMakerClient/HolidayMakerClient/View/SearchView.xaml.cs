@@ -126,11 +126,16 @@ namespace HolidayMakerClient.View
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
             await new LoginView().ShowAsync();
+            CheckActiveUser();
+                
+        }
+        private void CheckActiveUser()
+        {
             if (LoginViewModel.Instance.ActiveUser != null)
             {
                 bttn_Login.Visibility = Visibility.Collapsed;
                 bttn_UserOptions.Visibility = Visibility.Visible;
-            }                       
+            }
         }
         private void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
         {
@@ -161,6 +166,10 @@ namespace HolidayMakerClient.View
             searchViewModel.FontIconList.Add(fontIcon_SortCityDistance);
             searchViewModel.FontIconList.Add(fontIcon_SortBeachDistance);
             searchViewModel.FontIconList.Add(fontIcon_SortAverageRating);
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            CheckActiveUser();
         }
         #endregion
     }
