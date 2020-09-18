@@ -28,7 +28,6 @@ namespace HolidayMakerClient
     {
 
 
-        private LoginViewModel loginViewModel;
 
 
         public LoginView()
@@ -44,11 +43,6 @@ namespace HolidayMakerClient
             await new RegisterAccountView().ShowAsync();
         }
      
-
-        //private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    loginViewModel = new LoginViewModel();
-        //}
 
 
         private void Bttn_Abort_Click(object sender, RoutedEventArgs e)
