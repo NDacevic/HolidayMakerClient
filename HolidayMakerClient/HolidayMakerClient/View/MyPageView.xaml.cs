@@ -31,6 +31,7 @@ namespace HolidayMakerClient.View
 
         #region Fields
         MyPageViewModel myPageViewModel = new MyPageViewModel();
+        LoginViewModel loginViewModel = LoginViewModel.Instance;
         #endregion
 
         #region Constructors
@@ -90,7 +91,10 @@ namespace HolidayMakerClient.View
 
         private void bttn_navigateBack_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: go back to search/main page
+            if(Frame.CanGoBack==true)
+            {
+                Frame.GoBack();
+            }
         }
 
         #endregion
