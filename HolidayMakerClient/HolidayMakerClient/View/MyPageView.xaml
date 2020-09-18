@@ -22,9 +22,15 @@
         <StackPanel>
             <TextBlock Text="Mina bokningar" FontSize="48"/>
             <TextBlock Text="Klicka på en bokning för detaljer" />
-            <TextBlock Text="Johnny Krook"
-                       HorizontalAlignment="Right"
-                       Margin="0,0,30,0"/>
+            <TextBlock   HorizontalAlignment="Right"
+                    Margin="0,0,30,0" >
+                 <Run Text="{x:Bind loginViewModel.ActiveUser.Name}"/>
+                 <Run Text="{x:Bind loginViewModel.ActiveUser.Surname}"/>
+
+               
+            </TextBlock>
+               
+             
             <Button    Content="Tillbaka"
                        HorizontalAlignment="Right"
                        Margin="0,0,30,0"
