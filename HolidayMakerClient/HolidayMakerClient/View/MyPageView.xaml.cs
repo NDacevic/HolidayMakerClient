@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -55,14 +56,14 @@ namespace HolidayMakerClient.View
         #region Methods
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            //Todo: Jag tror denna passar bättre i en PageLoaded-metod, annars är det risk att din metoden försöker populera din lista innan din Listview laddat färdigt. //MO
             myPageViewModel.GetReservations();
          
         }
         private void Lv_MyReservations_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             Reservation selectedReservation = (Reservation)Lv_MyReservations.SelectedItem;
-            myPageViewModel.SelectedUserReservation(selectedReservation);
-       
+            myPageViewModel.SelectedUserReservation(selectedReservation);       
         }
 
         private void bttn_CancelReservation_Click(object sender, RoutedEventArgs e)
@@ -70,16 +71,29 @@ namespace HolidayMakerClient.View
             //TODO: Content dialog with "are you sure" Then proceed to delete.
         }
 
-        private void bttn_ChangeReservation_Click(object sender, RoutedEventArgs e)
+        private async void bttn_ChangeReservation_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: goto SelectedLiving with the selected booking
-        }
-
-        #endregion
+            if (Lv_MyReservations.SelectedItem == null)
+            {
+                await new MessageDialog("Vänligen välj vilken reservation du vill ändra.").ShowAsync();
+            }
+            else
+            {
+                TempReservation currentReservation = new TempReservation
+                {
+                    Home = myPageViewModel.SelectedHome[0],
+                    OldReservation = myPageViewModel.SelectedReservation[0]
+                };
+                Frame.Navigate(typeof(SelectedLivingView), currentReservation);
+            }
+        }        
 
         private void bttn_navigateBack_Click(object sender, RoutedEventArgs e)
         {
             //TODO: go back to search/main page
         }
+
+        #endregion
+
     }
 }

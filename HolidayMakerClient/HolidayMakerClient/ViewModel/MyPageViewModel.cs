@@ -24,7 +24,7 @@ namespace HolidayMakerClient.ViewModel
             SelectedReservation = new ObservableCollection<Reservation>();
             MyReservations = new ObservableCollection<Reservation>();
             SelectedHome = new ObservableCollection<Home>();
-            SelectedReservationAddon = new ObservableCollection<Addon>();
+            SelectedReservationAddons = new ObservableCollection<Addon>();
       
 
         }
@@ -39,7 +39,7 @@ namespace HolidayMakerClient.ViewModel
         #region Properties
        
         public ObservableCollection<Reservation> MyReservations { get; set; }
-        public ObservableCollection<Addon> SelectedReservationAddon { get; set; }
+        public ObservableCollection<Addon> SelectedReservationAddons { get; set; }
         public ObservableCollection<Reservation> SelectedReservation { get; set; }
         public ObservableCollection<Home> SelectedHome { get; set; }
         #endregion
@@ -69,13 +69,13 @@ namespace HolidayMakerClient.ViewModel
             var addonlist= await ApiHelper.Instance.GetReservationAddon(reservation.ReservationId);
             foreach(Addon a in addonlist)
             {
-                SelectedReservationAddon.Add(a);
+                SelectedReservationAddons.Add(a);
             }
 
         }
         public void ResetLists()
         {
-            SelectedReservationAddon.Clear();
+            SelectedReservationAddons.Clear();
             SelectedReservation.Clear();
             SelectedHome.Clear();
         }
