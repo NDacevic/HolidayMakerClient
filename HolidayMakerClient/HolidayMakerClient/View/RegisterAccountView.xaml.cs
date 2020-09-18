@@ -53,31 +53,42 @@ namespace HolidayMakerClient.View
 
         private async void Bttn_Register_Click(object sender, RoutedEventArgs e)
         {
-            if(!CheckTextBoxes())
+            string encryptedPassword;
+            bool isCompany = true;
+            bool isCorrectEmailFormat;
+            bool isCorrectPasswordLength;
+
+            if (!CheckTextBoxes())
             {
                 await new MessageDialog("Du måste fylla i alla fält").ShowAsync();
             }
             else
-            {
-                string encryptedPassword;
-                bool userType = true;
-
+            {              
                 if (Rb_Private.IsChecked == true)
-                {
-                    userType = false;
-                }
+                    isCompany = false;
 
-                if (CheckPassword(Pwb_Password1.Password, Pwb_Password2.Password))
+                isCorrectEmailFormat = regAccountVM.ValidateEmail(Tb_Email.Text);
+                isCorrectPasswordLength = regAccountVM.ValidatePassword(Pwb_Password1.Password);
+
+                if (!isCorrectEmailFormat)
+                {
+                    await new MessageDialog("Angiven e-mail verkar inkorrekt. Säkerställ att du har angivit exakt ett '@' och minst en '.'").ShowAsync();
+                }
+                else if (!isCorrectPasswordLength)
+                {
+                    await new MessageDialog("Angivet lösenord behöver vara mellan 8 och 128 tecken. Vänligen välj ett nytt lösenord").ShowAsync();
+                }
+                else if (CheckPassword(Pwb_Password1.Password, Pwb_Password2.Password))
                 {
                     //Go to method for encryption of password. Pass in the encrypted version "endryptedPassword" as parameter
-                    regAccountVM.CreateNewUser(Tb_FirstName.Text, Tb_LastName.Text, Tb_Email.Text, Pwb_Password1.Password, userType);
+                    regAccountVM.CreateNewUser(Tb_FirstName.Text, Tb_LastName.Text, Tb_Email.Text, Pwb_Password1.Password, isCompany);
+                    Hide();
                 }
                 else
                 {
                     await new MessageDialog("Lösenorden stämmer inte, var god kontrollera").ShowAsync();
                 }
             }
-         
         }
         private bool CheckTextBoxes()
         {
