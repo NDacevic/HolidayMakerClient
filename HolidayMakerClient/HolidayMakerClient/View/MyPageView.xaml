@@ -51,7 +51,8 @@
                 BorderThickness="2"
                 ItemsSource="{x:Bind myPageViewModel.MyReservations}"
                 x:Name="Lv_MyReservations" 
-                DoubleTapped="Lv_MyReservations_DoubleTapped"  
+                DoubleTapped="Lv_MyReservations_DoubleTapped"
+                Height="250"
                 >
                 <ListView.ItemTemplate>
                     <DataTemplate x:Name="lv_MyReservations"

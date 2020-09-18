@@ -90,7 +90,7 @@ namespace HolidayMakerClient.View
 
         private void bttn_navigateBack_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: go back to search/main page
+            Frame.Navigate(typeof(SearchView));
         }
 
         #endregion
