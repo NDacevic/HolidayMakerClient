@@ -17,7 +17,7 @@ namespace HolidayMakerClient.Model
 
         #region Constructors
 
-        public TempReservation(string numberOfGuests, DateTimeOffset startDate, DateTimeOffset endDate, decimal totalPrice, Home home)
+        public TempReservation(string numberOfGuests, DateTimeOffset startDate, DateTimeOffset endDate, decimal totalPrice, Home home, Reservation oldReservation)
         {
             NumberOfGuests = numberOfGuests;
             StartDate = startDate;
