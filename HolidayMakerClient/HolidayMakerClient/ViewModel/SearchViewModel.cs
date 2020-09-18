@@ -92,6 +92,13 @@ namespace HolidayMakerClient.ViewModel
             foreach (var x in filteredHomeList)
                 SortedHomeList.Add(x);
         }
+
+        public void ClearFilter()
+        {
+            SortedHomeList.Clear();
+            foreach (var home in HomeList)
+                SortedHomeList.Add(home);
+        }
         /// <summary>
         /// TBD
         /// </summary>
