@@ -82,6 +82,7 @@ namespace HolidayMakerClient.View
                 {
                     //Go to method for encryption of password. Pass in the encrypted version "endryptedPassword" as parameter
                     regAccountVM.CreateNewUser(Tb_FirstName.Text, Tb_LastName.Text, Tb_Email.Text, Pwb_Password1.Password, isCompany);
+                    Hide();
                 }
                 else
                 {
