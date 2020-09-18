@@ -54,20 +54,20 @@ namespace HolidayMakerClient
             SetUpPage();
 
         }
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            if (e.SourcePageType.Name == "MyPageView")
-            {
-                bttn_bookChange.Content = "Ändra";
-                bttn_deleteReservation.Visibility = Visibility.Visible;
-            }
-            if(e.SourcePageType.Name == "SearchView")
-            {
-                bttn_bookChange.Content = "Boka";
-                bttn_deleteReservation.Visibility = Visibility.Collapsed;
-            }
+        //protected override void OnNavigatedFrom(NavigationEventArgs e)
+        //{
+        //    if (e.SourcePageType == typeof(MyPageView)) 
+        //    {
+        //        bttn_bookChange.Content = "Ändra";
+        //        bttn_deleteReservation.Visibility = Visibility.Visible;
+        //    }
+        //    if(e.SourcePageType == typeof(SearchView))
+        //    {
+        //        bttn_bookChange.Content = "Boka";
+        //        bttn_deleteReservation.Visibility = Visibility.Collapsed;
+        //    }
             
-        }
+        //}
         /// <summary>
         /// Get list of all addons except for ExtraBed from DB, this because ExtraBed is treated differently from the other addons
         /// </summary>
@@ -152,6 +152,10 @@ namespace HolidayMakerClient
         {
             try
             {
+                if(LoginViewModel.Instance.ActiveUser == null)
+                {
+                    await new LoginView().ShowAsync();
+                }
                 selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes, ChosenAddons, TotalPrice);
                 //await new MessageDialog("Din bokning är skapad.").ShowAsync();
                 Frame.Navigate(typeof(MyPageView));
