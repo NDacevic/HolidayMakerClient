@@ -53,7 +53,7 @@
                 >
                 <Button.Content>
                     <SymbolIcon
-                            Symbol="Admin"
+                            Symbol="Contact"
                         />
                 </Button.Content>
                 <Button.Flyout>
@@ -454,6 +454,7 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -507,8 +508,12 @@
                                 IsFocusEngagementEnabled="False"
                                 Caption="{x:Bind NumberOfRatings}"
                                 />
+                            <StackPanel>
+                                <SymbolIcon
+                                    Symbol=""/>
+                            </StackPanel>
                             <TextBlock
-                                Grid.Column="2"
+                                Grid.Column="3"
                                 Grid.Row="2"
                                 VerticalAlignment="Bottom"
                                 HorizontalAlignment="Left"
