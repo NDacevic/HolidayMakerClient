@@ -289,7 +289,7 @@
         </Grid>
         <!--#endregion-->
             
-        <!--#region Search Results-->
+        <!--#region Sort Buttons Results-->
         <StackPanel
             x:Name="stackPanel_SortButtons"
             Orientation="Horizontal"
@@ -412,6 +412,8 @@
                 </StackPanel>
             </Button>
         </StackPanel>
+        <!--#endregion-->
+        <!--#region Search Results-->
         <ScrollViewer
             Margin="0,20,0,10"
             
