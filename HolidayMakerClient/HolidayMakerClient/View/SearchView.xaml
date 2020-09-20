@@ -104,6 +104,8 @@
                 x:Name="datePicker_StartDate"
                 Header="Från datum"
                 PlaceholderText="Välj datum"
+                FirstDayOfWeek="Monday"
+                DateFormat="{}{day.integer} {month.full} {year.full}"
                 CalendarViewDayItemChanging="datePicker_StartDate_CalendarViewDayItemChanging"
                 />
             <CalendarDatePicker
@@ -111,6 +113,8 @@
                 x:Name="datePicker_EndDate"
                 Header="Till datum"
                 PlaceholderText="Välj datum"
+                FirstDayOfWeek="Monday"
+                DateFormat="{}{day.integer} {month.full} {year.full}"
                 CalendarViewDayItemChanging="datePicker_StartDate_CalendarViewDayItemChanging"
                 />
             <ComboBox
