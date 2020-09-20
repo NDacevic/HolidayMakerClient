@@ -302,7 +302,8 @@
             >
             <Button
                 x:Name="bttn_SortLocation"
-                Click="SortColumns_Click">
+                Click="SortColumns_Click"
+                Visibility="Collapsed">
                 <StackPanel
                     Orientation="Horizontal">
                     <TextBlock
