@@ -66,26 +66,19 @@ namespace HolidayMakerClient.View
         private void ShowHideAdvancedSearch(object sender, RoutedEventArgs args)
         {
             if (grid_AdvancedSearch.Visibility == Visibility.Collapsed)
-            {
                 grid_AdvancedSearch.Visibility = Visibility.Visible;
-                searchViewModel.Filter(CreateAdvancedFilterParams());
-            }
             else
-            {
                 grid_AdvancedSearch.Visibility = Visibility.Collapsed;
-                searchViewModel.ClearFilter();
-            }
         }
         private void SearchButton_Clicked(object sender, RoutedEventArgs args)
         {
             Search();
         }
+
         private void Search()
         {
             //TODO: Add error handling when search parameters are empty //MO
             int.TryParse(comboBox_NumberOfGuests.SelectedValue.ToString(), out int numberOfGuests);
-
-            bool advancedSearchActive = grid_AdvancedSearch.Visibility == Visibility.Visible ? true : false;
 
             searchViewModel.Search
                 (
@@ -93,7 +86,7 @@ namespace HolidayMakerClient.View
                 (DateTimeOffset)datePicker_StartDate.Date,
                 (DateTimeOffset)datePicker_EndDate.Date,
                 numberOfGuests,
-                advancedSearchActive,
+                AllFalseAdvancedSearch(),
                 CreateAdvancedFilterParams()
                 );
         }
@@ -165,7 +158,12 @@ namespace HolidayMakerClient.View
 
         private void RefreshSearch(object sender, RoutedEventArgs e)
         {
-            searchViewModel.Filter(CreateAdvancedFilterParams());
+            if (!AllFalseAdvancedSearch())
+                searchViewModel.Filter(CreateAdvancedFilterParams());
+            else
+                searchViewModel.ClearFilter();
+            
+
         }
 
         private void CreateSortList()
@@ -190,6 +188,40 @@ namespace HolidayMakerClient.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             CheckActiveUser();
+        }
+
+        private void FindAdvancedSearchElements(List<Control> list, DependencyObject parent)
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+
+                if (child.GetType() == typeof(ToggleSwitch) ||
+                    child.GetType() == typeof(Slider))
+                    list.Add((Control)child);
+                else
+                    FindAdvancedSearchElements(list, child);
+            }
+        }
+
+        private bool AllFalseAdvancedSearch()
+        {
+            List<Control> controls = new List<Control>();
+            FindAdvancedSearchElements(controls, grid_AdvancedSearch);
+
+            bool allFalse = true;
+
+            foreach (var x in controls)
+            {
+                if (x.GetType() == typeof(ToggleSwitch))
+                    if (((ToggleSwitch)x).IsOn)
+                        allFalse = false;
+                if (x.GetType() == typeof(Slider))
+                    if (((Slider)x).Value != 0)
+                        allFalse = false;
+            }
+
+            return allFalse;
         }
         #endregion
     }
