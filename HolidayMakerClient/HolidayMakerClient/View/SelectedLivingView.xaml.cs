@@ -95,8 +95,9 @@ namespace HolidayMakerClient
         {
             HomePrice();
             CheckHome();
-            bttn_bookChange.Content = "Boka";
-            bttn_deleteReservation.Visibility = Visibility.Collapsed;
+            Bttn_bookChange.Content = "Boka";
+            Bttn_deleteReservation.Visibility = Visibility.Collapsed;
+            Bttn_ToMyPage.Visibility = Visibility.Collapsed;
         }
         public void SetUpPageOldReservation()
         {
@@ -112,8 +113,9 @@ namespace HolidayMakerClient
             HomePrice();
             CheckHome();
             UpdatePrice();
-            bttn_bookChange.Content = "Ändra";
-            bttn_deleteReservation.Visibility = Visibility.Visible;
+            Bttn_bookChange.Content = "Ändra";
+            Bttn_deleteReservation.Visibility = Visibility.Visible;
+            Bttn_ToSearch.Visibility = Visibility.Collapsed;
         }
         public void HomePrice()
         {
@@ -127,7 +129,7 @@ namespace HolidayMakerClient
         {
             if (selectedLivingViewModel.TempRes.TempHome.HasExtraBed == false)
             {
-                cb_ExtraBed.Visibility = Visibility.Collapsed;
+                Cb_ExtraBed.Visibility = Visibility.Collapsed;
             }
             if (selectedLivingViewModel.TempRes.TempHome.HasAllInclusive == false)
             {
@@ -148,7 +150,7 @@ namespace HolidayMakerClient
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private async void bttn_RemoveAddon_Click(object sender, RoutedEventArgs e)
+        private async void Bttn_RemoveAddon_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -167,7 +169,7 @@ namespace HolidayMakerClient
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private async void bttn_bookChange_Click(object sender, RoutedEventArgs e)
+        private async void Bttn_bookChange_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -186,7 +188,7 @@ namespace HolidayMakerClient
         }
 
 
-        private void bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
+        private void Bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
         {
             selectedLivingViewModel.DeleteReservation(selectedLivingViewModel.TempRes);
             Frame.Navigate(typeof(MyPageView));
@@ -234,7 +236,7 @@ namespace HolidayMakerClient
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private void cb_ExtraBed_Checked(object sender, RoutedEventArgs e)
+        private void Cb_ExtraBed_Checked(object sender, RoutedEventArgs e)
         {
             ChosenAddons.Add((Addon)selectedLivingViewModel.ExtraBed);
             UpdatePrice();
@@ -245,7 +247,7 @@ namespace HolidayMakerClient
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private void cb_ExtraBed_Unchecked(object sender, RoutedEventArgs e)
+        private void Cb_ExtraBed_Unchecked(object sender, RoutedEventArgs e)
         {
             ChosenAddons.Remove((Addon)selectedLivingViewModel.ExtraBed);
             UpdatePrice();
@@ -303,10 +305,19 @@ namespace HolidayMakerClient
             }
 
         }
-
+        /// <summary>
+        /// Navigate to SearchView
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Bttn_ToSearch_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(SearchView));
+        }
+
+        private void Bttn_ToMyPage_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MyPageView));
         }
     }
 }
