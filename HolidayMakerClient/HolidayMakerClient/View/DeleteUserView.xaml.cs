@@ -38,5 +38,10 @@ namespace HolidayMakerClient.View
             else
                 await new MessageDialog("Felaktigt lösenord. Vänligen försök igen.").ShowAsync();            
         }
+
+        private void bttn_Abort_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+        }
     }
 }
