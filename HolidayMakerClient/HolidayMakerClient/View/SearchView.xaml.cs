@@ -158,7 +158,7 @@ namespace HolidayMakerClient.View
 
         private void RefreshSearch(object sender, RoutedEventArgs e)
         {
-            if (!searchViewModel.AllFalseAdvancedSearch())
+            if (!searchViewModel.AllFalseAdvancedSearch(grid_AdvancedSearch))
                 searchViewModel.Filter(CreateAdvancedFilterParams());
             else
                 searchViewModel.ClearFilter();
