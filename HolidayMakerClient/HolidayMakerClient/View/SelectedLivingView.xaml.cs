@@ -163,8 +163,11 @@ namespace HolidayMakerClient
         {
             try
             {
+                Addon ad = ((Addon)lv_DisplayAddons.SelectedItem);
+                if (ad.AddonType == "Extrasäng") cb_ExtraBed.IsChecked = false;
+                else if(ad.AddonType == "All-inclusive" || ad.AddonType == "Helpension" || ad.AddonType == "Halvpension") Rb_noPension.IsChecked = true;
                 ChosenAddons.Remove((Addon)lv_DisplayAddons.SelectedItem);
-                UpdatePrice();
+                
             }
             catch (Exception)
             {
@@ -263,6 +266,10 @@ namespace HolidayMakerClient
             }
             UpdatePrice();
         }
+        private void Rb_noPension_Checked(object sender, RoutedEventArgs e)
+        {
+            UpdatePrice();
+        }
         /// <summary>
         /// Adding ExtraBed to the ObservableCollection ChosenAddons and updates TotalPrice
         /// </summary>
@@ -313,9 +320,9 @@ namespace HolidayMakerClient
             UpdatePrice();
 
         }
-        /// <summary>
-        /// Update TotalPrice for home plus addons
-        /// </summary>
+            /// <summary>
+            /// Update TotalPrice for home plus addons
+            /// </summary>
         public void UpdatePrice ()
         {
             if(ChosenAddons.Count == 0)
@@ -324,17 +331,19 @@ namespace HolidayMakerClient
             }
             else
             {
+                decimal addonPrice = 0;
                 foreach(var ad in ChosenAddons)
                 {
                     if(ad.AddonType != "Extrasäng")
                     {
-                        TotalPrice += ad.AddonPrice * int.Parse(selectedLivingViewModel.TempRes.NumberOfGuests);
+                        addonPrice += ad.AddonPrice * int.Parse(selectedLivingViewModel.TempRes.NumberOfGuests);
                     }
                     else
                     {
-                        TotalPrice += ad.AddonPrice;
+                        addonPrice += ad.AddonPrice;
                     }
-                } 
+                }
+                TotalPrice = price + addonPrice;
             }
 
         }
@@ -343,5 +352,7 @@ namespace HolidayMakerClient
         {
             Frame.Navigate(typeof(SearchView));
         }
+
+
     }
 }
