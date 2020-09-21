@@ -86,7 +86,6 @@ namespace HolidayMakerClient.View
                 (DateTimeOffset)datePicker_StartDate.Date,
                 (DateTimeOffset)datePicker_EndDate.Date,
                 numberOfGuests,
-                searchViewModel.AllFalseAdvancedSearch(grid_AdvancedSearch),
                 CreateAdvancedFilterParams(),
                 grid_AdvancedSearch
                 );
@@ -159,11 +158,13 @@ namespace HolidayMakerClient.View
 
         private void RefreshSearch(object sender, RoutedEventArgs e)
         {
+            searchViewModel.Filter(CreateAdvancedFilterParams(), grid_AdvancedSearch);
+            /*
             if (!searchViewModel.AllFalseAdvancedSearch(grid_AdvancedSearch))
-                searchViewModel.Filter(CreateAdvancedFilterParams(), grid_AdvancedSearch);
+                
             else
                 searchViewModel.ClearFilter();
-            
+            */
 
         }
 
