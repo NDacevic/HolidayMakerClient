@@ -128,7 +128,7 @@ namespace HolidayMakerClient
             }
         }
 
-        public async void DeleteUser(int userId)
+        public async Task DeleteUser(int userId)
         {
             try
             {
@@ -136,7 +136,7 @@ namespace HolidayMakerClient
 
                 if (response.IsSuccessStatusCode)
                 {
-                    await new MessageDialog("Din användarprofil är nu borttagen.").ShowAsync();
+                    await new MessageDialog("Din användarprofil är nu borttagen. Alla aktiva reservationer är cancellerade.").ShowAsync();
                 }
                 else
                 {

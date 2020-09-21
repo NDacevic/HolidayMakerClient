@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,6 +26,19 @@ namespace HolidayMakerClient.View
         public DeleteUserView()
         {
             this.InitializeComponent();
+        }
+
+        private async void bttn_ConfirmPassword_Click(object sender, RoutedEventArgs e)
+        {
+            if (pwd_ConfirmPassword.Password == LoginViewModel.Instance.ActiveUser.Password)
+            {
+                await ApiHelper.Instance.DeleteUser(LoginViewModel.Instance.ActiveUser.UserId);
+                Hide();
+            }
+            else
+                await new MessageDialog("Felaktigt lösenord. Vänligen försök igen.").ShowAsync();
+
+            
         }
     }
 }

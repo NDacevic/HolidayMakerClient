@@ -36,7 +36,8 @@
             Grid.Column="1"
             Grid.Row="2"
             HorizontalAlignment="Center"
-            Content="Ta bort användare"/>
+            Content="Ta bort användare"
+            Click="bttn_ConfirmPassword_Click"/>
 
     </Grid>
 </ContentDialog>
