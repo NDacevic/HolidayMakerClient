@@ -132,7 +132,7 @@ namespace HolidayMakerClient
         {
             try
             {
-                HttpResponseMessage response = await httpClient.DeleteAsync($"userss/{userId}");
+                HttpResponseMessage response = await httpClient.DeleteAsync($"users/{userId}");
 
                 if (response.IsSuccessStatusCode)
                 {
