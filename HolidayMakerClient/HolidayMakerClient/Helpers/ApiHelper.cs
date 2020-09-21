@@ -128,9 +128,26 @@ namespace HolidayMakerClient
             }
         }
 
-        public void DeleteUser()
+        public async Task DeleteUser(int userId)
         {
+            try
+            {
+                HttpResponseMessage response = await httpClient.DeleteAsync($"users/{userId}");
 
+                if (response.IsSuccessStatusCode)
+                {
+                    await new MessageDialog("Din användarprofil är nu borttagen. Alla aktiva reservationer är cancellerade.").ShowAsync();
+                }
+                else
+                {
+                    Debug.WriteLine($"Http Error: {response.StatusCode}. {response.ReasonPhrase}");
+                    throw new HttpRequestException();
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+            }
         }
 
         public async Task<ObservableCollection<Home>> GetSearchResults(SearchParameterDto searchParameters)

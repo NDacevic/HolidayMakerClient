@@ -63,29 +63,23 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Methods
+
         private void ShowHideAdvancedSearch(object sender, RoutedEventArgs args)
         {
             if (grid_AdvancedSearch.Visibility == Visibility.Collapsed)
-            {
                 grid_AdvancedSearch.Visibility = Visibility.Visible;
-                searchViewModel.Filter(CreateAdvancedFilterParams());
-            }
             else
-            {
                 grid_AdvancedSearch.Visibility = Visibility.Collapsed;
-                searchViewModel.ClearFilter();
-            }
         }
         private void SearchButton_Clicked(object sender, RoutedEventArgs args)
         {
             Search();
         }
+
         private void Search()
         {
             //TODO: Add error handling when search parameters are empty //MO
             int.TryParse(comboBox_NumberOfGuests.SelectedValue.ToString(), out int numberOfGuests);
-
-            bool advancedSearchActive = grid_AdvancedSearch.Visibility == Visibility.Visible ? true : false;
 
             searchViewModel.Search
                 (
@@ -93,8 +87,8 @@ namespace HolidayMakerClient.View
                 (DateTimeOffset)datePicker_StartDate.Date,
                 (DateTimeOffset)datePicker_EndDate.Date,
                 numberOfGuests,
-                advancedSearchActive,
-                CreateAdvancedFilterParams()
+                CreateAdvancedFilterParams(),
+                grid_AdvancedSearch
                 );
         }
         private Home CreateAdvancedFilterParams()
@@ -121,7 +115,7 @@ namespace HolidayMakerClient.View
             tempReservation = new TempReservation();
             SetDates();
             tempReservation.NumberOfGuests = comboBox_NumberOfGuests.SelectedValue.ToString();
-            tempReservation.Home = (Home)lv_SearchList.SelectedItem;
+            tempReservation.TempHome = (Home)lv_SearchList.SelectedItem;
         }
         public void SetDates()
         {
@@ -141,6 +135,12 @@ namespace HolidayMakerClient.View
             {
                 bttn_Login.Visibility = Visibility.Collapsed;
                 bttn_UserOptions.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                //This happens after a user has removed itself from the system
+                bttn_Login.Visibility = Visibility.Visible;
+                bttn_UserOptions.Visibility = Visibility.Collapsed;
             }
         }
         private void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
@@ -165,7 +165,7 @@ namespace HolidayMakerClient.View
 
         private void RefreshSearch(object sender, RoutedEventArgs e)
         {
-            searchViewModel.Filter(CreateAdvancedFilterParams());
+            searchViewModel.Filter(CreateAdvancedFilterParams(), grid_AdvancedSearch);
         }
 
         private void CreateSortList()
@@ -191,6 +191,8 @@ namespace HolidayMakerClient.View
         {
             CheckActiveUser();
         }
+
+        
         #endregion
     }
 }

@@ -37,7 +37,7 @@
                     BorderBrush="Gray">
                     <Image 
                     x:Name="img_SelectedLiving"
-                        Source="{x:Bind selectedLivingViewModel.TempRes.Home.Image}"
+                        Source="{x:Bind selectedLivingViewModel.TempRes.TempHome.Image}"
                     Grid.Row="0" 
                     Height="200"/>
                 </Border>
@@ -49,19 +49,19 @@
                         FontWeight="Medium"/>
                     <TextBlock
                     x:Name="txt_HomeDescription"
-                    Text="{x:Bind selectedLivingViewModel.TempRes.Home.Description}"
+                    Text="{x:Bind selectedLivingViewModel.TempRes.TempHome.Description}"
                     TextWrapping="WrapWholeWords"/>
                     <TextBlock
                     x:Name="txt_BeachDistance">
                         <Run Text="Avstånd till stranden, km: "/>
-                        <Run Text="{x:Bind selectedLivingViewModel.TempRes.Home.BeachDistance}"
+                        <Run Text="{x:Bind selectedLivingViewModel.TempRes.TempHome.BeachDistance}"
                                 x:DefaultBindMode="OneWay"/>
                     </TextBlock>
 
                     <TextBlock
                     x:Name="txt_CityDistance">
                         <Run Text="Avstånd till city, km: "/>
-                        <Run Text="{x:Bind selectedLivingViewModel.TempRes.Home.CityDistance}"
+                        <Run Text="{x:Bind selectedLivingViewModel.TempRes.TempHome.CityDistance}"
                                 x:DefaultBindMode="OneWay"/>
                     </TextBlock>
                 </StackPanel>

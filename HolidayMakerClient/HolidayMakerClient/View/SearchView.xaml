@@ -247,8 +247,7 @@
                     Minimum="0"
                     Maximum="50"
                     IsThumbToolTipEnabled="False"
-                    Value="50"
-                   
+                    Value="0"
                     />
 
                 <TextBlock
@@ -273,7 +272,7 @@
                     Minimum="0.0"
                     Maximum="50.0"
                     IsThumbToolTipEnabled="False"
-                    Value="50"
+                    Value="0"
                     
                     />
             </Grid>
@@ -418,6 +417,7 @@
             </Button>
         </StackPanel>
         <!--#endregion-->
+        
         <!--#region Search Results-->
         <ScrollViewer
             Margin="0,20,0,10"
