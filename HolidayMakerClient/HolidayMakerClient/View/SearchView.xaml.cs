@@ -138,7 +138,7 @@ namespace HolidayMakerClient.View
             }
             else
             {
-                //This happens after a user has removed itself from the system
+                //This happens after a user has removed itself from the system or logs out
                 bttn_Login.Visibility = Visibility.Visible;
                 bttn_UserOptions.Visibility = Visibility.Collapsed;
             }
