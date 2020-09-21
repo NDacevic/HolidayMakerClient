@@ -118,5 +118,10 @@ namespace HolidayMakerClient.View
                 Frame.Navigate(typeof(SearchView));
             }
         }
+
+        private void bttn_UploadLiving_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
