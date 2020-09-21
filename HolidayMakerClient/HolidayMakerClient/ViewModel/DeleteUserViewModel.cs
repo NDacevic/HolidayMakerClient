@@ -37,11 +37,21 @@ namespace HolidayMakerClient.ViewModel
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Removes the user from the database through a call to the APIHelper class
+        /// </summary>
+        /// <returns></returns>
         private async Task DeleteUser()
         {
             await ApiHelper.Instance.DeleteUser(LoginViewModel.Instance.ActiveUser.UserId);
         }
 
+        /// <summary>
+        /// Confirms the password on user-deletion before calling the DeleteUser() method.
+        /// Otherwise a messagedialog is displayed informing the user that the password is wrong.
+        /// </summary>
+        /// <param name="enteredPassword"></param>
+        /// <returns></returns>
         public async Task<bool> ConfirmPassword(string enteredPassword)
         {
             if (enteredPassword == LoginViewModel.Instance.ActiveUser.Password)
