@@ -1,4 +1,5 @@
-﻿using HolidayMakerClient.ViewModel;
+﻿using HolidayMakerClient.Model;
+using HolidayMakerClient.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -80,8 +81,8 @@ namespace HolidayMakerClient.View
                 }
                 else if (CheckPassword(Pwb_Password1.Password, Pwb_Password2.Password))
                 {
-                    //Go to method for encryption of password. Pass in the encrypted version "endryptedPassword" as parameter
-                    regAccountVM.CreateNewUser(Tb_FirstName.Text, Tb_LastName.Text, Tb_Email.Text, Pwb_Password1.Password, isCompany);
+                    encryptedPassword = PasswordHelper.EncryptPassword(Pwb_Password1.Password);
+                    regAccountVM.CreateNewUser(Tb_FirstName.Text, Tb_LastName.Text, Tb_Email.Text, encryptedPassword, isCompany);
                     Hide();
                 }
                 else
