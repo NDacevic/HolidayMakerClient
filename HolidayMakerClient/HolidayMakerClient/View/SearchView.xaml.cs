@@ -143,6 +143,12 @@ namespace HolidayMakerClient.View
                 bttn_Login.Visibility = Visibility.Collapsed;
                 bttn_UserOptions.Visibility = Visibility.Visible;
             }
+            else
+            {
+                //This happens after a user has removed itself from the system
+                bttn_Login.Visibility = Visibility.Visible;
+                bttn_UserOptions.Visibility = Visibility.Collapsed;
+            }
         }
         private void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
         {
