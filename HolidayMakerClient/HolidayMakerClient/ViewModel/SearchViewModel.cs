@@ -80,15 +80,16 @@ namespace HolidayMakerClient.ViewModel
         {
             SortedHomeList.Clear();
 
+
             var filteredHomeList = HomeList.Where(x =>
             x.AllowPets == advancedFilterParams.AllowPets &&
             x.AllowSmoking == advancedFilterParams.AllowSmoking &&
             x.HasBalcony == advancedFilterParams.HasBalcony &&
             x.HasPool == advancedFilterParams.HasPool &&
-            x.HasWifi == advancedFilterParams.HasWifi &&
-            x.CityDistance <= advancedFilterParams.CityDistance &&
-            x.BeachDistance <= advancedFilterParams.BeachDistance);
+            x.HasWifi == advancedFilterParams.HasWifi);
 
+            // x.CityDistance <= advancedFilterParams.CityDistance
+            //x.BeachDistance <= advancedFilterParams.BeachDistance
 
             foreach (var x in filteredHomeList)
                 SortedHomeList.Add(x);
@@ -213,7 +214,7 @@ namespace HolidayMakerClient.ViewModel
                 if (fontIcon != fi)
                     fi.Glyph = "";
         }
-        private FontIcon FindFontIconChild(DependencyObject parent)
+        public FontIcon FindFontIconChild(DependencyObject parent)
         {
             //If the font icon is found then we just exit the method with the object in hand.
             if (parent is FontIcon)
@@ -235,6 +236,40 @@ namespace HolidayMakerClient.ViewModel
             }
             //return with the fonticon
             return foundFontIcon;
+        }
+
+        public void FindAdvancedSearchElements(List<Control> list, DependencyObject parent)
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+
+                if (child.GetType() == typeof(ToggleSwitch) ||
+                    child.GetType() == typeof(Slider))
+                    list.Add((Control)child);
+                else
+                    FindAdvancedSearchElements(list, child);
+            }
+        }
+
+        public bool AllFalseAdvancedSearch(DependencyObject uiElement)
+        {
+            List<Control> controls = new List<Control>();
+            FindAdvancedSearchElements(controls, uiElement);
+
+            bool allFalse = true;
+
+            foreach (var x in controls)
+            {
+                if (x.GetType() == typeof(ToggleSwitch))
+                    if (((ToggleSwitch)x).IsOn)
+                        allFalse = false;
+                if (x.GetType() == typeof(Slider))
+                    if (((Slider)x).Value != 0)
+                        allFalse = false;
+            }
+
+            return allFalse;
         }
         #endregion
     }

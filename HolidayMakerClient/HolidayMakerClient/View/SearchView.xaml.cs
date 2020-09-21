@@ -86,7 +86,7 @@ namespace HolidayMakerClient.View
                 (DateTimeOffset)datePicker_StartDate.Date,
                 (DateTimeOffset)datePicker_EndDate.Date,
                 numberOfGuests,
-                AllFalseAdvancedSearch(),
+                searchViewModel.AllFalseAdvancedSearch(grid_AdvancedSearch),
                 CreateAdvancedFilterParams()
                 );
         }
@@ -158,7 +158,7 @@ namespace HolidayMakerClient.View
 
         private void RefreshSearch(object sender, RoutedEventArgs e)
         {
-            if (!AllFalseAdvancedSearch())
+            if (!searchViewModel.AllFalseAdvancedSearch())
                 searchViewModel.Filter(CreateAdvancedFilterParams());
             else
                 searchViewModel.ClearFilter();
@@ -190,39 +190,7 @@ namespace HolidayMakerClient.View
             CheckActiveUser();
         }
 
-        private void FindAdvancedSearchElements(List<Control> list, DependencyObject parent)
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-            {
-                var child = VisualTreeHelper.GetChild(parent, i);
-
-                if (child.GetType() == typeof(ToggleSwitch) ||
-                    child.GetType() == typeof(Slider))
-                    list.Add((Control)child);
-                else
-                    FindAdvancedSearchElements(list, child);
-            }
-        }
-
-        private bool AllFalseAdvancedSearch()
-        {
-            List<Control> controls = new List<Control>();
-            FindAdvancedSearchElements(controls, grid_AdvancedSearch);
-
-            bool allFalse = true;
-
-            foreach (var x in controls)
-            {
-                if (x.GetType() == typeof(ToggleSwitch))
-                    if (((ToggleSwitch)x).IsOn)
-                        allFalse = false;
-                if (x.GetType() == typeof(Slider))
-                    if (((Slider)x).Value != 0)
-                        allFalse = false;
-            }
-
-            return allFalse;
-        }
+        
         #endregion
     }
 }
