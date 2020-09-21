@@ -66,9 +66,15 @@ namespace HolidayMakerClient.View
         private void ShowHideAdvancedSearch(object sender, RoutedEventArgs args)
         {
             if (grid_AdvancedSearch.Visibility == Visibility.Collapsed)
+            {
                 grid_AdvancedSearch.Visibility = Visibility.Visible;
+                searchViewModel.Filter(CreateAdvancedFilterParams());
+            }
             else
+            {
                 grid_AdvancedSearch.Visibility = Visibility.Collapsed;
+                searchViewModel.ClearFilter();
+            }
         }
         private void SearchButton_Clicked(object sender, RoutedEventArgs args)
         {
@@ -157,6 +163,11 @@ namespace HolidayMakerClient.View
                 Search();
         }
 
+        private void RefreshSearch(object sender, RoutedEventArgs e)
+        {
+            searchViewModel.Filter(CreateAdvancedFilterParams());
+        }
+
         private void CreateSortList()
         {
             searchViewModel.FontIconList.Add(fontIcon_SortLocation);
@@ -166,6 +177,15 @@ namespace HolidayMakerClient.View
             searchViewModel.FontIconList.Add(fontIcon_SortCityDistance);
             searchViewModel.FontIconList.Add(fontIcon_SortBeachDistance);
             searchViewModel.FontIconList.Add(fontIcon_SortAverageRating);
+        }
+
+        private void datePicker_StartDate_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
+        {
+            if (e.Item.Date < DateTime.Today)
+            {
+                e.Item.IsBlackout = true;
+
+            }
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

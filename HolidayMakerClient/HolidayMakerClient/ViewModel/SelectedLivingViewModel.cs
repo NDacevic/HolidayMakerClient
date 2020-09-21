@@ -36,7 +36,6 @@ namespace HolidayMakerClient
         public Reservation SelectedReservation { get; set; }
         public ObservableCollection<Addon> AddonList { get; set; }
         public TempReservation TempRes { get; set; }
-        public LoginViewModel loginViewModel { get; }
         public decimal TotalPrice { get; set; }
         public Addon ExtraBed { get; set; }
         #endregion
@@ -47,6 +46,7 @@ namespace HolidayMakerClient
             SelectedReservation = new Reservation();
             SelectedReservation.HomeId = reservation.Home.HomeId;
             SelectedReservation.UserId = LoginViewModel.Instance.ActiveUser.UserId;
+            SelectedReservation.NumberOfGuests = int.Parse(reservation.NumberOfGuests);
             SelectedReservation.StartDate = reservation.StartDate;
             SelectedReservation.EndDate = reservation.EndDate;
             SelectedReservation.TotalPrice = price;

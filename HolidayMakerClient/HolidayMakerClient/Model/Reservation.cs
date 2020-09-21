@@ -22,11 +22,12 @@ namespace HolidayMakerClient
         {
 
         }
-        public Reservation(int reservationId, int homeId, int userId, DateTimeOffset startDate, DateTimeOffset endDate, decimal totalPrice, List<Addon> addonList)
+        public Reservation(int reservationId, int homeId, int userId,int numberOfGuests, DateTimeOffset startDate, DateTimeOffset endDate, decimal totalPrice, List<Addon> addonList)
         {
             ReservationId = reservationId;
             HomeId = homeId;
             UserId = userId;
+            NumberOfGuests = numberOfGuests;
             StartDate = startDate;
             EndDate = endDate;
             TotalPrice = totalPrice;
@@ -50,9 +51,7 @@ namespace HolidayMakerClient
         public decimal TotalPrice { get; set; }
         [JsonProperty("Addons")]
         public List<Addon> AddonList { get; set; }
-        //public string Summary
-        //{ get { return $"Bokningsnummer: {ReservationId} Datum: {StartDate} - {EndDate} Totalpris: {TotalPrice}"; }
-        //}
+    
       
         #endregion
 
