@@ -50,22 +50,18 @@ namespace HolidayMakerClient
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             selectedLivingViewModel.TempRes = (TempReservation)e.Parameter;
-            selectedLivingViewModel.TempRes.AddonList = new ObservableCollection<Addon>();
-            SetUpPage();
+            if(selectedLivingViewModel.TempRes.OldReservation == null)
+            {
+                selectedLivingViewModel.TempRes.AddonList = new ObservableCollection<Addon>();
+                SetUpPage();
+            }
+            else
+            {
+                SetUpPageOldReservation();
+            }
 
         }
-        //protected override void OnNavigatedFrom(NavigationEventArgs e)
-        //{
-        //    if (e.SourcePageType == typeof(MyPageView)) 
-        //    {
-        //        bttn_bookChange.Content = "Ändra";
-        //        bttn_deleteReservation.Visibility = Visibility.Visible;
-        //    }
-        //    if(e.SourcePageType == typeof(SearchView))
-        //    {
-        //        bttn_bookChange.Content = "Boka";
-        //        bttn_deleteReservation.Visibility = Visibility.Collapsed;
-        //    }
+
             
         //}
         /// <summary>
@@ -97,28 +93,51 @@ namespace HolidayMakerClient
         /// </summary>
         public void SetUpPage()
         {
-            price = selectedLivingViewModel.TempRes.Home.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
-            TotalPrice = price;
+            HomePrice();
             CheckHome();
+            bttn_bookChange.Content = "Boka";
+            bttn_deleteReservation.Visibility = Visibility.Collapsed;
+        }
+        public void SetUpPageOldReservation()
+        {
+            selectedLivingViewModel.TempRes.TempId = selectedLivingViewModel.TempRes.OldReservation.ReservationId;
+            selectedLivingViewModel.TempRes.NumberOfGuests = selectedLivingViewModel.TempRes.OldReservation.NumberOfGuests.ToString();
+            selectedLivingViewModel.TempRes.StartDate = selectedLivingViewModel.TempRes.OldReservation.StartDate;
+            selectedLivingViewModel.TempRes.EndDate = selectedLivingViewModel.TempRes.OldReservation.EndDate;
+            //foreach (var ad in selectedLivingViewModel.TempRes.OldReservation.AddonList)
+            //{
+            //    ChosenAddons.Add(ad);
+            //}
+
+            HomePrice();
+            CheckHome();
+            UpdatePrice();
+            bttn_bookChange.Content = "Ändra";
+            bttn_deleteReservation.Visibility = Visibility.Visible;
+        }
+        public void HomePrice()
+        {
+            price = selectedLivingViewModel.TempRes.TempHome.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
+            TotalPrice = price;
         }
         /// <summary>
         /// Method checks wich addons are available
         /// </summary>
         public void CheckHome()
         {
-            if (selectedLivingViewModel.TempRes.Home.HasExtraBed == false)
+            if (selectedLivingViewModel.TempRes.TempHome.HasExtraBed == false)
             {
                 cb_ExtraBed.Visibility = Visibility.Collapsed;
             }
-            if (selectedLivingViewModel.TempRes.Home.HasAllInclusive == false)
+            if (selectedLivingViewModel.TempRes.TempHome.HasAllInclusive == false)
             {
                 Rb_addon0.Visibility = Visibility.Collapsed;
             }
-            if (selectedLivingViewModel.TempRes.Home.HasFullPension == false)
+            if (selectedLivingViewModel.TempRes.TempHome.HasFullPension == false)
             {
                 Rb_addon1.Visibility = Visibility.Collapsed;
             }
-            if (selectedLivingViewModel.TempRes.Home.HasHalfPension == false)
+            if (selectedLivingViewModel.TempRes.TempHome.HasHalfPension == false)
             {
                 Rb_addon2.Visibility = Visibility.Collapsed;
             }
@@ -169,7 +188,8 @@ namespace HolidayMakerClient
 
         private void bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
         {
-
+            selectedLivingViewModel.DeleteReservation(selectedLivingViewModel.TempRes);
+            Frame.Navigate(typeof(MyPageView));
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)

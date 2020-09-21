@@ -67,9 +67,20 @@ namespace HolidayMakerClient.View
             myPageViewModel.SelectedUserReservation(selectedReservation);       
         }
 
-        private void bttn_CancelReservation_Click(object sender, RoutedEventArgs e)
+        private async void bttn_CancelReservation_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: Content dialog with "are you sure" Then proceed to delete.
+            ContentDialog deleteReservation = new ContentDialog()
+            {
+                Title = "Avboka", Content = "Är du säker på att du vill avboka vald reservation ? ", PrimaryButtonText = "Ok", CloseButtonText = "Avbryt"
+            };
+            ContentDialogResult result = await deleteReservation.ShowAsync();
+
+            if (result == ContentDialogResult.Primary) //If they are ok we send the users id forward for deletion
+            {
+                myPageViewModel.DeleteReservation((Reservation)Lv_MyReservations.SelectedItem);
+            }
+
+            
         }
 
         private async void bttn_ChangeReservation_Click(object sender, RoutedEventArgs e)
@@ -82,7 +93,7 @@ namespace HolidayMakerClient.View
             {
                 TempReservation currentReservation = new TempReservation
                 {
-                    Home = myPageViewModel.SelectedHome[0],
+                    TempHome = myPageViewModel.SelectedHome[0],
                     OldReservation = myPageViewModel.SelectedReservation[0]
                 };
                 Frame.Navigate(typeof(SelectedLivingView), currentReservation);

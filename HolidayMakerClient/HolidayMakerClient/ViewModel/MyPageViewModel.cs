@@ -79,6 +79,10 @@ namespace HolidayMakerClient.ViewModel
             SelectedReservation.Clear();
             SelectedHome.Clear();
         }
+        public void DeleteReservation(Reservation reservation)
+        {
+             ApiHelper.Instance.DeleteReservation(reservation.ReservationId);
+        }
         #endregion
 
     }

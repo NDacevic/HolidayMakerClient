@@ -115,7 +115,7 @@ namespace HolidayMakerClient.View
             tempReservation = new TempReservation();
             SetDates();
             tempReservation.NumberOfGuests = comboBox_NumberOfGuests.SelectedValue.ToString();
-            tempReservation.Home = (Home)lv_SearchList.SelectedItem;
+            tempReservation.TempHome = (Home)lv_SearchList.SelectedItem;
         }
         public void SetDates()
         {
