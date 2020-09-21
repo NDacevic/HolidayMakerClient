@@ -84,12 +84,12 @@ namespace HolidayMakerClient
 
         }
 
-        public async void EditReservation(Reservation updatedReservation,DateTimeOffset startDate,DateTimeOffset endDate,decimal totalPrice,string numberOfGuests)
+        public async void EditReservation(Reservation updatedReservation,DateTimeOffset startDate,DateTimeOffset endDate,decimal totalPrice,ObservableCollection<Addon> chosenAddon,string numberOfGuests)
         {
             try
             {
                 JsonPatchDocument<Reservation> patchDoc = new JsonPatchDocument<Reservation>();
-                CreateReservationPatchDoc(updatedReservation, startDate, endDate ,numberOfGuests, totalPrice, patchDoc);
+                CreateReservationPatchDoc(updatedReservation, startDate, endDate ,numberOfGuests, totalPrice,chosenAddon ,patchDoc);
 
                 bool success = await ApiHelper.Instance.PatchReservation(updatedReservation.ReservationId, patchDoc);
 
@@ -105,9 +105,17 @@ namespace HolidayMakerClient
                 await new MessageDialog(exc.Message).ShowAsync();
             }
         }
-        public void CreateReservationPatchDoc(Reservation updatedReservation, DateTimeOffset startDate, DateTimeOffset endDate, string numberOfGuests,decimal totalPrice,JsonPatchDocument<Reservation> patchDoc)
+        public void CreateReservationPatchDoc(Reservation updatedReservation, DateTimeOffset startDate, DateTimeOffset endDate, string numberOfGuests,decimal totalPrice,ObservableCollection<Addon> chosenAddon,JsonPatchDocument<Reservation> patchDoc)
         {
+            List<Addon> tempList = new List<Addon>();
+            foreach(var tl in chosenAddon)
+            {
+                tempList.Add(tl);
+            }
             //We check for what is different and add that to the patch doc.
+            if (updatedReservation.AddonList != tempList)
+                patchDoc.Replace(x => x.AddonList, tempList);
+
             if (updatedReservation.StartDate != startDate)
                 patchDoc.Replace(x => x.StartDate, startDate);
 

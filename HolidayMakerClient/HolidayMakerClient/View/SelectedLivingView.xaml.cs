@@ -185,8 +185,8 @@ namespace HolidayMakerClient
         {
             if (bttn_bookChange.Content.ToString() == "Ändra")
             {
-                UpdateReservationAddonList();
-                selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value, totalPrice, combobox_ChangeGuests.SelectedValue.ToString());
+                //UpdateReservationAddonList();
+                selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value, totalPrice,ChosenAddons ,combobox_ChangeGuests.SelectedValue.ToString());
             }
             else
             {
