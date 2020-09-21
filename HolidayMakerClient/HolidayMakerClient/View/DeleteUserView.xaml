@@ -1,0 +1,52 @@
+﻿<ContentDialog
+    x:Class="HolidayMakerClient.View.DeleteUserView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HolidayMakerClient.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock 
+            Grid.Column="1"
+            Width="200"
+            TextWrapping="Wrap"
+            HorizontalTextAlignment="Center"
+            Text="Vänligen ange ditt lösenord för att permanent radera din användarprofil"/>
+        <PasswordBox
+            Name="pwd_ConfirmPassword"
+            Grid.Column="1"
+            Grid.Row="1"
+            Width="200"/>
+        <Button
+            Name="bttn_ConfirmPassword"
+            Grid.Column="1"
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            Content="Ta bort användare"
+            Click="bttn_ConfirmPassword_Click"/>
+        <Button
+            Name="bttn_Abort"
+            Grid.Column="1"
+            Grid.Row="3"
+            HorizontalAlignment="Center"
+            Margin="0,5,0,0"
+            Content="Avbryt"
+            Click="bttn_Abort_Click"/>
+
+    </Grid>
+</ContentDialog>

@@ -48,6 +48,12 @@
                        Click="bttn_CancelReservation_Click"
                        HorizontalAlignment="Right"
                        Margin="0,0,30,0"/>
+            <Button    Content="Avregistrera användare" 
+                       Background="Red"
+                       x:Name="bttn_RemoveUser"
+                       Click="bttn_RemoveUser_Click"
+                       HorizontalAlignment="Right"
+                       Margin="0,0,30,0"/>
 
         </StackPanel>
         <StackPanel Grid.Row="1">
