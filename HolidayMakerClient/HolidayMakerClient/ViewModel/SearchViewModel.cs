@@ -47,47 +47,55 @@ namespace HolidayMakerClient.ViewModel
         /// <summary>
         /// TBD
         /// </summary>
-        public async void Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests, bool advancedFilterActive, Home advancedFilterParams)
+        public async void Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests, Home advancedFilterParams, DependencyObject grid_AdvancedSearch)
         {
             SearchParameterDto searchObj = new SearchParameterDto(searchString, startDate, endDate, numberOfGuests);
             var homeList = await ApiHelper.Instance.GetSearchResults(searchObj);
             
             HomeList.Clear();
-            SortedHomeList.Clear();
 
             foreach (var x in homeList)
             {
                 x.AverageRating = ((double)x.SumOfRatings / (double)x.NumberOfRatings);
 
                 HomeList.Add(x);
-                SortedHomeList.Add(x);
             }
-
-            if (advancedFilterActive)
-                Filter(advancedFilterParams);
+            
+            Filter(advancedFilterParams, grid_AdvancedSearch);
         }
-        /// <summary>
-        /// TBD
-        /// </summary>
-        public void GetHomes()
-        {
 
-        }
-        /// <summary>
-        /// TBD
-        /// </summary>
-        public void Filter(Home advancedFilterParams)
+        public void Filter(Home advancedFilterParams, DependencyObject grid)
         {
             SortedHomeList.Clear();
+            IEnumerable<Home> filteredHomeList;
 
-            var filteredHomeList = HomeList.Where(x =>
-            x.AllowPets == advancedFilterParams.AllowPets &&
-            x.AllowSmoking == advancedFilterParams.AllowSmoking &&
-            x.HasBalcony == advancedFilterParams.HasBalcony &&
-            x.HasPool == advancedFilterParams.HasPool &&
-            x.HasWifi == advancedFilterParams.HasWifi &&
-            x.CityDistance <= advancedFilterParams.CityDistance &&
-            x.BeachDistance <= advancedFilterParams.BeachDistance);
+            if (advancedFilterParams.CityDistance != 0 ||
+                    advancedFilterParams.BeachDistance != 0)
+            {
+                if (advancedFilterParams.CityDistance != 0 &&
+                    advancedFilterParams.BeachDistance == 0)
+                    filteredHomeList = HomeList.Where(x => x.CityDistance <= advancedFilterParams.CityDistance);
+                else if (
+                    advancedFilterParams.BeachDistance != 0 &&
+                    advancedFilterParams.CityDistance == 0)
+                    filteredHomeList = HomeList.Where(x => x.BeachDistance <= advancedFilterParams.BeachDistance);
+                else
+                    filteredHomeList = HomeList.Where(x =>
+                    x.CityDistance <= advancedFilterParams.CityDistance &&
+                    x.BeachDistance <= advancedFilterParams.BeachDistance);
+            }
+            else
+                filteredHomeList = HomeList.Select(x => x);
+
+            if (!AllFalseAdvancedSearch(grid))
+            {
+                filteredHomeList = filteredHomeList.Where(x =>
+                x.AllowPets == advancedFilterParams.AllowPets &&
+                x.AllowSmoking == advancedFilterParams.AllowSmoking &&
+                x.HasBalcony == advancedFilterParams.HasBalcony &&
+                x.HasPool == advancedFilterParams.HasPool &&
+                x.HasWifi == advancedFilterParams.HasWifi);
+            }
 
             foreach (var x in filteredHomeList)
                 SortedHomeList.Add(x);
@@ -98,13 +106,6 @@ namespace HolidayMakerClient.ViewModel
             SortedHomeList.Clear();
             foreach (var home in HomeList)
                 SortedHomeList.Add(home);
-        }
-        /// <summary>
-        /// TBD
-        /// </summary>
-        public void ResetSearch()
-        {
-
         }
 
         public void SortList(string parameter)
@@ -219,7 +220,7 @@ namespace HolidayMakerClient.ViewModel
                 if (fontIcon != fi)
                     fi.Glyph = "";
         }
-        private FontIcon FindFontIconChild(DependencyObject parent)
+        public FontIcon FindFontIconChild(DependencyObject parent)
         {
             //If the font icon is found then we just exit the method with the object in hand.
             if (parent is FontIcon)
@@ -241,6 +242,36 @@ namespace HolidayMakerClient.ViewModel
             }
             //return with the fonticon
             return foundFontIcon;
+        }
+
+        public void FindAdvancedSearchElements(List<Control> list, DependencyObject parent)
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+
+                if (child.GetType() == typeof(ToggleSwitch))
+                    list.Add((Control)child);
+                else
+                    FindAdvancedSearchElements(list, child);
+            }
+        }
+
+        public bool AllFalseAdvancedSearch(DependencyObject uiElement)
+        {
+            List<Control> controls = new List<Control>();
+            FindAdvancedSearchElements(controls, uiElement);
+
+            bool allFalse = true;
+
+            foreach (var x in controls)
+            {
+                if (x.GetType() == typeof(ToggleSwitch))
+                    if (((ToggleSwitch)x).IsOn)
+                        allFalse = false;
+            }
+
+            return allFalse;
         }
         #endregion
     }

@@ -67,26 +67,19 @@ namespace HolidayMakerClient.View
         private void ShowHideAdvancedSearch(object sender, RoutedEventArgs args)
         {
             if (grid_AdvancedSearch.Visibility == Visibility.Collapsed)
-            {
                 grid_AdvancedSearch.Visibility = Visibility.Visible;
-                searchViewModel.Filter(CreateAdvancedFilterParams());
-            }
             else
-            {
                 grid_AdvancedSearch.Visibility = Visibility.Collapsed;
-                searchViewModel.ClearFilter();
-            }
         }
         private void SearchButton_Clicked(object sender, RoutedEventArgs args)
         {
             Search();
         }
+
         private void Search()
         {
             //TODO: Add error handling when search parameters are empty //MO
             int.TryParse(comboBox_NumberOfGuests.SelectedValue.ToString(), out int numberOfGuests);
-
-            bool advancedSearchActive = grid_AdvancedSearch.Visibility == Visibility.Visible ? true : false;
 
             searchViewModel.Search
                 (
@@ -94,8 +87,8 @@ namespace HolidayMakerClient.View
                 (DateTimeOffset)datePicker_StartDate.Date,
                 (DateTimeOffset)datePicker_EndDate.Date,
                 numberOfGuests,
-                advancedSearchActive,
-                CreateAdvancedFilterParams()
+                CreateAdvancedFilterParams(),
+                grid_AdvancedSearch
                 );
         }
         private Home CreateAdvancedFilterParams()
@@ -172,7 +165,7 @@ namespace HolidayMakerClient.View
 
         private void RefreshSearch(object sender, RoutedEventArgs e)
         {
-            searchViewModel.Filter(CreateAdvancedFilterParams());
+            searchViewModel.Filter(CreateAdvancedFilterParams(), grid_AdvancedSearch);
         }
 
         private void CreateSortList()
@@ -198,6 +191,8 @@ namespace HolidayMakerClient.View
         {
             CheckActiveUser();
         }
+
+        
         #endregion
     }
 }
