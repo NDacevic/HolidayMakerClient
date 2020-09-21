@@ -50,8 +50,15 @@ namespace HolidayMakerClient
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             selectedLivingViewModel.TempRes = (TempReservation)e.Parameter;
-            selectedLivingViewModel.TempRes.AddonList = new ObservableCollection<Addon>();
-            SetUpPage();
+            if(selectedLivingViewModel.TempRes.OldReservation == null)
+            {
+                selectedLivingViewModel.TempRes.AddonList = new ObservableCollection<Addon>();
+                SetUpPage();
+            }
+            else
+            {
+                SetUpPageOldReservation();
+            }
 
         }
 
@@ -98,9 +105,28 @@ namespace HolidayMakerClient
         /// </summary>
         public void SetUpPage()
         {
+            HomePrice();
+            CheckHome();
+        }
+        public async void SetUpPageOldReservation()
+        {
+            selectedLivingViewModel.TempRes.TempId = selectedLivingViewModel.TempRes.OldReservation.ReservationId;
+            selectedLivingViewModel.TempRes.NumberOfGuests = selectedLivingViewModel.TempRes.OldReservation.NumberOfGuests.ToString();
+            selectedLivingViewModel.TempRes.StartDate = selectedLivingViewModel.TempRes.OldReservation.StartDate;
+            selectedLivingViewModel.TempRes.TempHome = await ApiHelper.Instance.GetHome(selectedLivingViewModel.TempRes.OldReservation.ReservationId);
+            var addonlist = await ApiHelper.Instance.GetReservationAddon(selectedLivingViewModel.TempRes.TempId);
+            foreach (var ad in addonlist)
+            {
+                ChosenAddons.Add(ad); 
+            }
+
+            HomePrice();
+            CheckHome();
+        }
+        public void HomePrice()
+        {
             price = selectedLivingViewModel.TempRes.TempHome.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
             TotalPrice = price;
-            CheckHome();
         }
         /// <summary>
         /// Method checks wich addons are available

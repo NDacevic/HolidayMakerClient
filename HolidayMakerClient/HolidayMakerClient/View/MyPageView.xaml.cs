@@ -91,21 +91,11 @@ namespace HolidayMakerClient.View
             }
             else
             {
-                Reservation reservation = (Reservation)Lv_MyReservations.SelectedItem;
                 TempReservation currentReservation = new TempReservation
                 {
-                    TempId = reservation.ReservationId,
-                    NumberOfGuests = reservation.NumberOfGuests.ToString(),
-                    StartDate = reservation.StartDate,
-                    EndDate = reservation.EndDate,
-                    TotalPrice = reservation.TotalPrice,
-                    TempHome = await myPageViewModel.GetHome(reservation.HomeId),
-                    AddonList = new ObservableCollection<Addon>()
+                    TempHome = myPageViewModel.SelectedHome[0],
+                    OldReservation = myPageViewModel.SelectedReservation[0]
                 };
-                if(reservation.AddonList.Count != 0)
-                {
-                    foreach (var ad in reservation.AddonList) currentReservation.AddonList.Add(ad);
-                }
                 Frame.Navigate(typeof(SelectedLivingView), currentReservation);
             }
         }        
