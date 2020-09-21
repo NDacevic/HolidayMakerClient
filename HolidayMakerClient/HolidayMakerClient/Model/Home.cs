@@ -17,7 +17,7 @@ namespace HolidayMakerClient.Model
         #endregion
 
         #region Constructors
-        public Home(string homeType, int rooms,string location, decimal price,bool hasBalcony,bool allowPets,bool hasWifi,string image,bool hasHalfPension,bool hasFullPension, bool hasAllInclusive, bool hasExtraBed,int cityDistance,int beachDistance,int numberOfBeds,bool hasPool,bool allowSmoking,string description,int numberOfRatings,int sumOfRatings )
+        public Home(string homeType, int rooms,string location, decimal price,bool hasBalcony,bool allowPets,bool hasWifi,string image,bool hasHalfPension,bool hasFullPension, bool hasAllInclusive, bool hasExtraBed,int cityDistance,int beachDistance,int numberOfBeds,bool hasPool,bool allowSmoking,string description)
         {
             HomeType = homeType;
             Rooms = rooms;
@@ -37,8 +37,8 @@ namespace HolidayMakerClient.Model
             HasPool = hasPool;
             AllowSmoking = allowSmoking;
             Description = description;
-            NumberOfRatings = numberOfRatings;
-            SumOfRatings = sumOfRatings;
+            NumberOfRatings = 0;
+            SumOfRatings = 0;
         }
         public Home()
         {
