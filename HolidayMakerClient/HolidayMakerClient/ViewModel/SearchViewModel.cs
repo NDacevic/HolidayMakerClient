@@ -47,41 +47,29 @@ namespace HolidayMakerClient.ViewModel
         /// <summary>
         /// TBD
         /// </summary>
-        public async void Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests, bool AllFalseFilter, Home advancedFilterParams, DependencyObject grid_AdvancedSearch)
+        public async void Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests, Home advancedFilterParams, DependencyObject grid_AdvancedSearch)
         {
             SearchParameterDto searchObj = new SearchParameterDto(searchString, startDate, endDate, numberOfGuests);
             var homeList = await ApiHelper.Instance.GetSearchResults(searchObj);
             
             HomeList.Clear();
-            SortedHomeList.Clear();
 
             foreach (var x in homeList)
             {
                 x.AverageRating = ((double)x.SumOfRatings / (double)x.NumberOfRatings);
 
                 HomeList.Add(x);
-                SortedHomeList.Add(x);
             }
-
-            if(!AllFalseFilter)
-                Filter(advancedFilterParams, grid_AdvancedSearch);
+            
+            Filter(advancedFilterParams, grid_AdvancedSearch);
         }
-        /// <summary>
-        /// TBD
-        /// </summary>
-        public void GetHomes()
-        {
 
-        }
-        /// <summary>
-        /// TBD
-        /// </summary>
         public void Filter(Home advancedFilterParams, DependencyObject grid)
         {
             SortedHomeList.Clear();
             IEnumerable<Home> filteredHomeList;
 
-            if (advancedFilterParams.CityDistance != 0 &&
+            if (advancedFilterParams.CityDistance != 0 ||
                     advancedFilterParams.BeachDistance != 0)
             {
                 if (advancedFilterParams.CityDistance != 0 &&
@@ -90,7 +78,7 @@ namespace HolidayMakerClient.ViewModel
                 else if (
                     advancedFilterParams.BeachDistance != 0 &&
                     advancedFilterParams.CityDistance == 0)
-                    filteredHomeList = HomeList.Where(x => x.CityDistance <= advancedFilterParams.BeachDistance);
+                    filteredHomeList = HomeList.Where(x => x.BeachDistance <= advancedFilterParams.BeachDistance);
                 else
                     filteredHomeList = HomeList.Where(x =>
                     x.CityDistance <= advancedFilterParams.CityDistance &&
