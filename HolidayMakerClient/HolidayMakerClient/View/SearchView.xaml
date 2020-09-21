@@ -520,54 +520,105 @@
                             <!--#endregion-->
                             
                             <!--#region Column2: Extra info-->
-                            <StackPanel
+                            <Grid
                                 Grid.Column="2"
                                 Grid.Row="0"
                                 Grid.RowSpan="3"
                                 VerticalAlignment="Bottom"
                                 Margin="0,0,10,10"
-                                >
-                                <TextBlock>
-                                    <Run
-                                        Text="Rum:"
-                                        />
-                                    <Run
-                                        Text="{x:Bind Rooms}"
-                                        />
-                                </TextBlock>
+                                ColumnSpacing="20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel
+                                    Grid.Column="0">
+                                    <TextBlock>
+                                        <Run
+                                            Text="Wifi:"
+                                            />
+                                        <Run
+                                            Text="{x:Bind HasWifi}"
+                                            />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run
+                                            Text="Balkong:"
+                                            />
+                                        <Run
+                                            Text="{x:Bind HasBalcony}"
+                                            />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run
+                                            Text="Pool:"
+                                            />
+                                        <Run
+                                            Text="{x:Bind HasPool}"
+                                            />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run
+                                            Text="Husdjur:"
+                                            />
+                                        <Run
+                                            Text="{x:Bind AllowPets}"
+                                            />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run
+                                            Text="Rökning:"/>
+                                        <Run
+                                            Text="{x:Bind AllowSmoking}"
+                                            />
+                                    </TextBlock>
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Column="1"
+                                    VerticalAlignment="Bottom">
+                                    <TextBlock>
+                                        <Run
+                                            Text="Rum:"
+                                            />
+                                        <Run
+                                            Text="{x:Bind Rooms}"
+                                            />
+                                    </TextBlock>
 
-                                <TextBlock>
-                                    <Run
-                                        Text="Sängar:"
-                                        />
-                                    <Run
-                                        Text="{x:Bind NumberOfBeds}"
-                                        />
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run
-                                        Text="Centrum:"
-                                        />
-                                    <Run
-                                        Text="{x:Bind CityDistance}"
-                                        />
-                                    <Run
-                                        Text="km"
-                                        />
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run
-                                        Text="Strand:"
-                                        />
-                                    <Run
-                                        Text="{x:Bind BeachDistance}"
-                                        />
-                                    <Run
-                                        Text="km"
-                                        />
-                                </TextBlock>
-                            </StackPanel>
+                                    <TextBlock>
+                                        <Run
+                                            Text="Sängar:"
+                                            />
+                                        <Run
+                                            Text="{x:Bind NumberOfBeds}"
+                                            />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run
+                                            Text="Centrum:"
+                                            />
+                                        <Run
+                                            Text="{x:Bind CityDistance}"
+                                            />
+                                        <Run
+                                            Text="km"
+                                            />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run
+                                            Text="Strand:"
+                                            />
+                                        <Run
+                                            Text="{x:Bind BeachDistance}"
+                                            />
+                                        <Run
+                                            Text="km"
+                                            />
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
                             <!--#endregion-->
+                            
                             <!--#region Column 3: Price-->
                             <TextBlock
                                 Grid.Column="3"
