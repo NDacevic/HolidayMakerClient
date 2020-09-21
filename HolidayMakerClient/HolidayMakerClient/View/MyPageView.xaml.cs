@@ -99,9 +99,9 @@ namespace HolidayMakerClient.View
 
         #endregion
 
-        private void bttn_RemoveUser_Click(object sender, RoutedEventArgs e)
+        private async void bttn_RemoveUser_Click(object sender, RoutedEventArgs e)
         {
-
+            await new DeleteUserView().ShowAsync();
         }
     }
 }

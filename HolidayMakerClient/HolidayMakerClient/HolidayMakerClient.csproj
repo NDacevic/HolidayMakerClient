@@ -122,8 +122,8 @@
     </Compile>
     <Compile Include="Dto\SearchParameterDto.cs" />
     <Compile Include="Model\TempReservation.cs" />
-    <Compile Include="View\DeleteUser.xaml.cs">
-      <DependentUpon>DeleteUser.xaml</DependentUpon>
+    <Compile Include="View\DeleteUserView.xaml.cs">
+      <DependentUpon>DeleteUserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -175,7 +175,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="View\DeleteUser.xaml">
+    <Page Include="View\DeleteUserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
