@@ -70,7 +70,15 @@ namespace HolidayMakerClient
 
         public void DeleteReservation(TempReservation tempReservation)
         {
-            ApiHelper.Instance.DeleteReservation(tempReservation.TempId);
+            try
+            {
+                ApiHelper.Instance.DeleteReservation(tempReservation.TempId);
+            }
+            catch
+            {
+                return;
+            }
+            
 
         }
 

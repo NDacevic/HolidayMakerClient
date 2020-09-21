@@ -98,18 +98,16 @@ namespace HolidayMakerClient
             bttn_bookChange.Content = "Boka";
             bttn_deleteReservation.Visibility = Visibility.Collapsed;
         }
-        public async void SetUpPageOldReservation()
+        public void SetUpPageOldReservation()
         {
             selectedLivingViewModel.TempRes.TempId = selectedLivingViewModel.TempRes.OldReservation.ReservationId;
             selectedLivingViewModel.TempRes.NumberOfGuests = selectedLivingViewModel.TempRes.OldReservation.NumberOfGuests.ToString();
             selectedLivingViewModel.TempRes.StartDate = selectedLivingViewModel.TempRes.OldReservation.StartDate;
             selectedLivingViewModel.TempRes.EndDate = selectedLivingViewModel.TempRes.OldReservation.EndDate;
-            //selectedLivingViewModel.TempRes.AddonList = selectedLivingViewModel.TempRes.OldReservation.AddonList;
-            var addonlist = await ApiHelper.Instance.GetReservationAddon(selectedLivingViewModel.TempRes.TempId);
-            foreach (var ad in addonlist)
-            {
-                ChosenAddons.Add(ad); 
-            }
+            //foreach (var ad in selectedLivingViewModel.TempRes.OldReservation.AddonList)
+            //{
+            //    ChosenAddons.Add(ad);
+            //}
 
             HomePrice();
             CheckHome();
@@ -191,6 +189,7 @@ namespace HolidayMakerClient
         private void bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
         {
             selectedLivingViewModel.DeleteReservation(selectedLivingViewModel.TempRes);
+            Frame.Navigate(typeof(MyPageView));
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
