@@ -54,11 +54,8 @@ namespace HolidayMakerClient
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            bttn_bookChange.Content = "Ändra";
-            if ( bttn_bookChange.Content == "Ändra")
-            {
-                combobox_ChangeGuests.Visibility = Visibility.Visible;
-            }
+            
+          
             selectedLivingViewModel.TempRes = (TempReservation)e.Parameter;
             selectedLivingViewModel.TempRes.AddonList = new ObservableCollection<Addon>();
             SetUpPage();
@@ -161,8 +158,9 @@ namespace HolidayMakerClient
 
         private async void bttn_bookChange_Click(object sender, RoutedEventArgs e)
         {
-            if (bttn_bookChange.Content == "Ändra")
+            if (bttn_bookChange.Content.ToString() == "Ändra")
             {
+                combobox_ChangeGuests.Visibility = Visibility.Visible;
                 selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value,combobox_ChangeGuests.SelectedValue.ToString());
             }
             else
