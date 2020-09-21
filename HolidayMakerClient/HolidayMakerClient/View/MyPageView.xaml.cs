@@ -99,7 +99,7 @@ namespace HolidayMakerClient.View
 
         #endregion
 
-        private void bttn_RemoveUser_Click()
+        private void bttn_RemoveUser_Click(object sender, RoutedEventArgs e)
         {
 
         }
