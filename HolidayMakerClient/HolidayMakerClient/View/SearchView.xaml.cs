@@ -159,13 +159,6 @@ namespace HolidayMakerClient.View
         private void RefreshSearch(object sender, RoutedEventArgs e)
         {
             searchViewModel.Filter(CreateAdvancedFilterParams(), grid_AdvancedSearch);
-            /*
-            if (!searchViewModel.AllFalseAdvancedSearch(grid_AdvancedSearch))
-                
-            else
-                searchViewModel.ClearFilter();
-            */
-
         }
 
         private void CreateSortList()
