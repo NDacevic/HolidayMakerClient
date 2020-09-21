@@ -319,6 +319,7 @@ namespace HolidayMakerClient
                     }
                 }
             }
+            
             catch (Exception exc)
             {
                 BasicNoConnectionMessage(exc);

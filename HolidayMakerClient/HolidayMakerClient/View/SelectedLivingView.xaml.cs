@@ -68,26 +68,10 @@ namespace HolidayMakerClient
             }
 
         }
-<<<<<<< HEAD
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            if (e.SourcePageType == typeof(MyPageView))
-            {
-                bttn_bookChange.Content = "Ändra";
-                bttn_deleteReservation.Visibility = Visibility.Visible;
-            }
-            if (e.SourcePageType == typeof(SearchView))
-            {
-                bttn_bookChange.Content = "Boka";
-                bttn_deleteReservation.Visibility = Visibility.Collapsed;
-            }
 
-        }
-=======
 
             
-        //}
->>>>>>> dev
+
         /// <summary>
         /// Get list of all addons except for ExtraBed from DB, this because ExtraBed is treated differently from the other addons
         /// </summary>
@@ -117,11 +101,7 @@ namespace HolidayMakerClient
         /// </summary>
         public void SetUpPage()
         {
-<<<<<<< HEAD
-           
-            price = selectedLivingViewModel.TempRes.Home.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
-            TotalPrice = price;
-=======
+
             HomePrice();
             CheckHome();
             bttn_bookChange.Content = "Boka";
@@ -133,16 +113,17 @@ namespace HolidayMakerClient
             selectedLivingViewModel.TempRes.NumberOfGuests = selectedLivingViewModel.TempRes.OldReservation.NumberOfGuests.ToString();
             selectedLivingViewModel.TempRes.StartDate = selectedLivingViewModel.TempRes.OldReservation.StartDate;
             selectedLivingViewModel.TempRes.EndDate = selectedLivingViewModel.TempRes.OldReservation.EndDate;
-            //foreach (var ad in selectedLivingViewModel.TempRes.OldReservation.AddonList)
-            //{
-            //    ChosenAddons.Add(ad);
-            //}
+            foreach (var ad in selectedLivingViewModel.TempRes.OldReservation.AddonList)
+            {
+                ChosenAddons.Add(ad);
+            }
 
             HomePrice();
->>>>>>> dev
+
             CheckHome();
             UpdatePrice();
             bttn_bookChange.Content = "Ändra";
+            combobox_ChangeGuests.Visibility = Visibility.Visible;
             bttn_deleteReservation.Visibility = Visibility.Visible;
         }
         public void HomePrice()
@@ -201,8 +182,8 @@ namespace HolidayMakerClient
         {
             if (bttn_bookChange.Content.ToString() == "Ändra")
             {
-                combobox_ChangeGuests.Visibility = Visibility.Visible;
-                selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value,combobox_ChangeGuests.SelectedValue.ToString());
+                UpdateReservationAddonList();
+                selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value, totalPrice, combobox_ChangeGuests.SelectedValue.ToString());
             }
             else
             {
@@ -223,7 +204,21 @@ namespace HolidayMakerClient
             }
    
         }
+        private void UpdateReservationAddonList()
+        {
+            foreach(Addon a in ChosenAddons)
+            {
+                if (selectedLivingViewModel.TempRes.OldReservation.AddonList.Contains(a))
+                {
 
+                }
+                else
+                {
+                    selectedLivingViewModel.TempRes.OldReservation.AddonList.Add(a);
+                }
+                
+            }
+        }
        
 
         private void bttn_deleteReservation_Click(object sender, RoutedEventArgs e)

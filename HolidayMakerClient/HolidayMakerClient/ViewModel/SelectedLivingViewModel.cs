@@ -84,19 +84,19 @@ namespace HolidayMakerClient
 
         }
 
-        public async void EditReservation(Reservation updatedReservation,DateTimeOffset startDate,DateTimeOffset endDate,string numberOfGuests)
+        public async void EditReservation(Reservation updatedReservation,DateTimeOffset startDate,DateTimeOffset endDate,decimal totalPrice,string numberOfGuests)
         {
             try
             {
                 JsonPatchDocument<Reservation> patchDoc = new JsonPatchDocument<Reservation>();
-                CreateReservationPatchDoc(updatedReservation, startDate, endDate, numberOfGuests, patchDoc);
+                CreateReservationPatchDoc(updatedReservation, startDate, endDate ,numberOfGuests, totalPrice, patchDoc);
 
                 bool success = await ApiHelper.Instance.PatchReservation(updatedReservation.ReservationId, patchDoc);
 
                 if (success)
                 {
  
-                    await new MessageDialog("Användarinformation ändrad").ShowAsync();
+                    await new MessageDialog("Ändring genomförd").ShowAsync();
                 }
 
             }
@@ -105,7 +105,7 @@ namespace HolidayMakerClient
                 await new MessageDialog(exc.Message).ShowAsync();
             }
         }
-        public void CreateReservationPatchDoc(Reservation updatedReservation, DateTimeOffset startDate, DateTimeOffset endDate, string numberOfGuests,JsonPatchDocument<Reservation> patchDoc)
+        public void CreateReservationPatchDoc(Reservation updatedReservation, DateTimeOffset startDate, DateTimeOffset endDate, string numberOfGuests,decimal totalPrice,JsonPatchDocument<Reservation> patchDoc)
         {
             //We check for what is different and add that to the patch doc.
             if (updatedReservation.StartDate != startDate)
@@ -116,6 +116,9 @@ namespace HolidayMakerClient
 
             if (updatedReservation.NumberOfGuests != int.Parse(numberOfGuests))
                 patchDoc.Replace(x => x.NumberOfGuests, int.Parse(numberOfGuests));
+
+            if (updatedReservation.TotalPrice != totalPrice)
+                patchDoc.Replace(x => x.TotalPrice, totalPrice);
 
             string reservation = JsonConvert.SerializeObject(patchDoc);
 
