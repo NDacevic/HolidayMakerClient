@@ -85,7 +85,15 @@ namespace HolidayMakerClient
         /// </summary>
         public void ExtraBed()
         {
-            selectedLivingViewModel.GetAddonExtraBed();
+            try
+            {
+                selectedLivingViewModel.GetAddonExtraBed();
+            }
+            catch
+            {
+                return;
+            }
+            
 
         }
         /// <summary>
@@ -99,6 +107,9 @@ namespace HolidayMakerClient
             Bttn_deleteReservation.Visibility = Visibility.Collapsed;
             Bttn_ToMyPage.Visibility = Visibility.Collapsed;
         }
+        /// <summary>
+        /// Prepare page when navigated from MyPage
+        /// </summary>
         public void SetUpPageOldReservation()
         {
             selectedLivingViewModel.TempRes.TempId = selectedLivingViewModel.TempRes.OldReservation.ReservationId;
@@ -186,13 +197,22 @@ namespace HolidayMakerClient
                 return;
             }
         }
-
+        /// <summary>
+        /// Delete reservation when navigating from MyPageView with chosen reservation. When navigated from SearchView the button is hidden
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void Bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
         {
             selectedLivingViewModel.DeleteReservation(selectedLivingViewModel.TempRes);
             Frame.Navigate(typeof(MyPageView));
         }
+        /// <summary>
+        /// Gets the list of addons plus the addon ExtraBed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -253,6 +273,11 @@ namespace HolidayMakerClient
             UpdatePrice();
 
         }
+        /// <summary>
+        /// If RadioButtens is unchecked or switching between them, correct Totalprice is shown 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void Rb_addon_Unchecked(object sender, RoutedEventArgs e)
         {
@@ -314,7 +339,11 @@ namespace HolidayMakerClient
         {
             Frame.Navigate(typeof(SearchView));
         }
-
+        /// <summary>
+        /// Navigate to MyPage 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Bttn_ToMyPage_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MyPageView));
