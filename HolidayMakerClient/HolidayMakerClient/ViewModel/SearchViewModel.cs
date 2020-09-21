@@ -47,7 +47,7 @@ namespace HolidayMakerClient.ViewModel
         /// <summary>
         /// TBD
         /// </summary>
-        public async void Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests, bool AllFalseFilter, Home advancedFilterParams)
+        public async void Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests, bool AllFalseFilter, Home advancedFilterParams, DependencyObject grid_AdvancedSearch)
         {
             SearchParameterDto searchObj = new SearchParameterDto(searchString, startDate, endDate, numberOfGuests);
             var homeList = await ApiHelper.Instance.GetSearchResults(searchObj);
@@ -64,7 +64,7 @@ namespace HolidayMakerClient.ViewModel
             }
 
             if(!AllFalseFilter)
-                Filter(advancedFilterParams);
+                Filter(advancedFilterParams, grid_AdvancedSearch);
         }
         /// <summary>
         /// TBD
@@ -76,20 +76,38 @@ namespace HolidayMakerClient.ViewModel
         /// <summary>
         /// TBD
         /// </summary>
-        public void Filter(Home advancedFilterParams)
+        public void Filter(Home advancedFilterParams, DependencyObject grid)
         {
             SortedHomeList.Clear();
+            IEnumerable<Home> filteredHomeList;
 
+            if (advancedFilterParams.CityDistance != 0 &&
+                    advancedFilterParams.BeachDistance != 0)
+            {
+                if (advancedFilterParams.CityDistance != 0 &&
+                    advancedFilterParams.BeachDistance == 0)
+                    filteredHomeList = HomeList.Where(x => x.CityDistance <= advancedFilterParams.CityDistance);
+                else if (
+                    advancedFilterParams.BeachDistance != 0 &&
+                    advancedFilterParams.CityDistance == 0)
+                    filteredHomeList = HomeList.Where(x => x.CityDistance <= advancedFilterParams.BeachDistance);
+                else
+                    filteredHomeList = HomeList.Where(x =>
+                    x.CityDistance <= advancedFilterParams.CityDistance &&
+                    x.BeachDistance <= advancedFilterParams.BeachDistance);
+            }
+            else
+                filteredHomeList = HomeList.Select(x => x);
 
-            var filteredHomeList = HomeList.Where(x =>
-            x.AllowPets == advancedFilterParams.AllowPets &&
-            x.AllowSmoking == advancedFilterParams.AllowSmoking &&
-            x.HasBalcony == advancedFilterParams.HasBalcony &&
-            x.HasPool == advancedFilterParams.HasPool &&
-            x.HasWifi == advancedFilterParams.HasWifi);
-
-            // x.CityDistance <= advancedFilterParams.CityDistance
-            //x.BeachDistance <= advancedFilterParams.BeachDistance
+            if (!AllFalseAdvancedSearch(grid))
+            {
+                filteredHomeList = filteredHomeList.Where(x =>
+                x.AllowPets == advancedFilterParams.AllowPets &&
+                x.AllowSmoking == advancedFilterParams.AllowSmoking &&
+                x.HasBalcony == advancedFilterParams.HasBalcony &&
+                x.HasPool == advancedFilterParams.HasPool &&
+                x.HasWifi == advancedFilterParams.HasWifi);
+            }
 
             foreach (var x in filteredHomeList)
                 SortedHomeList.Add(x);
@@ -244,8 +262,7 @@ namespace HolidayMakerClient.ViewModel
             {
                 var child = VisualTreeHelper.GetChild(parent, i);
 
-                if (child.GetType() == typeof(ToggleSwitch) ||
-                    child.GetType() == typeof(Slider))
+                if (child.GetType() == typeof(ToggleSwitch))
                     list.Add((Control)child);
                 else
                     FindAdvancedSearchElements(list, child);
@@ -263,9 +280,6 @@ namespace HolidayMakerClient.ViewModel
             {
                 if (x.GetType() == typeof(ToggleSwitch))
                     if (((ToggleSwitch)x).IsOn)
-                        allFalse = false;
-                if (x.GetType() == typeof(Slider))
-                    if (((Slider)x).Value != 0)
                         allFalse = false;
             }
 
