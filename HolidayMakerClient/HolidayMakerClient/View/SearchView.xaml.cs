@@ -63,6 +63,7 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Methods
+
         private void ShowHideAdvancedSearch(object sender, RoutedEventArgs args)
         {
             if (grid_AdvancedSearch.Visibility == Visibility.Collapsed)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HolidayMakerClient.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,20 +24,21 @@ namespace HolidayMakerClient.View
     /// </summary>
     public sealed partial class DeleteUserView : ContentDialog
     {
+        private DeleteUserViewModel deleteUserViewModel = new DeleteUserViewModel();
+
         public DeleteUserView()
         {
             this.InitializeComponent();
+
         }
 
         private async void bttn_ConfirmPassword_Click(object sender, RoutedEventArgs e)
         {
-            if (pwd_ConfirmPassword.Password == LoginViewModel.Instance.ActiveUser.Password)
-            {
-                await ApiHelper.Instance.DeleteUser(LoginViewModel.Instance.ActiveUser.UserId);
+            bool isUserDeleted;
+            isUserDeleted = await deleteUserViewModel.ConfirmPassword(pwd_ConfirmPassword.Password);
+            if (isUserDeleted)
                 Hide();
-            }
-            else
-                await new MessageDialog("Felaktigt lösenord. Vänligen försök igen.").ShowAsync();            
+      
         }
 
         private void bttn_Abort_Click(object sender, RoutedEventArgs e)

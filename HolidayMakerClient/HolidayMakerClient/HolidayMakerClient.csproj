@@ -122,6 +122,7 @@
     </Compile>
     <Compile Include="Dto\SearchParameterDto.cs" />
     <Compile Include="Model\TempReservation.cs" />
+    <Compile Include="ViewModel\DeleteUserViewModel.cs" />
     <Compile Include="View\DeleteUserView.xaml.cs">
       <DependentUpon>DeleteUserView.xaml</DependentUpon>
     </Compile>

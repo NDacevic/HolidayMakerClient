@@ -102,6 +102,10 @@ namespace HolidayMakerClient.View
         private async void bttn_RemoveUser_Click(object sender, RoutedEventArgs e)
         {
             await new DeleteUserView().ShowAsync();
+            if (LoginViewModel.Instance.ActiveUser == null)
+            {
+                Frame.Navigate(typeof(SearchView));
+            }
         }
     }
 }
