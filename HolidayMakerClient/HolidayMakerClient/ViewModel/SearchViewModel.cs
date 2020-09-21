@@ -47,7 +47,7 @@ namespace HolidayMakerClient.ViewModel
         /// <summary>
         /// TBD
         /// </summary>
-        public async void Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests, bool advancedFilterActive, Home advancedFilterParams)
+        public async void Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests, bool AllFalseFilter, Home advancedFilterParams)
         {
             SearchParameterDto searchObj = new SearchParameterDto(searchString, startDate, endDate, numberOfGuests);
             var homeList = await ApiHelper.Instance.GetSearchResults(searchObj);
@@ -63,7 +63,7 @@ namespace HolidayMakerClient.ViewModel
                 SortedHomeList.Add(x);
             }
 
-            if (advancedFilterActive)
+            if(!AllFalseFilter)
                 Filter(advancedFilterParams);
         }
         /// <summary>
@@ -89,6 +89,7 @@ namespace HolidayMakerClient.ViewModel
             x.CityDistance <= advancedFilterParams.CityDistance &&
             x.BeachDistance <= advancedFilterParams.BeachDistance);
 
+
             foreach (var x in filteredHomeList)
                 SortedHomeList.Add(x);
         }
@@ -98,13 +99,6 @@ namespace HolidayMakerClient.ViewModel
             SortedHomeList.Clear();
             foreach (var home in HomeList)
                 SortedHomeList.Add(home);
-        }
-        /// <summary>
-        /// TBD
-        /// </summary>
-        public void ResetSearch()
-        {
-
         }
 
         public void SortList(string parameter)
