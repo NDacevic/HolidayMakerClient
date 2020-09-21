@@ -36,9 +36,7 @@ namespace HolidayMakerClient.View
                 Hide();
             }
             else
-                await new MessageDialog("Felaktigt lösenord. Vänligen försök igen.").ShowAsync();
-
-            
+                await new MessageDialog("Felaktigt lösenord. Vänligen försök igen.").ShowAsync();            
         }
     }
 }
