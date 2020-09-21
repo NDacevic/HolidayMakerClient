@@ -6,12 +6,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:data="using:HolidayMakerClient.Model"
-    xmlns:test="using:HolidayMakerClient"
+    xmlns:test="using:HolidayMakerClient" 
+    xmlns:converters="using:HolidayMakerClient.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Width="1280"
     NavigationCacheMode="Enabled"
     >
+    <Page.Resources>
+        <converters:BooleanSwedishConverter x:Key="boolSwed"/>
+        <converters:SliderZeroValueConverter x:Key="sliderZero"/>
+    </Page.Resources>
 
     <RelativePanel
         Margin="0,20,0,0">
@@ -226,17 +231,14 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock
                     Width="50"
-                    Grid.Column="0"
                     VerticalAlignment="Bottom"
+                    
+                    Text="{x:Bind slider_CityDistance.Value, Converter={StaticResource sliderZero}}"
+                    x:DefaultBindMode="OneWay"
+                    
                     Margin="0,0,0,10"
-                    >
-                    <Run
-                        Text="{x:Bind slider_CityDistance.Value}"
-                        x:DefaultBindMode="OneWay"/>
-                    <Run
-                        Text="km"
-                        />
-                </TextBlock>
+                    Grid.Column="0"
+                    />
                 <Slider
                     x:Name="slider_CityDistance"
                     
@@ -254,14 +256,13 @@
                     Width="50"
                     VerticalAlignment="Bottom"
                     
+                    Text="{x:Bind slider_BeachDistance.Value, Converter={StaticResource sliderZero}}"
+                     x:DefaultBindMode="OneWay"
+                    
                     Margin="50,0,0,10"
                     Grid.Column="2"
-                    >
-                    <Run Text="{x:Bind slider_BeachDistance.Value}"
-                            x:DefaultBindMode="OneWay"
-                            />
-                    <Run Text="km"/>
-                </TextBlock>
+                    />
+
                 <Slider
                     x:Name="slider_BeachDistance"
                     
@@ -538,7 +539,7 @@
                                             Text="Wifi:"
                                             />
                                         <Run
-                                            Text="{x:Bind HasWifi}"
+                                            Text="{x:Bind HasWifi, Converter={StaticResource boolSwed}}"
                                             />
                                     </TextBlock>
                                     <TextBlock>
@@ -546,7 +547,7 @@
                                             Text="Balkong:"
                                             />
                                         <Run
-                                            Text="{x:Bind HasBalcony}"
+                                            Text="{x:Bind HasBalcony, Converter={StaticResource boolSwed}}"
                                             />
                                     </TextBlock>
                                     <TextBlock>
@@ -554,7 +555,7 @@
                                             Text="Pool:"
                                             />
                                         <Run
-                                            Text="{x:Bind HasPool}"
+                                            Text="{x:Bind HasPool, Converter={StaticResource boolSwed}}"
                                             />
                                     </TextBlock>
                                     <TextBlock>
@@ -562,14 +563,14 @@
                                             Text="Husdjur:"
                                             />
                                         <Run
-                                            Text="{x:Bind AllowPets}"
+                                            Text="{x:Bind AllowPets, Converter={StaticResource boolSwed}}"
                                             />
                                     </TextBlock>
                                     <TextBlock>
                                         <Run
                                             Text="Rökning:"/>
                                         <Run
-                                            Text="{x:Bind AllowSmoking}"
+                                            Text="{x:Bind AllowSmoking, Converter={StaticResource boolSwed}}"
                                             />
                                     </TextBlock>
                                 </StackPanel>
