@@ -83,11 +83,6 @@ namespace HolidayMakerClient.ViewModel
         {
              ApiHelper.Instance.DeleteReservation(reservation.ReservationId);
         }
-        //public async Task<Home> GetHome (int id)
-        //{
-        //   Home home = await ApiHelper.Instance.GetHome(id);
-        //    return home;
-        //}
         #endregion
 
     }

@@ -62,18 +62,6 @@ namespace HolidayMakerClient
 
         }
 
-        //protected override void OnNavigatedFrom(NavigationEventArgs e)
-        //{
-        //    if (e.SourcePageType == typeof(MyPageView)) 
-        //    {
-        //        bttn_bookChange.Content = "Ändra";
-        //        bttn_deleteReservation.Visibility = Visibility.Visible;
-        //    }
-        //    if(e.SourcePageType == typeof(SearchView))
-        //    {
-        //        bttn_bookChange.Content = "Boka";
-        //        bttn_deleteReservation.Visibility = Visibility.Collapsed;
-        //    }
             
         //}
         /// <summary>
@@ -107,13 +95,16 @@ namespace HolidayMakerClient
         {
             HomePrice();
             CheckHome();
+            bttn_bookChange.Content = "Boka";
+            bttn_deleteReservation.Visibility = Visibility.Collapsed;
         }
         public async void SetUpPageOldReservation()
         {
             selectedLivingViewModel.TempRes.TempId = selectedLivingViewModel.TempRes.OldReservation.ReservationId;
             selectedLivingViewModel.TempRes.NumberOfGuests = selectedLivingViewModel.TempRes.OldReservation.NumberOfGuests.ToString();
             selectedLivingViewModel.TempRes.StartDate = selectedLivingViewModel.TempRes.OldReservation.StartDate;
-            selectedLivingViewModel.TempRes.TempHome = await ApiHelper.Instance.GetHome(selectedLivingViewModel.TempRes.OldReservation.ReservationId);
+            selectedLivingViewModel.TempRes.EndDate = selectedLivingViewModel.TempRes.OldReservation.EndDate;
+            //selectedLivingViewModel.TempRes.AddonList = selectedLivingViewModel.TempRes.OldReservation.AddonList;
             var addonlist = await ApiHelper.Instance.GetReservationAddon(selectedLivingViewModel.TempRes.TempId);
             foreach (var ad in addonlist)
             {
@@ -122,6 +113,9 @@ namespace HolidayMakerClient
 
             HomePrice();
             CheckHome();
+            UpdatePrice();
+            bttn_bookChange.Content = "Ändra";
+            bttn_deleteReservation.Visibility = Visibility.Visible;
         }
         public void HomePrice()
         {
