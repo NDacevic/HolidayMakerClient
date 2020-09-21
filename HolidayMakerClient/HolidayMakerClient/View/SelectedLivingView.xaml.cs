@@ -54,6 +54,7 @@ namespace HolidayMakerClient
             SetUpPage();
 
         }
+
         //protected override void OnNavigatedFrom(NavigationEventArgs e)
         //{
         //    if (e.SourcePageType == typeof(MyPageView)) 
@@ -97,7 +98,7 @@ namespace HolidayMakerClient
         /// </summary>
         public void SetUpPage()
         {
-            price = selectedLivingViewModel.TempRes.Home.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
+            price = selectedLivingViewModel.TempRes.TempHome.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
             TotalPrice = price;
             CheckHome();
         }
@@ -106,19 +107,19 @@ namespace HolidayMakerClient
         /// </summary>
         public void CheckHome()
         {
-            if (selectedLivingViewModel.TempRes.Home.HasExtraBed == false)
+            if (selectedLivingViewModel.TempRes.TempHome.HasExtraBed == false)
             {
                 cb_ExtraBed.Visibility = Visibility.Collapsed;
             }
-            if (selectedLivingViewModel.TempRes.Home.HasAllInclusive == false)
+            if (selectedLivingViewModel.TempRes.TempHome.HasAllInclusive == false)
             {
                 Rb_addon0.Visibility = Visibility.Collapsed;
             }
-            if (selectedLivingViewModel.TempRes.Home.HasFullPension == false)
+            if (selectedLivingViewModel.TempRes.TempHome.HasFullPension == false)
             {
                 Rb_addon1.Visibility = Visibility.Collapsed;
             }
-            if (selectedLivingViewModel.TempRes.Home.HasHalfPension == false)
+            if (selectedLivingViewModel.TempRes.TempHome.HasHalfPension == false)
             {
                 Rb_addon2.Visibility = Visibility.Collapsed;
             }
@@ -169,7 +170,7 @@ namespace HolidayMakerClient
 
         private void bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
         {
-
+            selectedLivingViewModel.DeleteReservation(selectedLivingViewModel.TempRes);
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)

@@ -17,14 +17,15 @@ namespace HolidayMakerClient.Model
 
         #region Constructors
 
-        public TempReservation(string numberOfGuests, DateTimeOffset startDate, DateTimeOffset endDate, decimal totalPrice, Home home, Reservation oldReservation)
+        public TempReservation(int tempId, string numberOfGuests, DateTimeOffset startDate, DateTimeOffset endDate, decimal totalPrice, Home home, Reservation oldReservation)
         {
+            TempId = tempId;
             NumberOfGuests = numberOfGuests;
             StartDate = startDate;
             EndDate = endDate;
             TotalPrice = totalPrice;
             AddonList = new ObservableCollection<Addon>();
-            Home = home;
+            TempHome = home;
             OldReservation = oldReservation;
         }
         public TempReservation() { }
@@ -37,12 +38,13 @@ namespace HolidayMakerClient.Model
         #endregion
 
         #region Properties
+        public int TempId { get; set; }
         public string NumberOfGuests { get; set; }
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
         public decimal TotalPrice { get; set; }
         public ObservableCollection<Addon> AddonList { get; set; }
-        public Home Home { get; set; }
+        public Home TempHome { get; set; }
         public Reservation OldReservation { get; set; }
         #endregion
 

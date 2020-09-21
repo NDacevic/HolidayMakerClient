@@ -44,7 +44,7 @@ namespace HolidayMakerClient
         public async void CreateReservation(TempReservation reservation, ObservableCollection<Addon> addonList, decimal price)
         {
             SelectedReservation = new Reservation();
-            SelectedReservation.HomeId = reservation.Home.HomeId;
+            SelectedReservation.HomeId = reservation.TempHome.HomeId;
             SelectedReservation.UserId = LoginViewModel.Instance.ActiveUser.UserId;
             SelectedReservation.NumberOfGuests = int.Parse(reservation.NumberOfGuests);
             SelectedReservation.StartDate = reservation.StartDate;
@@ -68,8 +68,9 @@ namespace HolidayMakerClient
             
         }
 
-        public void DeleteReservation()
+        public void DeleteReservation(TempReservation tempReservation)
         {
+            ApiHelper.Instance.DeleteReservation(tempReservation.TempId);
 
         }
 
