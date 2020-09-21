@@ -85,6 +85,7 @@ namespace HolidayMakerClient.View
                     Home = myPageViewModel.SelectedHome[0],
                     OldReservation = myPageViewModel.SelectedReservation[0]
                 };
+              
                 Frame.Navigate(typeof(SelectedLivingView), currentReservation);
             }
         }        

@@ -1,4 +1,6 @@
 ﻿using HolidayMakerClient.Model;
+using Microsoft.AspNetCore.JsonPatch;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -73,10 +75,45 @@ namespace HolidayMakerClient
 
         }
 
-        public void EditReservation()
+        public async void EditReservation(Reservation updatedReservation,DateTimeOffset startDate,DateTimeOffset endDate,string numberOfGuests)
         {
+            try
+            {
+                JsonPatchDocument<Reservation> patchDoc = new JsonPatchDocument<Reservation>();
+                CreateReservationPatchDoc(updatedReservation, startDate, endDate, numberOfGuests, patchDoc);
 
+                bool success = await ApiHelper.Instance.PatchReservation(updatedReservation.ReservationId, patchDoc);
+
+                if (success)
+                {
+ 
+                    await new MessageDialog("Användarinformation ändrad").ShowAsync();
+                }
+
+            }
+            catch (FormatException exc)
+            {
+                await new MessageDialog(exc.Message).ShowAsync();
+            }
         }
+        public void CreateReservationPatchDoc(Reservation updatedReservation, DateTimeOffset startDate, DateTimeOffset endDate, string numberOfGuests,JsonPatchDocument<Reservation> patchDoc)
+        {
+            //We check for what is different and add that to the patch doc.
+            if (updatedReservation.StartDate != startDate)
+                patchDoc.Replace(x => x.StartDate, startDate);
+
+            if (updatedReservation.EndDate != endDate)
+                patchDoc.Replace(x => x.EndDate, endDate);
+
+            if (updatedReservation.NumberOfGuests != int.Parse(numberOfGuests))
+                patchDoc.Replace(x => x.NumberOfGuests, int.Parse(numberOfGuests));
+
+            string reservation = JsonConvert.SerializeObject(patchDoc);
+
+            if (reservation == "[]")
+                throw new FormatException("Inga ändringar gjorda");
+        }
+        
         public async void GetAddonList()
         {
             try

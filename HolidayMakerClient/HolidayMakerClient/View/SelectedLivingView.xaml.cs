@@ -39,9 +39,14 @@ namespace HolidayMakerClient
         public SelectedLivingView()
         {
             this.InitializeComponent();
+            
             selectedLivingViewModel = new SelectedLivingViewModel();
             ChosenAddons = new ObservableCollection<Addon>();
-            
+            for (int i = 1; i <= 20; i++)
+            {
+                combobox_ChangeGuests.Items.Add(i);
+            }
+
         }
         /// <summary>
         /// Recieves a TempReservation object when navigated to
@@ -49,25 +54,30 @@ namespace HolidayMakerClient
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            bttn_bookChange.Content = "Ändra";
+            if ( bttn_bookChange.Content == "Ändra")
+            {
+                combobox_ChangeGuests.Visibility = Visibility.Visible;
+            }
             selectedLivingViewModel.TempRes = (TempReservation)e.Parameter;
             selectedLivingViewModel.TempRes.AddonList = new ObservableCollection<Addon>();
             SetUpPage();
 
         }
-        //protected override void OnNavigatedFrom(NavigationEventArgs e)
-        //{
-        //    if (e.SourcePageType == typeof(MyPageView)) 
-        //    {
-        //        bttn_bookChange.Content = "Ändra";
-        //        bttn_deleteReservation.Visibility = Visibility.Visible;
-        //    }
-        //    if(e.SourcePageType == typeof(SearchView))
-        //    {
-        //        bttn_bookChange.Content = "Boka";
-        //        bttn_deleteReservation.Visibility = Visibility.Collapsed;
-        //    }
-            
-        //}
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (e.SourcePageType == typeof(MyPageView))
+            {
+                bttn_bookChange.Content = "Ändra";
+                bttn_deleteReservation.Visibility = Visibility.Visible;
+            }
+            if (e.SourcePageType == typeof(SearchView))
+            {
+                bttn_bookChange.Content = "Boka";
+                bttn_deleteReservation.Visibility = Visibility.Collapsed;
+            }
+
+        }
         /// <summary>
         /// Get list of all addons except for ExtraBed from DB, this because ExtraBed is treated differently from the other addons
         /// </summary>
@@ -97,6 +107,7 @@ namespace HolidayMakerClient
         /// </summary>
         public void SetUpPage()
         {
+           
             price = selectedLivingViewModel.TempRes.Home.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
             TotalPrice = price;
             CheckHome();
@@ -150,22 +161,31 @@ namespace HolidayMakerClient
 
         private async void bttn_bookChange_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (bttn_bookChange.Content == "Ändra")
             {
-                if(LoginViewModel.Instance.ActiveUser == null)
+                selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value,combobox_ChangeGuests.SelectedValue.ToString());
+            }
+            else
+            {
+                try
                 {
-                    await new LoginView().ShowAsync();
+                    if (LoginViewModel.Instance.ActiveUser == null)
+                    {
+                        await new LoginView().ShowAsync();
+                    }
+                    selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes, ChosenAddons, TotalPrice);
+                    Frame.Navigate(typeof(MyPageView));
                 }
-                selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes, ChosenAddons, TotalPrice);
-                Frame.Navigate(typeof(MyPageView));
+                catch (Exception)
+                {
+                    await new MessageDialog("Din bokning kunde inte sparas, vänligen testa igen eller kontakta admin.").ShowAsync();
+                    return;
+                }
             }
-            catch (Exception)
-            {
-                await new MessageDialog("Din bokning kunde inte sparas, vänligen testa igen eller kontakta admin.").ShowAsync();
-                return;
-            }
+   
         }
 
+       
 
         private void bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
         {

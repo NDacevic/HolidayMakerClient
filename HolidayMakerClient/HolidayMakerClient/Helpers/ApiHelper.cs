@@ -265,10 +265,51 @@ namespace HolidayMakerClient
 
         }
 
-        public void PatchReservation()
+        public async Task<bool> PatchReservation(int id, JsonPatchDocument<Reservation>jsonPatchReservation)
         {
+            //httpClient.PatchAsync doesn't exist as a predefined method so we have to use SendAsync() which requires a HttpRequestMessage as a parameter
+            
+            try
+            {
+                //Name the method Patch
+                HttpMethod method = new HttpMethod("PATCH");
+                //Serialize the JsonPatchDocument
+                jsonString = JsonConvert.SerializeObject(jsonPatchReservation);
 
+                //Set json as content
+                HttpContent content = new StringContent(jsonString);
+
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                //request
+                var request = new HttpRequestMessage(method, new Uri(httpClient.BaseAddress, $"Reservations/{id}"))
+                {
+                    Content = content
+                };
+
+                //Send the request
+                using(HttpResponseMessage response = await httpClient.SendAsync(request))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Debug.Write("Reservationen är uppdaterat.");
+                        return true;
+                    }
+                    else
+                    {
+                        throw new HttpRequestException("Reservationen kunde inte uppdateras, försök igen.");
+                        
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+                return false;
+            }
         }
+     
+        
 
         public async void DeleteReservation(int reservationId)
         {
