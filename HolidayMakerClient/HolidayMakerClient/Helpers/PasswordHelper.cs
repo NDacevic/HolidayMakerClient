@@ -29,7 +29,7 @@ namespace HolidayMakerClient.Model
 
         #region Methods
         /// <summary>
-        /// TBA
+        /// Converts a string to a SHA256 hash string.
         /// </summary>
         /// <returns></returns>
         public static string EncryptPassword(string  password)
