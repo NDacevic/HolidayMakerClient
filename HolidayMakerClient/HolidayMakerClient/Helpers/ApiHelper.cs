@@ -386,11 +386,9 @@ namespace HolidayMakerClient
 
                     else
                     {
-                        await new MessageDialog("Denna epost är redan registrerad. Var vänlig försök igen.").ShowAsync();
+                        throw new HttpRequestException();
                     }
                 }
-
-
             }
             catch (Exception exc)
             {
