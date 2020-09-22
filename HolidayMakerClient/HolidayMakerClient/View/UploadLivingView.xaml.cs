@@ -100,7 +100,7 @@ namespace HolidayMakerClient.View
 
         private void NumericTextboxesBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
         {
-            //if any written text is not a number, don't allow the textbox to be displayed
+            //if any written text is not a number, don't allow the entry to be displayed
             args.Cancel = args.NewText.Any(c => !char.IsDigit(c));
 
             //always move cursor to the end of all entered text
