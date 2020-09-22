@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -368,10 +369,10 @@ namespace HolidayMakerClient
         //    DateTimeOffset.Parse("01/01/2017"),
         //    DateTimeOffset.Parse("09/23/2020"),
         //};
-        public void GetDates()
+        public async void GetDates()
         {
-            selectedLivingViewModel.GetHomeReservation(selectedLivingViewModel.TempRes.TempHome.HomeId);
-            selectedLivingViewModel.SetInvalidDates();
+            await selectedLivingViewModel.GetHomeReservation(selectedLivingViewModel.TempRes.TempHome.HomeId);
+            await selectedLivingViewModel.SetInvalidDates();
             SetInvalidList();
 
         }
@@ -379,13 +380,15 @@ namespace HolidayMakerClient
         {
             foreach (var date in selectedLivingViewModel.InvalidDates)
             {
-                InvalidDates.Add(date);
+                
+                InvalidDates.Add(date.Date.Date);
             }
         }
 
         private void Cdp_StartDate_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
         {
             e.Item.IsBlackout = InvalidDates.Contains(e.Item.Date.Date);
+            Debug.WriteLine(InvalidDates.Contains(e.Item.Date.Date));
         }
     }
 }
