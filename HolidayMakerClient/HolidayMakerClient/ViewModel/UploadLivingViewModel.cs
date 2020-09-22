@@ -51,7 +51,7 @@ namespace HolidayMakerClient.ViewModel
         {
             await PostHome(new Home(homeType,rooms, location, price, hasBalcony, 
                 allowPets, hasWifi, hasHalfPension, hasFullPension, hasAllInclusive, hasExtraBed, 
-                cityDistance, beachDistance, numberOfBeds, hasPool, allowSmoking, description));
+                cityDistance, beachDistance, numberOfBeds, hasPool, allowSmoking, description,LoginViewModel.Instance.ActiveUser.UserId));
         }
         public async Task PostHome(Home newHome)
         {
