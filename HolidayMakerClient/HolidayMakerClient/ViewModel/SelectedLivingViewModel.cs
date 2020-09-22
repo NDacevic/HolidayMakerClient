@@ -97,27 +97,50 @@ namespace HolidayMakerClient
         {
 
         }
+        /// <summary>
+        /// Gets all reservations based on homeId
+        /// </summary>
+        /// <param name="homeId"></param>
+        /// <returns></returns>
         public async Task GetHomeReservation (int homeId)
         {
-            AllReservations = new List<Reservation>();
-            var reservations = await ApiHelper.Instance.GetAllReservation(homeId);
-            foreach(var r in reservations)
+            try
             {
-                AllReservations.Add(r);
+                AllReservations = new List<Reservation>();
+                var reservations = await ApiHelper.Instance.GetAllReservation(homeId);
+                foreach(var r in reservations)
+                {
+                    AllReservations.Add(r);
+                }
+            }
+            catch
+            {
+                return;
             }
 
         }
+        /// <summary>
+        /// Place invalid dates in list
+        /// </summary>
+        /// <returns></returns>
         public async Task SetInvalidDates()
         {
-            InvalidDates = new List<DateTimeOffset>();
-            foreach(var r in AllReservations)
+            try
             {
-                for(int i = 0; i<=(r.EndDate.Date.Subtract(r.StartDate.Date)).Days; i++)
+                InvalidDates = new List<DateTimeOffset>();
+                foreach(var r in AllReservations)
                 {
-                    InvalidDates.Add(r.StartDate.AddDays(i).Date);
+                    for(int i = 0; i<=(r.EndDate.Date.Subtract(r.StartDate.Date)).Days; i++)
+                    {
+                        InvalidDates.Add(r.StartDate.AddDays(i).Date);
+                    }
                 }
-
             }
+            catch
+            {
+                return;
+            }
+
         }
 
         /// <summary>
