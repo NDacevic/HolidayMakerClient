@@ -40,6 +40,7 @@
             <StackPanel
                 Grid.Row="1"
                 Grid.Column="3"
+                Grid.RowSpan="2"
                 Grid.ColumnSpan="2">
                 <TextBlock 
                     Text="Boendeinformation"
@@ -229,34 +230,36 @@
                 </Grid>
 
                 <TextBlock 
+                    Name="lbl_Extras"
                     Text="Tillval"
                     FontSize="20"
                     Margin="0,30,0,0"
                     />
 
                 <Grid
+                    Name="grid_BusinessExtras"
                     Margin="0,5,0,0"
-                    HorizontalAlignment="Center">
+                    Width="250"
+                    HorizontalAlignment="Center"
+                    Visibility="Collapsed">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-
                     </Grid.ColumnDefinitions>
 
                     <CheckBox 
                         Name="cb_HasHalfPension" 
                         Grid.Row="0"
-                        Grid.Column="1"
                         Margin="10,0,0,0"
                         Content="Erbjuder halvpension"/>
                     <CheckBox 
                         Name="cb_HasFullPension" 
-                        Grid.Row="0"
+                        Grid.Row="1"
                         Margin="10,0,0,0"
                         Content="Erbjuder helpension"/>
                     <CheckBox 
@@ -264,28 +267,36 @@
                         Grid.Row="2"
                         Margin="10,0,0,0"
                         Content="Erbjuder All-Inclusive"/>
+                </Grid>
+                
+                <Grid
+                    Margin="0,5,0,0"
+                    Width="250"
+                    HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
                     <CheckBox 
                         Name="cb_HasExtrabed" 
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        Margin="10,0,0,0"
-                        Content="Extrasäng kan erbjudas"/>
+                        Margin="10,-5,0,0"
+                        Content="Extrasäng finnes"/>
+
                 </Grid>
+
             </StackPanel>
         <!--#endregion-->
 
-        <!--#region Extras-->
-            <StackPanel
-                Grid.Row="1"
-                Grid.Column="2"
-                Margin="20,0,0,0">         
-            </StackPanel>
-        <!--#endregion-->
+
 
         <!--#region Buttons-->
             <Button
                 Name="bttn_UploadLiving"
-                Grid.Row="2"
+                Grid.Row="3"
                 Grid.Column="3"
                 Content="Lägg upp boende"
                 HorizontalAlignment="Stretch"
@@ -295,7 +306,7 @@
 
             <Button
                 Name="bttn_Cancel"
-                Grid.Row="2"
+                Grid.Row="3"
                 Grid.Column="4"
                 Content="Avbryt"
                 Background="Red"
