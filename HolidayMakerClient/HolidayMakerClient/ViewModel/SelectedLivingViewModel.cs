@@ -41,6 +41,13 @@ namespace HolidayMakerClient
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Creates a reservation, adds the chosen addons and sends it to the API for posting.
+        /// </summary>
+        /// <param name="reservation"></param>
+        /// <param name="addonList"></param>
+        /// <param name="price"></param>
         public async void CreateReservation(TempReservation reservation, ObservableCollection<Addon> addonList, decimal price)
         {
             SelectedReservation = new Reservation();
@@ -53,7 +60,6 @@ namespace HolidayMakerClient
             SelectedReservation.AddonList = new List<Addon>();
             foreach(var ad in addonList)
             {
-                
                 SelectedReservation.AddonList.Add(ad);
             }
 
@@ -68,6 +74,10 @@ namespace HolidayMakerClient
             
         }
 
+        /// <summary>
+        /// Calls the API and sends an Id for the reservation to be deleted from the database
+        /// </summary>
+        /// <param name="tempReservation"></param>
         public void DeleteReservation(TempReservation tempReservation)
         {
             try
@@ -86,13 +96,18 @@ namespace HolidayMakerClient
         {
 
         }
+
+        /// <summary>
+        /// Gets a list of addons from the API and adds them to a list
+        /// </summary>
         public async void GetAddonList()
         {
             try
-            {             
+            {            
                 var addons = await ApiHelper.Instance.GetAllAddon();
                 foreach (var a in addons)
                 {
+                    //adds all the addons except the extra bed addon.
                     if(a.AddonType != "Extrasäng")
                     {
                         AddonList.Add(a);
@@ -107,6 +122,10 @@ namespace HolidayMakerClient
             }
             
         }
+
+        /// <summary>
+        /// Gets the extrabed addon and sets the Extrabed property with the gotten object
+        /// </summary>
         public async void GetAddonExtraBed()
         {
             try
