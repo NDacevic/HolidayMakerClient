@@ -9,6 +9,15 @@ namespace HolidayMakerClient.Converters
 {
     public class BooleanSwedishConverter : IValueConverter
     {
+
+        /// <summary>
+        /// Converts the boolean values True/False to Ja/Nej
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="language"></param>
+        /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (((bool)value) == true)

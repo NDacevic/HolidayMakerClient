@@ -93,7 +93,15 @@ namespace HolidayMakerClient
         /// </summary>
         public void ExtraBed()
         {
-            selectedLivingViewModel.GetAddonExtraBed();
+            try
+            {
+                selectedLivingViewModel.GetAddonExtraBed();
+            }
+            catch
+            {
+                return;
+            }
+            
 
         }
         /// <summary>
@@ -104,9 +112,13 @@ namespace HolidayMakerClient
 
             HomePrice();
             CheckHome();
-            bttn_bookChange.Content = "Boka";
-            bttn_deleteReservation.Visibility = Visibility.Collapsed;
+            Bttn_bookChange.Content = "Boka";
+            Bttn_deleteReservation.Visibility = Visibility.Collapsed;
+            Bttn_ToMyPage.Visibility = Visibility.Collapsed;
         }
+        /// <summary>
+        /// Prepare page when navigated from MyPage
+        /// </summary>
         public void SetUpPageOldReservation()
         {
             selectedLivingViewModel.TempRes.TempId = selectedLivingViewModel.TempRes.OldReservation.ReservationId;
@@ -122,9 +134,11 @@ namespace HolidayMakerClient
 
             CheckHome();
             UpdatePrice();
-            bttn_bookChange.Content = "Ändra";
-            combobox_ChangeGuests.Visibility = Visibility.Visible;
-            bttn_deleteReservation.Visibility = Visibility.Visible;
+
+            Bttn_bookChange.Content = "Ändra";
+            Bttn_deleteReservation.Visibility = Visibility.Visible;
+            Bttn_ToSearch.Visibility = Visibility.Collapsed;
+
         }
         public void HomePrice()
         {
@@ -159,14 +173,15 @@ namespace HolidayMakerClient
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private async void bttn_RemoveAddon_Click(object sender, RoutedEventArgs e)
+        private async void Bttn_RemoveAddon_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 Addon ad = ((Addon)lv_DisplayAddons.SelectedItem);
-                if (ad.AddonType == "Extrasäng") cb_ExtraBed.IsChecked = false;
+                if (ad.AddonType == "Extrasäng") 
+                    cb_ExtraBed.IsChecked = false;
                 else if(ad.AddonType == "All-inclusive" || ad.AddonType == "Helpension" || ad.AddonType == "Halvpension") Rb_noPension.IsChecked = true;
-                ChosenAddons.Remove((Addon)lv_DisplayAddons.SelectedItem);
+                    ChosenAddons.Remove((Addon)lv_DisplayAddons.SelectedItem);
                 
             }
             catch (Exception)
@@ -181,9 +196,9 @@ namespace HolidayMakerClient
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private async void bttn_bookChange_Click(object sender, RoutedEventArgs e)
+        private async void Bttn_bookChange_Click(object sender, RoutedEventArgs e)
         {
-            if (bttn_bookChange.Content.ToString() == "Ändra")
+            if (Bttn_bookChange.Content.ToString() == "Ändra")
             {
                 //UpdateReservationAddonList();
                 selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value, totalPrice,ChosenAddons ,combobox_ChangeGuests.SelectedValue.ToString());
@@ -222,13 +237,24 @@ namespace HolidayMakerClient
                 
             }
         }
-       
 
-        private void bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Delete reservation when navigating from MyPageView with chosen reservation. When navigated from SearchView the button is hidden
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void Bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
+
         {
             selectedLivingViewModel.DeleteReservation(selectedLivingViewModel.TempRes);
             Frame.Navigate(typeof(MyPageView));
         }
+        /// <summary>
+        /// Gets the list of addons plus the addon ExtraBed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -276,7 +302,7 @@ namespace HolidayMakerClient
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private void cb_ExtraBed_Checked(object sender, RoutedEventArgs e)
+        private void Cb_ExtraBed_Checked(object sender, RoutedEventArgs e)
         {
             ChosenAddons.Add((Addon)selectedLivingViewModel.ExtraBed);
             UpdatePrice();
@@ -287,12 +313,17 @@ namespace HolidayMakerClient
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private void cb_ExtraBed_Unchecked(object sender, RoutedEventArgs e)
+        private void Cb_ExtraBed_Unchecked(object sender, RoutedEventArgs e)
         {
             ChosenAddons.Remove((Addon)selectedLivingViewModel.ExtraBed);
             UpdatePrice();
 
         }
+        /// <summary>
+        /// If RadioButtens is unchecked or switching between them, correct Totalprice is shown 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void Rb_addon_Unchecked(object sender, RoutedEventArgs e)
         {
@@ -347,12 +378,24 @@ namespace HolidayMakerClient
             }
 
         }
-
+        /// <summary>
+        /// Navigate to SearchView
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Bttn_ToSearch_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(SearchView));
         }
 
-
+        /// <summary>
+        /// Navigate to MyPage 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Bttn_ToMyPage_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MyPageView));
+        }
     }
 }

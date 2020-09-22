@@ -51,6 +51,11 @@ namespace HolidayMakerClient
             Hide();
         }
 
+        /// <summary>
+        /// Hashes the iput password and gets the user from the database. Checking if the passwords match
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void Bttn_LogIn_Click(object sender, RoutedEventArgs e)
         {
             string encryptedPassword = PasswordHelper.EncryptPassword(Pwb_EnterPassword.Password);
