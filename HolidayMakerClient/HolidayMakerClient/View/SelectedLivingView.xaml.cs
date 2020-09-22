@@ -23,6 +23,7 @@ namespace HolidayMakerClient
         private decimal totalPrice;
         public decimal price;
         public ObservableCollection<Addon> ChosenAddons;
+        private HashSet<DateTimeOffset> InvalidDates = new HashSet<DateTimeOffset>();
 
         public event PropertyChangedEventHandler PropertyChanged;
         public decimal TotalPrice
@@ -64,8 +65,6 @@ namespace HolidayMakerClient
 
         }
 
-            
-        //}
         /// <summary>
         /// Get list of all addons except for ExtraBed from DB, this because ExtraBed is treated differently from the other addons
         /// </summary>
@@ -316,9 +315,9 @@ namespace HolidayMakerClient
             UpdatePrice();
 
         }
-            /// <summary>
-            /// Update TotalPrice for home plus addons
-            /// </summary>
+        /// <summary>
+        /// Update TotalPrice for home plus addons
+        /// </summary>
         public void UpdatePrice ()
         {
             if(ChosenAddons.Count == 0)
@@ -362,13 +361,9 @@ namespace HolidayMakerClient
         {
             Frame.Navigate(typeof(MyPageView));
         }
-        private HashSet<DateTimeOffset> InvalidDates = new HashSet<DateTimeOffset>();
-        //{
-        //    DateTimeOffset.Parse("04/01/2017"),
-        //    DateTimeOffset.Parse("05/01/2017"),
-        //    DateTimeOffset.Parse("01/01/2017"),
-        //    DateTimeOffset.Parse("09/23/2020"),
-        //};
+         /// <summary>
+         /// Get the invalid dates for placing in the hash to blackout the already reserved dates
+         /// </summary>
         public async void GetDates()
         {
             await selectedLivingViewModel.GetHomeReservation(selectedLivingViewModel.TempRes.TempHome.HomeId);
@@ -376,6 +371,9 @@ namespace HolidayMakerClient
             SetInvalidList();
 
         }
+        /// <summary>
+        /// Place dates in the hash with invalid dates
+        /// </summary>
         public void SetInvalidList ()
         {
             foreach (var date in selectedLivingViewModel.InvalidDates)
@@ -384,11 +382,15 @@ namespace HolidayMakerClient
                 InvalidDates.Add(date.Date.Date);
             }
         }
+        /// <summary>
+        /// When trying to change date the invalid dates is blacked out
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void Cdp_StartDate_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
         {
             e.Item.IsBlackout = InvalidDates.Contains(e.Item.Date.Date);
-            Debug.WriteLine(InvalidDates.Contains(e.Item.Date.Date));
         }
     }
 }
