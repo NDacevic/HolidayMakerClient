@@ -167,7 +167,7 @@ namespace HolidayMakerClient
             {
                 Addon ad = ((Addon)lv_DisplayAddons.SelectedItem);
                 if (ad.AddonType == "Extrasäng") 
-                    Cb_ExtraBed.IsChecked = false;
+                    cb_ExtraBed.IsChecked = false;
                 else if(ad.AddonType == "All-inclusive" || ad.AddonType == "Helpension" || ad.AddonType == "Halvpension") Rb_noPension.IsChecked = true;
                     ChosenAddons.Remove((Addon)lv_DisplayAddons.SelectedItem);
                 
