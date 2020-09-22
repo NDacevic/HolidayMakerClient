@@ -61,8 +61,8 @@ namespace HolidayMakerClient.View
             myPageViewModel.GetReservations();
          
         }
-
-        private void Lv_MyReservations_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        
+        private void Lv_MyReservations_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Reservation selectedReservation = (Reservation)Lv_MyReservations.SelectedItem;
             myPageViewModel.SelectedUserReservation(selectedReservation);       
@@ -128,6 +128,10 @@ namespace HolidayMakerClient.View
             }
         }
 
-        #endregion
+        private void bttn_UploadLiving_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(UploadLivingView));
+        }
+#endregion
     }
 }

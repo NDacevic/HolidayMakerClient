@@ -140,7 +140,7 @@ namespace HolidayMakerClient
         {
             if (selectedLivingViewModel.TempRes.TempHome.HasExtraBed == false)
             {
-                Cb_ExtraBed.Visibility = Visibility.Collapsed;
+                cb_ExtraBed.Visibility = Visibility.Collapsed;
             }
             if (selectedLivingViewModel.TempRes.TempHome.HasAllInclusive == false)
             {
@@ -349,6 +349,7 @@ namespace HolidayMakerClient
         {
             Frame.Navigate(typeof(SearchView));
         }
+
         /// <summary>
         /// Navigate to MyPage 
         /// </summary>
