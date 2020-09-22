@@ -366,6 +366,38 @@ namespace HolidayMakerClient
                 return addonList;
             }
         }
+
+
+        public async Task PostHome(Home home)
+        {
+            try
+            {
+                jsonString = JsonConvert.SerializeObject(home);
+                using (HttpContent httpContent = new StringContent(jsonString))
+                {
+                    httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                    HttpResponseMessage respons = await httpClient.PostAsync("Homes", httpContent);
+
+                    //Check if succesfull
+                    if (respons.IsSuccessStatusCode)
+                    {
+                        await new MessageDialog("Boende uppladdat för uthyrning!").ShowAsync();
+                    }
+
+                    else
+                    {
+                        await new MessageDialog("Denna epost är redan registrerad. Var vänlig försök igen.").ShowAsync();
+                    }
+                }
+
+
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+            }
+        }
+
         private async void BasicNoConnectionMessage(Exception exc)
         {
             Debug.WriteLine(exc.Message);
