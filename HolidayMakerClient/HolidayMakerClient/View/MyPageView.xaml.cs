@@ -121,7 +121,7 @@ namespace HolidayMakerClient.View
 
         private void bttn_UploadLiving_Click(object sender, RoutedEventArgs e)
         {
-
+            Frame.Navigate(typeof(UploadLivingView));
         }
     }
 }

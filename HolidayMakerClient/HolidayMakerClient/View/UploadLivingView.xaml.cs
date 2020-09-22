@@ -26,5 +26,15 @@ namespace HolidayMakerClient.View
         {
             this.InitializeComponent();
         }
+
+        private void bttn_UploadLiving_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void bttn_Cancel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
