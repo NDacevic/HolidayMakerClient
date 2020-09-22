@@ -351,9 +351,47 @@ namespace HolidayMakerClient
             }
         }
 
-        public void PostReservationAddon()
+        public  async Task<bool> PatchReservationAddon(int id, JsonPatchDocument<Reservation> jsonPatchReservationAddon)
         {
+            try
+            {
+                //Name the method Patch
+                HttpMethod method = new HttpMethod("PATCH");
+                //Serialize the JsonPatchDocument
+                jsonString = JsonConvert.SerializeObject(jsonPatchReservationAddon);
 
+                //Set json as content
+                HttpContent content = new StringContent(jsonString);
+
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                //request
+                var request = new HttpRequestMessage(method, new Uri(httpClient.BaseAddress, $"ReservationAddons/{id}"))
+                {
+                    Content = content
+                };
+
+                //Send the request
+                using (HttpResponseMessage response = await httpClient.SendAsync(request))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Debug.Write("Reservationen är uppdaterat.");
+                        return true;
+                    }
+                    else
+                    {
+                        throw new HttpRequestException("Reservationen kunde inte uppdateras, försök igen.");
+
+                    }
+                }
+            }
+
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+                return false;
+            }
         }
         public async Task<ObservableCollection<Addon>> GetReservationAddon(int id)
         {

@@ -95,8 +95,8 @@ namespace HolidayMakerClient
 
                 if (success)
                 {
- 
-                    await new MessageDialog("Ändring genomförd").ShowAsync();
+                    //if (await ApiHelper.Instance.PatchReservationAddon(updatedReservation.ReservationId, patchDoc))
+                        await new MessageDialog("Ändring genomförd").ShowAsync();
                 }
 
             }
@@ -114,7 +114,15 @@ namespace HolidayMakerClient
             }
             //We check for what is different and add that to the patch doc.
             if (updatedReservation.AddonList != tempList)
-                patchDoc.Replace(x => x.AddonList, tempList);
+                //foreach(var a in tempList)
+                //{
+                    //if (updatedReservation.AddonList.Contains(a))
+                    //{
+                        patchDoc.Replace(x => x.AddonList, tempList);
+
+                    //}
+                //}
+               
 
             if (updatedReservation.StartDate != startDate)
                 patchDoc.Replace(x => x.StartDate, startDate);
