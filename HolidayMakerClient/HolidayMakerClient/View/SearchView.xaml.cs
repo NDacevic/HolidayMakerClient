@@ -49,7 +49,6 @@ namespace HolidayMakerClient.View
                 comboBox_NumberOfGuests.Items.Add(i);
             }
 
-            CreateSortList();
         }
         #endregion
 
@@ -91,6 +90,11 @@ namespace HolidayMakerClient.View
                 grid_AdvancedSearch
                 );
         }
+
+        /// <summary>
+        /// Collects the information on all the advanced search toggleswitches and sliders.
+        /// </summary>
+        /// <returns></returns>
         private Home CreateAdvancedFilterParams()
         {
             Home advancedFilterParams = new Home()
@@ -105,11 +109,17 @@ namespace HolidayMakerClient.View
             };
             return advancedFilterParams;
         }
+
+
         private void ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             CreateTempRes();
             Frame.Navigate(typeof(SelectedLivingView), tempReservation);
         }
+
+        /// <summary>
+        /// Creates a temporary reservation object for sending to the SelectedLivingView
+        /// </summary>
         public void CreateTempRes ()
         {
             tempReservation = new TempReservation();
@@ -117,6 +127,7 @@ namespace HolidayMakerClient.View
             tempReservation.NumberOfGuests = comboBox_NumberOfGuests.SelectedValue.ToString();
             tempReservation.TempHome = (Home)lv_SearchList.SelectedItem;
         }
+
         public void SetDates()
         {
             tempReservation.StartDate = (DateTimeOffset)datePicker_StartDate.Date;
@@ -129,6 +140,7 @@ namespace HolidayMakerClient.View
             CheckActiveUser();
                 
         }
+
         private void CheckActiveUser()
         {
             if (LoginViewModel.Instance.ActiveUser != null)
@@ -143,6 +155,7 @@ namespace HolidayMakerClient.View
                 bttn_UserOptions.Visibility = Visibility.Collapsed;
             }
         }
+
         private void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MyPageView));
@@ -168,17 +181,6 @@ namespace HolidayMakerClient.View
             searchViewModel.Filter(CreateAdvancedFilterParams(), grid_AdvancedSearch);
         }
 
-        private void CreateSortList()
-        {
-            searchViewModel.FontIconList.Add(fontIcon_SortLocation);
-            searchViewModel.FontIconList.Add(fontIcon_SortPrice);
-            searchViewModel.FontIconList.Add(fontIcon_SortRooms);
-            searchViewModel.FontIconList.Add(fontIcon_SortBeds);
-            searchViewModel.FontIconList.Add(fontIcon_SortCityDistance);
-            searchViewModel.FontIconList.Add(fontIcon_SortBeachDistance);
-            searchViewModel.FontIconList.Add(fontIcon_SortAverageRating);
-        }
-
         private void datePicker_StartDate_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
         {
             if (e.Item.Date < DateTime.Today)
@@ -192,7 +194,6 @@ namespace HolidayMakerClient.View
             CheckActiveUser();
         }
 
-        
         #endregion
     }
 }
