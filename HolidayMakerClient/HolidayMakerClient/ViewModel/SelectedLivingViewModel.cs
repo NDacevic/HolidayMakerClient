@@ -93,6 +93,10 @@ namespace HolidayMakerClient
             
 
         }
+        /// <summary>
+        /// Recieves parameter for the reservation change and sends it to a method for converting to a JsonPatchDocument
+        /// </summary>
+        /// <param name="tempReservation"></param>
 
         public async void EditReservation(Reservation updatedReservation,DateTimeOffset startDate,DateTimeOffset endDate,decimal totalPrice,ObservableCollection<Addon> chosenAddon,string numberOfGuests)
         {
@@ -105,7 +109,6 @@ namespace HolidayMakerClient
 
                 if (success)
                 {
-                    //if (await ApiHelper.Instance.PatchReservationAddon(updatedReservation.ReservationId, patchDoc))
                         await new MessageDialog("Ändring genomförd").ShowAsync();
                 }
 
@@ -115,6 +118,10 @@ namespace HolidayMakerClient
                 await new MessageDialog(exc.Message).ShowAsync();
             }
         }
+        /// <summary>
+        /// We check what parameter that we want to change and populate the JsonPatchDocument
+        /// </summary>
+        /// <param name="tempReservation"></param>
         public void CreateReservationPatchDoc(Reservation updatedReservation, DateTimeOffset startDate, DateTimeOffset endDate, string numberOfGuests,decimal totalPrice,ObservableCollection<Addon> chosenAddon,JsonPatchDocument<Reservation> patchDoc)
         {
             List<Addon> tempList = new List<Addon>();
@@ -124,16 +131,7 @@ namespace HolidayMakerClient
             }
             //We check for what is different and add that to the patch doc.
             if (updatedReservation.AddonList != tempList)
-                //foreach(var a in tempList)
-                //{
-                    //if (updatedReservation.AddonList.Contains(a))
-                    //{
-                        patchDoc.Replace(x => x.AddonList, tempList);
-
-                    //}
-                //}
-               
-
+                patchDoc.Replace(x => x.AddonList, tempList);
             if (updatedReservation.StartDate != startDate)
                 patchDoc.Replace(x => x.StartDate, startDate);
 
@@ -151,14 +149,12 @@ namespace HolidayMakerClient
             if (reservation == "[]")
                 throw new FormatException("Inga ändringar gjorda");
         }
-<<<<<<< HEAD
-        
-=======
+
 
         /// <summary>
         /// Gets a list of addons from the API and adds them to a list
         /// </summary>
->>>>>>> dev
+
         public async void GetAddonList()
         {
             try
