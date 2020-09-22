@@ -32,16 +32,22 @@ namespace HolidayMakerClient.ViewModel
 
         #region Methods
         /// <summary>
-        /// TBD
+        /// Calls the APIHelper method PostUser and sends a user object for creation
         /// </summary>
         public async void PostUser(User tempUser)
         {
            await ApiHelper.Instance.PostUser(tempUser);
 
         }
+
         /// <summary>
-        /// TBD
+        /// Sets all the parameters for a new  user and calls the PostUser method inside the RegisterAccountViewModel class
         /// </summary>
+        /// <param name="name"></param>
+        /// <param name="surName"></param>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <param name="isCompany"></param>
         public void CreateNewUser(string name, string surName,string email,string password,bool isCompany)
         {
             User tempUser = new User();
@@ -53,8 +59,9 @@ namespace HolidayMakerClient.ViewModel
            PostUser(tempUser);
         }
 
+
         /// <summary>
-        /// VAlidates if there is exactly 1 '@' in the email, and at least 1 '.'
+        /// Validates if there is exactly 1 '@' in the email, and at least 1 '.'
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>

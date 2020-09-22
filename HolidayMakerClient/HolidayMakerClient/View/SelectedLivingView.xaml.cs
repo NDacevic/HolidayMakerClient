@@ -85,7 +85,15 @@ namespace HolidayMakerClient
         /// </summary>
         public void ExtraBed()
         {
-            selectedLivingViewModel.GetAddonExtraBed();
+            try
+            {
+                selectedLivingViewModel.GetAddonExtraBed();
+            }
+            catch
+            {
+                return;
+            }
+            
 
         }
         /// <summary>
@@ -95,9 +103,13 @@ namespace HolidayMakerClient
         {
             HomePrice();
             CheckHome();
-            bttn_bookChange.Content = "Boka";
-            bttn_deleteReservation.Visibility = Visibility.Collapsed;
+            Bttn_bookChange.Content = "Boka";
+            Bttn_deleteReservation.Visibility = Visibility.Collapsed;
+            Bttn_ToMyPage.Visibility = Visibility.Collapsed;
         }
+        /// <summary>
+        /// Prepare page when navigated from MyPage
+        /// </summary>
         public void SetUpPageOldReservation()
         {
             selectedLivingViewModel.TempRes.TempId = selectedLivingViewModel.TempRes.OldReservation.ReservationId;
@@ -112,8 +124,9 @@ namespace HolidayMakerClient
             HomePrice();
             CheckHome();
             UpdatePrice();
-            bttn_bookChange.Content = "Ändra";
-            bttn_deleteReservation.Visibility = Visibility.Visible;
+            Bttn_bookChange.Content = "Ändra";
+            Bttn_deleteReservation.Visibility = Visibility.Visible;
+            Bttn_ToSearch.Visibility = Visibility.Collapsed;
         }
         public void HomePrice()
         {
@@ -127,7 +140,7 @@ namespace HolidayMakerClient
         {
             if (selectedLivingViewModel.TempRes.TempHome.HasExtraBed == false)
             {
-                cb_ExtraBed.Visibility = Visibility.Collapsed;
+                Cb_ExtraBed.Visibility = Visibility.Collapsed;
             }
             if (selectedLivingViewModel.TempRes.TempHome.HasAllInclusive == false)
             {
@@ -148,12 +161,15 @@ namespace HolidayMakerClient
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private async void bttn_RemoveAddon_Click(object sender, RoutedEventArgs e)
+        private async void Bttn_RemoveAddon_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                Addon ad = ((Addon)lv_DisplayAddons.SelectedItem);
+                if (ad.AddonType == "Extrasäng") cb_ExtraBed.IsChecked = false;
+                else if(ad.AddonType == "All-inclusive" || ad.AddonType == "Helpension" || ad.AddonType == "Halvpension") Rb_noPension.IsChecked = true;
                 ChosenAddons.Remove((Addon)lv_DisplayAddons.SelectedItem);
-                UpdatePrice();
+                
             }
             catch (Exception)
             {
@@ -167,7 +183,7 @@ namespace HolidayMakerClient
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private async void bttn_bookChange_Click(object sender, RoutedEventArgs e)
+        private async void Bttn_bookChange_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -184,13 +200,22 @@ namespace HolidayMakerClient
                 return;
             }
         }
+        /// <summary>
+        /// Delete reservation when navigating from MyPageView with chosen reservation. When navigated from SearchView the button is hidden
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
-
-        private void bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
+        private void Bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
         {
             selectedLivingViewModel.DeleteReservation(selectedLivingViewModel.TempRes);
             Frame.Navigate(typeof(MyPageView));
         }
+        /// <summary>
+        /// Gets the list of addons plus the addon ExtraBed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -228,13 +253,17 @@ namespace HolidayMakerClient
             }
             UpdatePrice();
         }
+        private void Rb_noPension_Checked(object sender, RoutedEventArgs e)
+        {
+            UpdatePrice();
+        }
         /// <summary>
         /// Adding ExtraBed to the ObservableCollection ChosenAddons and updates TotalPrice
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private void cb_ExtraBed_Checked(object sender, RoutedEventArgs e)
+        private void Cb_ExtraBed_Checked(object sender, RoutedEventArgs e)
         {
             ChosenAddons.Add((Addon)selectedLivingViewModel.ExtraBed);
             UpdatePrice();
@@ -245,12 +274,17 @@ namespace HolidayMakerClient
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private void cb_ExtraBed_Unchecked(object sender, RoutedEventArgs e)
+        private void Cb_ExtraBed_Unchecked(object sender, RoutedEventArgs e)
         {
             ChosenAddons.Remove((Addon)selectedLivingViewModel.ExtraBed);
             UpdatePrice();
 
         }
+        /// <summary>
+        /// If RadioButtens is unchecked or switching between them, correct Totalprice is shown 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void Rb_addon_Unchecked(object sender, RoutedEventArgs e)
         {
@@ -278,9 +312,9 @@ namespace HolidayMakerClient
             UpdatePrice();
 
         }
-        /// <summary>
-        /// Update TotalPrice for home plus addons
-        /// </summary>
+            /// <summary>
+            /// Update TotalPrice for home plus addons
+            /// </summary>
         public void UpdatePrice ()
         {
             if(ChosenAddons.Count == 0)
@@ -289,24 +323,44 @@ namespace HolidayMakerClient
             }
             else
             {
+                decimal addonPrice = 0;
                 foreach(var ad in ChosenAddons)
                 {
                     if(ad.AddonType != "Extrasäng")
                     {
-                        TotalPrice += ad.AddonPrice * int.Parse(selectedLivingViewModel.TempRes.NumberOfGuests);
+                        addonPrice += ad.AddonPrice * int.Parse(selectedLivingViewModel.TempRes.NumberOfGuests);
                     }
                     else
                     {
-                        TotalPrice += ad.AddonPrice;
+                        addonPrice += ad.AddonPrice;
                     }
-                } 
+                }
+                TotalPrice = price + addonPrice;
             }
 
         }
-
+        /// <summary>
+        /// Navigate to SearchView
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Bttn_ToSearch_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(SearchView));
         }
+<<<<<<< HEAD
+        /// <summary>
+        /// Navigate to MyPage 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Bttn_ToMyPage_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MyPageView));
+        }
+=======
+
+
+>>>>>>> dev
     }
 }

@@ -1,4 +1,5 @@
-﻿using HolidayMakerClient.View;
+﻿using HolidayMakerClient.Model;
+using HolidayMakerClient.View;
 using HolidayMakerClient.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -52,8 +53,8 @@ namespace HolidayMakerClient
 
         private async void Bttn_LogIn_Click(object sender, RoutedEventArgs e)
         {
-
-            await LoginViewModel.Instance.GetUser(Tb_EnterUsername.Text, Pwb_EnterPassword.Password);
+            string encryptedPassword = PasswordHelper.EncryptPassword(Pwb_EnterPassword.Password);
+            await LoginViewModel.Instance.GetUser(Tb_EnterUsername.Text, encryptedPassword);
             if (LoginViewModel.Instance.ActiveUser!=null)
             {
                 Hide();

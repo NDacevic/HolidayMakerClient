@@ -73,12 +73,21 @@ namespace HolidayMakerClient.ViewModel
             }
 
         }
+
+        /// <summary>
+        /// Clears most of the ObservableCollections inside the MyPageViewModel class
+        /// </summary>
         public void ResetLists()
         {
             SelectedReservationAddons.Clear();
             SelectedReservation.Clear();
             SelectedHome.Clear();
         }
+
+        /// <summary>
+        /// Calls the APIHelper method DeleteReservation and supplies an Id for deletion
+        /// </summary>
+        /// <param name="reservation"></param>
         public void DeleteReservation(Reservation reservation)
         {
              ApiHelper.Instance.DeleteReservation(reservation.ReservationId);

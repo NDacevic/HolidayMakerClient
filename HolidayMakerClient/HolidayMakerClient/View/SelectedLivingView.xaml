@@ -75,24 +75,34 @@
                         <RadioButton x:Name="Rb_addon0" Checked="RadioButton_Checked" Unchecked="Rb_addon_Unchecked" Content="All-inclusive 1000 kr/person."/>
                         <RadioButton x:Name="Rb_addon1" Checked="RadioButton_Checked" Unchecked="Rb_addon_Unchecked" Content="Helpension 400 kr/person."/>
                         <RadioButton x:Name="Rb_addon2" Checked="RadioButton_Checked" Unchecked="Rb_addon_Unchecked" Content="Halvpension 200 kr/person."/>
+                        <RadioButton x:Name="Rb_noPension" Checked="Rb_noPension_Checked" Content="Ingen pension"/>
 
                     </StackPanel>
                     <CheckBox 
-                        x:Name="cb_ExtraBed" 
+                        x:Name="Cb_ExtraBed" 
                         Content="Extra säng 100 kr. "
-                        Checked="cb_ExtraBed_Checked"
-                        Unchecked="cb_ExtraBed_Unchecked"/>
+                        Checked="Cb_ExtraBed_Checked"
+                        Unchecked="Cb_ExtraBed_Unchecked"/>
                 </StackPanel>
             </Grid>
         </StackPanel>
 
         <StackPanel Grid.Column="1" VerticalAlignment="Stretch">
-            <Button 
+            <Grid>
+             <Button 
                 x:Name="Bttn_ToSearch" 
                 Content="Tillbaka" 
                 HorizontalAlignment="Right" 
                 Margin="0, 20, 20, 0" 
                 Click="Bttn_ToSearch_Click"/>
+            <Button 
+                x:Name="Bttn_ToMyPage" 
+                Content="Tillbaka" 
+                HorizontalAlignment="Right" 
+                Margin="0, 20, 20, 0" 
+                Click="Bttn_ToMyPage_Click"/>   
+            </Grid>
+            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -158,10 +168,10 @@
                     </ListView.ItemTemplate>
                 </ListView>
                 <Button
-                    x:Name="bttn_RemoveAddon"
+                    x:Name="Bttn_RemoveAddon"
                     Content="Ta bort tilägg"
                     Margin="20,15,0,10"
-                    Click="bttn_RemoveAddon_Click"/>   
+                    Click="Bttn_RemoveAddon_Click"/>   
                 </StackPanel>
                 
                 <StackPanel Grid.Row="2" Margin="20,10,0,0" Spacing="20">
@@ -176,17 +186,17 @@
                          <Run Text=" kr."/>
                     </TextBlock>
                     <Button
-                        x:Name="bttn_bookChange"
+                        x:Name="Bttn_bookChange"
                         Content="Boka/Ändra"
                         HorizontalAlignment="Center"
                         Width="120"
-                        Click="bttn_bookChange_Click"/>
+                        Click="Bttn_bookChange_Click"/>
                     <Button
-                        x:Name="bttn_deleteReservation"
+                        x:Name="Bttn_deleteReservation"
                         Content="Ta bort bokning"
                         HorizontalAlignment="Center"
                         Width="120"
-                        Click="bttn_deleteReservation_Click"/>
+                        Click="Bttn_deleteReservation_Click"/>
                 </StackPanel>
 
             </Grid>
