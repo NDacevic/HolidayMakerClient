@@ -40,20 +40,24 @@
                        x:Name="bttn_ChangeReservation"
                        Click="bttn_ChangeReservation_Click"
                        HorizontalAlignment="Right"
-                       Margin="0,0,30,0"
-                                        />
+                       Margin="0,5,30,0"/>
             <Button    Content="Avboka reservation" 
                        Background="Red"
                        x:Name="bttn_CancelReservation"
                        Click="bttn_CancelReservation_Click"
                        HorizontalAlignment="Right"
-                       Margin="0,0,30,0"/>
+                       Margin="0,5,30,0"/>
             <Button    Content="Avregistrera användare" 
                        Background="Red"
                        x:Name="bttn_RemoveUser"
                        Click="bttn_RemoveUser_Click"
                        HorizontalAlignment="Right"
-                       Margin="0,0,30,0"/>
+                       Margin="0,5,30,0"/>
+            <Button    Content="Lägg upp boende för uthyrning" 
+                       x:Name="bttn_UploadLiving"
+                       Click="bttn_UploadLiving_Click"  
+                       HorizontalAlignment="Right"
+                       Margin="0,5,30,0"/>
 
         </StackPanel>
         <StackPanel Grid.Row="1">
@@ -63,7 +67,7 @@
                 BorderThickness="2"
                 ItemsSource="{x:Bind myPageViewModel.MyReservations}"
                 x:Name="Lv_MyReservations" 
-                DoubleTapped="Lv_MyReservations_DoubleTapped"
+                Tapped="Lv_MyReservations_Tapped"
                 Height="250"
                 >
                 <ListView.ItemTemplate>

@@ -138,7 +138,7 @@ namespace HolidayMakerClient.View
             }
             else
             {
-                //This happens after a user has removed itself from the system
+                //This happens after a user has removed itself from the system or logs out
                 bttn_Login.Visibility = Visibility.Visible;
                 bttn_UserOptions.Visibility = Visibility.Collapsed;
             }
@@ -150,6 +150,8 @@ namespace HolidayMakerClient.View
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
+            LoginViewModel.Instance.ActiveUser = null;
+            CheckActiveUser();
         }
 
         private void SortColumns_Click(object sender, RoutedEventArgs e)
