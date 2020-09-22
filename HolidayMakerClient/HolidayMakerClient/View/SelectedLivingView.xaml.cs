@@ -104,6 +104,7 @@ namespace HolidayMakerClient
         {
             HomePrice();
             CheckHome();
+            GetDates();
             Bttn_bookChange.Content = "Boka";
             Bttn_deleteReservation.Visibility = Visibility.Collapsed;
             Bttn_ToMyPage.Visibility = Visibility.Collapsed;
@@ -125,6 +126,7 @@ namespace HolidayMakerClient
             HomePrice();
             CheckHome();
             UpdatePrice();
+            GetDates();
             Bttn_bookChange.Content = "Ändra";
             Bttn_deleteReservation.Visibility = Visibility.Visible;
             Bttn_ToSearch.Visibility = Visibility.Collapsed;
@@ -222,7 +224,6 @@ namespace HolidayMakerClient
         {
             AddonList();
             ExtraBed();
-            GetDates();
         }
         /// <summary>
         /// Adding the chosen addon to the ObservableCollection ChosenAddons and updates TotalPrice
@@ -369,11 +370,16 @@ namespace HolidayMakerClient
         //};
         public void GetDates()
         {
-            selectedLivingViewModel.GetAllReservation();
+            selectedLivingViewModel.GetHomeReservation(selectedLivingViewModel.TempRes.TempHome.HomeId);
             selectedLivingViewModel.SetInvalidDates();
-            foreach (var id in selectedLivingViewModel.InvalidDates)
+            SetInvalidList();
+
+        }
+        public void SetInvalidList ()
+        {
+            foreach (var date in selectedLivingViewModel.InvalidDates)
             {
-                InvalidDates.Add(id);
+                InvalidDates.Add(date);
             }
         }
 

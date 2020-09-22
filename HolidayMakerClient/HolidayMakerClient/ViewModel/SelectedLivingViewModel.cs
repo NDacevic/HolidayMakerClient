@@ -38,8 +38,8 @@ namespace HolidayMakerClient
         public TempReservation TempRes { get; set; }
         public decimal TotalPrice { get; set; }
         public Addon ExtraBed { get; set; }
-        public ObservableCollection<Reservation> AllReservations { get; set; }
-        public ObservableCollection<DateTimeOffset> InvalidDates { get; set; }
+        public List<Reservation> AllReservations { get; set; }
+        public List<DateTimeOffset> InvalidDates { get; set; }
         #endregion
 
         #region Methods
@@ -97,10 +97,10 @@ namespace HolidayMakerClient
         {
 
         }
-        public async void GetAllReservation ()
+        public async void GetHomeReservation (int homeId)
         {
-            AllReservations = new ObservableCollection<Reservation>();
-            var reservations = await ApiHelper.Instance.GetAllReservation();
+            AllReservations = new List<Reservation>();
+            var reservations = await ApiHelper.Instance.GetAllReservation(homeId);
             foreach(var r in reservations)
             {
                 AllReservations.Add(r);
@@ -109,7 +109,7 @@ namespace HolidayMakerClient
         }
         public void SetInvalidDates()
         {
-            InvalidDates = new ObservableCollection<DateTimeOffset>();
+            InvalidDates = new List<DateTimeOffset>();
             foreach(var r in AllReservations)
             {
                 InvalidDates.Add(r.StartDate);
@@ -136,7 +136,7 @@ namespace HolidayMakerClient
             }
             catch (Exception)
             {
-                await new MessageDialog("Ingen kontakt med servern. Kontakta admin").ShowAsync();
+                //await new MessageDialog("Ingen kontakt med servern. Kontakta admin").ShowAsync();
                 return;
             }
             
@@ -163,7 +163,7 @@ namespace HolidayMakerClient
             }
             catch (Exception)
             {
-                await new MessageDialog("Ingen kontakt med servern. Kontakta admin").ShowAsync();
+                //await new MessageDialog("Ingen kontakt med servern. Kontakta admin").ShowAsync();
                 return;
             }
 
