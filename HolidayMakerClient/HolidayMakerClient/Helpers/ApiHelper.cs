@@ -366,6 +366,29 @@ namespace HolidayMakerClient
                 return addonList;
             }
         }
+        public async Task<List<Reservation>> GetAllReservation ()
+        {
+            List<Reservation> reservations = new List<Reservation>();
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync("Reservations");
+                if(response.IsSuccessStatusCode)
+                {
+                    jsonString = response.Content.ReadAsStringAsync().Result;
+                    reservations = JsonConvert.DeserializeObject<List<Reservation>>(jsonString);
+                    return reservations;
+                }
+                else
+                {
+                    throw new HttpRequestException("Gick ej att hämta, vänligen försök igen.");
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+                return reservations;
+            }
+        }
         private async void BasicNoConnectionMessage(Exception exc)
         {
             Debug.WriteLine(exc.Message);
