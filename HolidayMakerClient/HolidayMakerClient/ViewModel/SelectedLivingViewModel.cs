@@ -89,7 +89,6 @@ namespace HolidayMakerClient
                 return;
             }
             
-
         }
 
         public void EditReservation()
