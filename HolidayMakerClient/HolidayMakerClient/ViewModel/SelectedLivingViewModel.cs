@@ -163,7 +163,6 @@ namespace HolidayMakerClient
             }
             catch (Exception)
             {
-                //await new MessageDialog("Ingen kontakt med servern. Kontakta admin").ShowAsync();
                 return;
             }
             
@@ -190,7 +189,6 @@ namespace HolidayMakerClient
             }
             catch (Exception)
             {
-                //await new MessageDialog("Ingen kontakt med servern. Kontakta admin").ShowAsync();
                 return;
             }
 
