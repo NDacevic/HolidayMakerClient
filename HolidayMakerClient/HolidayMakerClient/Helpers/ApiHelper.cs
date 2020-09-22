@@ -396,6 +396,29 @@ namespace HolidayMakerClient
             }
         }
 
+        public async Task<ObservableCollection<Home>> GetUserHomes(int userId)
+        {
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync($"Homes/{userId}");
+                if (response.IsSuccessStatusCode)
+                {
+                    jsonString = response.Content.ReadAsStringAsync().Result;
+                    var userHomesList = JsonConvert.DeserializeObject<ObservableCollection<Home>>(jsonString);
+                    return userHomesList;
+                }
+                else
+                {
+                    throw new HttpRequestException();
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+                return new ObservableCollection<Home>();
+            }
+        }
+
         private async void BasicNoConnectionMessage(Exception exc)
         {
             Debug.WriteLine(exc.Message);
