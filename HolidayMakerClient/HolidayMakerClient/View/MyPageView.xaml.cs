@@ -107,9 +107,20 @@ namespace HolidayMakerClient.View
                     TempHome = myPageViewModel.SelectedHome[0],
                     OldReservation = myPageViewModel.SelectedReservation[0]
                 };
-                Frame.Navigate(typeof(SelectedLivingView), currentReservation);
+                PopulateList(currentReservation);
+
             }
-        }        
+        }  
+        private void PopulateList(TempReservation currentReservation)
+        {
+            currentReservation.OldReservation.AddonList = new List<Addon>();
+            foreach (Addon a in myPageViewModel.SelectedReservationAddons)
+            {
+                currentReservation.OldReservation.AddonList.Add(a);
+            }
+            Frame.Navigate(typeof(SelectedLivingView), currentReservation);
+
+        }
 
         private void bttn_navigateBack_Click(object sender, RoutedEventArgs e)
         {

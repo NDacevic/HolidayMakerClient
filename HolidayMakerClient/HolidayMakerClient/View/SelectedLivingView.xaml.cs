@@ -39,9 +39,14 @@ namespace HolidayMakerClient
         public SelectedLivingView()
         {
             this.InitializeComponent();
+            
             selectedLivingViewModel = new SelectedLivingViewModel();
             ChosenAddons = new ObservableCollection<Addon>();
-            
+            for (int i = 1; i <= 20; i++)
+            {
+                combobox_ChangeGuests.Items.Add(i);
+            }
+
         }
         /// <summary>
         /// Recieves a TempReservation object when navigated to
@@ -49,6 +54,8 @@ namespace HolidayMakerClient
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            
+          
             selectedLivingViewModel.TempRes = (TempReservation)e.Parameter;
             if(selectedLivingViewModel.TempRes.OldReservation == null)
             {
@@ -62,8 +69,9 @@ namespace HolidayMakerClient
 
         }
 
+
             
-        //}
+
         /// <summary>
         /// Get list of all addons except for ExtraBed from DB, this because ExtraBed is treated differently from the other addons
         /// </summary>
@@ -101,6 +109,7 @@ namespace HolidayMakerClient
         /// </summary>
         public void SetUpPage()
         {
+
             HomePrice();
             CheckHome();
             Bttn_bookChange.Content = "Boka";
@@ -116,17 +125,21 @@ namespace HolidayMakerClient
             selectedLivingViewModel.TempRes.NumberOfGuests = selectedLivingViewModel.TempRes.OldReservation.NumberOfGuests.ToString();
             selectedLivingViewModel.TempRes.StartDate = selectedLivingViewModel.TempRes.OldReservation.StartDate;
             selectedLivingViewModel.TempRes.EndDate = selectedLivingViewModel.TempRes.OldReservation.EndDate;
-            //foreach (var ad in selectedLivingViewModel.TempRes.OldReservation.AddonList)
-            //{
-            //    ChosenAddons.Add(ad);
-            //}
+            foreach (var ad in selectedLivingViewModel.TempRes.OldReservation.AddonList)
+            {
+                ChosenAddons.Add(ad);
+            }
 
             HomePrice();
+
             CheckHome();
             UpdatePrice();
+
             Bttn_bookChange.Content = "Ändra";
+            combobox_ChangeGuests.Visibility = Visibility.Visible;
             Bttn_deleteReservation.Visibility = Visibility.Visible;
             Bttn_ToSearch.Visibility = Visibility.Collapsed;
+
         }
         public void HomePrice()
         {
@@ -186,21 +199,46 @@ namespace HolidayMakerClient
 
         private async void Bttn_bookChange_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (Bttn_bookChange.Content.ToString() == "Ändra")
             {
-                if(LoginViewModel.Instance.ActiveUser == null)
-                {
-                    await new LoginView().ShowAsync();
-                }
-                selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes, ChosenAddons, TotalPrice);
-                Frame.Navigate(typeof(MyPageView));
+                //UpdateReservationAddonList();
+                selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value, totalPrice,ChosenAddons ,combobox_ChangeGuests.SelectedValue.ToString());
             }
-            catch (Exception)
+            else
             {
-                await new MessageDialog("Din bokning kunde inte sparas, vänligen testa igen eller kontakta admin.").ShowAsync();
-                return;
+                try
+                {
+                    if (LoginViewModel.Instance.ActiveUser == null)
+                    {
+                        await new LoginView().ShowAsync();
+                    }
+                    selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes, ChosenAddons, TotalPrice);
+                    Frame.Navigate(typeof(MyPageView));
+                }
+                catch (Exception)
+                {
+                    await new MessageDialog("Din bokning kunde inte sparas, vänligen testa igen eller kontakta admin.").ShowAsync();
+                    return;
+                }
+            }
+   
+        }
+        private void UpdateReservationAddonList()
+        {
+            foreach(Addon a in ChosenAddons)
+            {
+                if (selectedLivingViewModel.TempRes.OldReservation.AddonList.Contains(a))
+                {
+
+                }
+                else
+                {
+                    selectedLivingViewModel.TempRes.OldReservation.AddonList.Add(a);
+                }
+                
             }
         }
+
         /// <summary>
         /// Delete reservation when navigating from MyPageView with chosen reservation. When navigated from SearchView the button is hidden
         /// </summary>
@@ -208,6 +246,7 @@ namespace HolidayMakerClient
         /// <param name="e"></param>
 
         private void Bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
+
         {
             selectedLivingViewModel.DeleteReservation(selectedLivingViewModel.TempRes);
             Frame.Navigate(typeof(MyPageView));

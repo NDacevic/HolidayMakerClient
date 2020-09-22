@@ -66,9 +66,11 @@ namespace HolidayMakerClient.ViewModel
             SelectedReservation.Add(reservation);
             Home home = await ApiHelper.Instance.GetHome(reservation.HomeId);
             SelectedHome.Add(home);
-            var addonlist= await ApiHelper.Instance.GetReservationAddon(reservation.ReservationId);
-            foreach(Addon a in addonlist)
+
+            var addonlist = await ApiHelper.Instance.GetReservationAddon(reservation.ReservationId);
+            foreach (Addon a in addonlist)
             {
+                
                 SelectedReservationAddons.Add(a);
             }
 
