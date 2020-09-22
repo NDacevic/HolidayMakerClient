@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HolidayMakerClient.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,6 +45,18 @@ namespace HolidayMakerClient.ViewModel
         #endregion
 
         #region Methods
+        public async Task CreateNewHome(string homeType, int rooms, string location, decimal price, bool hasBalcony, 
+            bool allowPets, bool hasWifi, bool hasHalfPension, bool hasFullPension, bool hasAllInclusive, bool hasExtraBed, 
+            int cityDistance, int beachDistance, int numberOfBeds, bool hasPool, bool allowSmoking, string description)
+        {
+            await PostHome(new Home(homeType,rooms, location, price, hasBalcony, 
+                allowPets, hasWifi, hasHalfPension, hasFullPension, hasAllInclusive, hasExtraBed, 
+                cityDistance, beachDistance, numberOfBeds, hasPool, allowSmoking, description));
+        }
+        public async Task PostHome(Home newHome)
+        {
+            await ApiHelper.Instance.PostHome(newHome);
+        }
         #endregion
 
     }
