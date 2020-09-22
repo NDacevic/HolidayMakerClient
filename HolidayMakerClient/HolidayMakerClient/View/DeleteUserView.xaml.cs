@@ -1,4 +1,5 @@
-﻿using HolidayMakerClient.ViewModel;
+﻿using HolidayMakerClient.Model;
+using HolidayMakerClient.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,7 +36,8 @@ namespace HolidayMakerClient.View
         private async void bttn_ConfirmPassword_Click(object sender, RoutedEventArgs e)
         {
             bool isUserDeleted;
-            isUserDeleted = await deleteUserViewModel.ConfirmPassword(pwd_ConfirmPassword.Password);
+            string encryptedPassword = PasswordHelper.EncryptPassword(pwd_ConfirmPassword.Password);
+            isUserDeleted = await deleteUserViewModel.ConfirmPassword(encryptedPassword);
             if (isUserDeleted)
                 Hide();
       

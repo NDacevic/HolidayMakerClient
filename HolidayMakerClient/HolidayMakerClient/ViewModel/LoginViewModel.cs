@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HolidayMakerClient.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,13 +58,13 @@ namespace HolidayMakerClient
             await ConfirmPassword(user, enteredPassword);
         }
 
-        public async Task ConfirmPassword(User user, string enteredPassword)
+        public async Task ConfirmPassword(User user, string encryptedPassword)
         {
             if (user.Email == null)
             {
 
             }
-            else if (user.Password == enteredPassword)
+            else if (user.Password == encryptedPassword)
                 ActiveUser = user;
             else
                 await new MessageDialog("Inkorrekt lösenord, vänligen försök igen.").ShowAsync();

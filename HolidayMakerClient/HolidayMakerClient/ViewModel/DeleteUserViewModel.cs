@@ -55,7 +55,6 @@ namespace HolidayMakerClient.ViewModel
                 await new MessageDialog("Felaktigt lösenord. Vänligen försök igen.").ShowAsync();
                 return false;
             }
-                
         }
         #endregion
     }

@@ -75,6 +75,7 @@
                         <RadioButton x:Name="Rb_addon0" Checked="RadioButton_Checked" Unchecked="Rb_addon_Unchecked" Content="All-inclusive 1000 kr/person."/>
                         <RadioButton x:Name="Rb_addon1" Checked="RadioButton_Checked" Unchecked="Rb_addon_Unchecked" Content="Helpension 400 kr/person."/>
                         <RadioButton x:Name="Rb_addon2" Checked="RadioButton_Checked" Unchecked="Rb_addon_Unchecked" Content="Halvpension 200 kr/person."/>
+                        <RadioButton x:Name="Rb_noPension" Checked="Rb_noPension_Checked" Content="Ingen pension"/>
 
                     </StackPanel>
                     <CheckBox 
