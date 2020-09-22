@@ -136,6 +136,7 @@ namespace HolidayMakerClient
             UpdatePrice();
 
             Bttn_bookChange.Content = "Ändra";
+            combobox_ChangeGuests.Visibility = Visibility.Visible;
             Bttn_deleteReservation.Visibility = Visibility.Visible;
             Bttn_ToSearch.Visibility = Visibility.Collapsed;
 
