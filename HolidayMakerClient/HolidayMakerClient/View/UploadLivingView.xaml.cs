@@ -53,6 +53,10 @@ namespace HolidayMakerClient.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             _enumval = Enum.GetValues(typeof(HomeType)).Cast<HomeType>();
+            if (LoginViewModel.Instance.ActiveUser.IsCompany)
+            {
+                grid_BusinessExtras.Visibility = Visibility.Visible;
+            }
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -82,7 +86,6 @@ namespace HolidayMakerClient.View
                 tb_Description.Text);
 
             NavigateBack();
-
         }
 
         private void bttn_Cancel_Click(object sender, RoutedEventArgs e)
