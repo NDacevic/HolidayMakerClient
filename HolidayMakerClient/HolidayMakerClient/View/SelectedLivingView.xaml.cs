@@ -3,6 +3,7 @@ using HolidayMakerClient.View;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -129,17 +130,49 @@ namespace HolidayMakerClient
             {
                 ChosenAddons.Add(ad);
             }
-
+            
             HomePrice();
-
             CheckHome();
             UpdatePrice();
-
+            OldReservationCheckbox();
             Bttn_bookChange.Content = "Ändra";
             combobox_ChangeGuests.Visibility = Visibility.Visible;
             Bttn_deleteReservation.Visibility = Visibility.Visible;
             Bttn_ToSearch.Visibility = Visibility.Collapsed;
 
+        }
+        public void OldReservationCheckbox()
+        {
+            
+            foreach (var addon in ChosenAddons.ToList())
+            {
+                if(addon.AddonType=="Extrasäng")
+                {
+                    cb_ExtraBed.Checked -= Cb_ExtraBed_Checked;
+                    cb_ExtraBed.IsChecked = true;
+                    cb_ExtraBed.Checked += Cb_ExtraBed_Checked;
+                }
+                if (addon.AddonType == "Halvpension")
+                {
+                    Rb_addon0.Checked -= RadioButton_Checked;
+                    Rb_addon0.IsChecked = true;
+                    Rb_addon0.Checked += RadioButton_Checked;
+                }
+                if (addon.AddonType == "Helpension")
+                {
+                    Rb_addon1.Checked -= RadioButton_Checked;
+                    Rb_addon1.IsChecked = true;
+                    Rb_addon1.Checked += RadioButton_Checked;
+                }
+                if (addon.AddonType == "All-inclusive")
+                {
+                    Rb_addon2.Checked -= RadioButton_Checked;
+                    Rb_addon2.IsChecked = true;
+                    Rb_addon2.Checked += RadioButton_Checked;
+                }
+
+            }
+            
         }
         public void HomePrice()
         {
@@ -199,10 +232,18 @@ namespace HolidayMakerClient
 
         private async void Bttn_bookChange_Click(object sender, RoutedEventArgs e)
         {
+            string numberOfGuests;
             if (Bttn_bookChange.Content.ToString() == "Ändra")
             {
-                //UpdateReservationAddonList();
-                selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value, totalPrice,ChosenAddons ,combobox_ChangeGuests.SelectedValue.ToString());
+                if (combobox_ChangeGuests.SelectedValue == null)
+                {
+                    numberOfGuests = selectedLivingViewModel.TempRes.NumberOfGuests.ToString();
+                }
+                else
+                {
+                    numberOfGuests = combobox_ChangeGuests.SelectedValue.ToString();
+                }
+                selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value, totalPrice,ChosenAddons ,numberOfGuests);
             }
             else
             {
@@ -223,21 +264,7 @@ namespace HolidayMakerClient
             }
    
         }
-        private void UpdateReservationAddonList()
-        {
-            foreach(Addon a in ChosenAddons)
-            {
-                if (selectedLivingViewModel.TempRes.OldReservation.AddonList.Contains(a))
-                {
-
-                }
-                else
-                {
-                    selectedLivingViewModel.TempRes.OldReservation.AddonList.Add(a);
-                }
-                
-            }
-        }
+ 
 
         /// <summary>
         /// Delete reservation when navigating from MyPageView with chosen reservation. When navigated from SearchView the button is hidden

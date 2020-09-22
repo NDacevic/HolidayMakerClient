@@ -148,7 +148,7 @@
                                Margin="20,0,0,0"
                                MaxDropDownHeight="200"
                                Visibility="Visible"
-                                PlaceholderText="Ändra gäster"
+                               PlaceholderText="Ändra gäster"
                                 />
                 
                         </StackPanel>
