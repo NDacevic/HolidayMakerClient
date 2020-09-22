@@ -147,9 +147,9 @@
                                x:Name="combobox_ChangeGuests"
                                Margin="20,0,0,0"
                                MaxDropDownHeight="200"
-                               SelectedIndex="0"
-                              PlaceholderText="Antal boende"
-                                Visibility="Collapsed"/>
+                               Visibility="Visible"
+                                PlaceholderText="Ändra gäster"
+                                />
                 
                         </StackPanel>
 
