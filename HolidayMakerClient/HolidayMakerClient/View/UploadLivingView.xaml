@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -54,11 +55,11 @@
                         Grid.Column="0"
                         HorizontalAlignment="Right"
                         Text="Typ av hem"/>
-                    <ListBox
-                        Name="lb_HomeType"
+                    <ComboBox
+                        Name="cb_HomeType"
                         Grid.Column="1"
                         Margin="5,0,0,0">
-                    </ListBox>                
+                    </ComboBox>                
                 </Grid>
 
                 <Grid

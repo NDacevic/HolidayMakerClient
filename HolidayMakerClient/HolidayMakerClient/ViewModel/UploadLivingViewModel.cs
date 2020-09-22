@@ -6,6 +6,19 @@ using System.Threading.Tasks;
 
 namespace HolidayMakerClient.ViewModel
 {
+    /// <summary>
+    /// Enum used to populate the HomeType listbox on UploadLivingView
+    /// </summary>
+    public enum HomeType
+    {
+        Lägenhet,
+        Villa,
+        Hotell,
+        Extrarum,
+        Stuga
+    }
+
+
     public class UploadLivingViewModel
     {
         #region Constant Fields

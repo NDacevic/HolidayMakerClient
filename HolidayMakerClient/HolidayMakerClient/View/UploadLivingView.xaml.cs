@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HolidayMakerClient.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,9 +23,39 @@ namespace HolidayMakerClient.View
     /// </summary>
     public sealed partial class UploadLivingView : Page
     {
+
+        #region Constant Fields
+        #endregion
+
+        #region Fields
+        private IEnumerable<HomeType> _enumval;
+        #endregion
+
+        #region Constructors
         public UploadLivingView()
         {
             this.InitializeComponent();
+        }
+        #endregion
+
+        #region Delegates
+        #endregion
+
+        #region Events
+        #endregion
+
+        #region Properties
+        #endregion
+
+        #region Methods
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            _enumval = Enum.GetValues(typeof(HomeType)).Cast<HomeType>();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            cb_HomeType.ItemsSource = _enumval.ToList();
         }
 
         private void bttn_UploadLiving_Click(object sender, RoutedEventArgs e)
@@ -34,7 +65,11 @@ namespace HolidayMakerClient.View
 
         private void bttn_Cancel_Click(object sender, RoutedEventArgs e)
         {
-
-        }
+            if (Frame.CanGoBack)
+            {
+                Frame.GoBack();
+            }
+        }        
+        #endregion
     }
 }
