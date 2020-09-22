@@ -62,7 +62,6 @@ namespace HolidayMakerClient.View
 
         private async void bttn_UploadLiving_Click(object sender, RoutedEventArgs e)
         {
-            //Todo: Secure so the user cannot enter letters where numbers should be
             await uploadLivingViewModel.CreateNewHome(
                 cbb_HomeType.SelectedItem.ToString(), 
                 int.Parse(tb_NumberOfRooms.Text), 
@@ -99,6 +98,18 @@ namespace HolidayMakerClient.View
             }
         }
 
+        private void NumericTextboxesBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
+        {
+            //if any written text is not a number, don't allow the textbox to be displayed
+            args.Cancel = args.NewText.Any(c => !char.IsDigit(c));
+
+            //always move cursor to the end of all entered text
+            if (!args.Cancel && args.NewText.Length == 1 && sender.Text == "")
+                sender.SelectionStart = args.NewText.Length + 1;
+        }
         #endregion
+
+
+
     }
 }

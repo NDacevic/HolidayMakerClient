@@ -75,7 +75,8 @@
                     <TextBox
                         Name="tb_NumberOfRooms"
                         Grid.Column="1"
-                        Margin="5,0,0,0"/>
+                        Margin="5,0,0,0"
+                        BeforeTextChanging="NumericTextboxesBeforeTextChanging"/>
                 </Grid>
 
                 <Grid
@@ -91,7 +92,8 @@
                     <TextBox
                         Name="tb_NumberOfBeds"
                         Grid.Column="1"
-                        Margin="5,0,0,0"/>
+                        Margin="5,0,0,0"
+                        BeforeTextChanging="NumericTextboxesBeforeTextChanging"/>
                 </Grid>
 
                 <Grid
@@ -123,7 +125,8 @@
                     <TextBox
                         Name="tb_Price"
                         Grid.Column="1"
-                        Margin="5,0,0,0"/>
+                        Margin="5,0,0,0"
+                        BeforeTextChanging="NumericTextboxesBeforeTextChanging"/>
                 </Grid>
 
                 <Grid
@@ -139,7 +142,8 @@
                     <TextBox
                         Name="tb_CityDistance"
                         Grid.Column="1"
-                        Margin="5,0,0,0"/>
+                        Margin="5,0,0,0"
+                        BeforeTextChanging="NumericTextboxesBeforeTextChanging"/>
                 </Grid>
 
                 <Grid
@@ -155,7 +159,8 @@
                     <TextBox
                         Name="tb_BeachDistance"
                         Grid.Column="1"
-                        Margin="5,0,0,0"/>
+                        Margin="5,0,0,0"
+                        BeforeTextChanging="NumericTextboxesBeforeTextChanging"/>
                 </Grid>
 
                 <Grid
