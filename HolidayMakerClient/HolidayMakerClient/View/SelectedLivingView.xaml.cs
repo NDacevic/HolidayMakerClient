@@ -1,6 +1,7 @@
 ﻿using HolidayMakerClient.Model;
 using HolidayMakerClient.View;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Windows.UI.Popups;
@@ -221,6 +222,7 @@ namespace HolidayMakerClient
         {
             AddonList();
             ExtraBed();
+            GetDates();
         }
         /// <summary>
         /// Adding the chosen addon to the ObservableCollection ChosenAddons and updates TotalPrice
@@ -357,6 +359,27 @@ namespace HolidayMakerClient
         private void Bttn_ToMyPage_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MyPageView));
+        }
+        private HashSet<DateTimeOffset> InvalidDates = new HashSet<DateTimeOffset>();
+        //{
+        //    DateTimeOffset.Parse("04/01/2017"),
+        //    DateTimeOffset.Parse("05/01/2017"),
+        //    DateTimeOffset.Parse("01/01/2017"),
+        //    DateTimeOffset.Parse("09/23/2020"),
+        //};
+        public void GetDates()
+        {
+            selectedLivingViewModel.GetAllReservation();
+            selectedLivingViewModel.SetInvalidDates();
+            foreach (var id in selectedLivingViewModel.InvalidDates)
+            {
+                InvalidDates.Add(id);
+            }
+        }
+
+        private void Cdp_StartDate_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
+        {
+            e.Item.IsBlackout = InvalidDates.Contains(e.Item.Date.Date);
         }
     }
 }

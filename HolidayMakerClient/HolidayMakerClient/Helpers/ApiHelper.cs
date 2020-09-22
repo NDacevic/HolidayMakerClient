@@ -366,16 +366,16 @@ namespace HolidayMakerClient
                 return addonList;
             }
         }
-        public async Task<List<Reservation>> GetAllReservation ()
+        public async Task<ObservableCollection<Reservation>> GetAllReservation ()
         {
-            List<Reservation> reservations = new List<Reservation>();
+            ObservableCollection<Reservation> reservations = new ObservableCollection<Reservation>();
             try
             {
                 HttpResponseMessage response = await httpClient.GetAsync("Reservations");
                 if(response.IsSuccessStatusCode)
                 {
                     jsonString = response.Content.ReadAsStringAsync().Result;
-                    reservations = JsonConvert.DeserializeObject<List<Reservation>>(jsonString);
+                    reservations = JsonConvert.DeserializeObject<ObservableCollection<Reservation>>(jsonString);
                     return reservations;
                 }
                 else

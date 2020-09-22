@@ -38,6 +38,8 @@ namespace HolidayMakerClient
         public TempReservation TempRes { get; set; }
         public decimal TotalPrice { get; set; }
         public Addon ExtraBed { get; set; }
+        public ObservableCollection<Reservation> AllReservations { get; set; }
+        public ObservableCollection<DateTimeOffset> InvalidDates { get; set; }
         #endregion
 
         #region Methods
@@ -94,6 +96,24 @@ namespace HolidayMakerClient
         public void EditReservation()
         {
 
+        }
+        public async void GetAllReservation ()
+        {
+            AllReservations = new ObservableCollection<Reservation>();
+            var reservations = await ApiHelper.Instance.GetAllReservation();
+            foreach(var r in reservations)
+            {
+                AllReservations.Add(r);
+            }
+
+        }
+        public void SetInvalidDates()
+        {
+            InvalidDates = new ObservableCollection<DateTimeOffset>();
+            foreach(var r in AllReservations)
+            {
+                InvalidDates.Add(r.StartDate);
+            }
         }
 
         /// <summary>
