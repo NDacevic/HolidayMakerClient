@@ -56,6 +56,7 @@ namespace HolidayMakerClient.ViewModel
         public async Task PostHome(Home newHome)
         {
             await ApiHelper.Instance.PostHome(newHome);
+            MyPageViewModel.Instance.ActiveUserHomes.Add(newHome);
         }
         #endregion
 

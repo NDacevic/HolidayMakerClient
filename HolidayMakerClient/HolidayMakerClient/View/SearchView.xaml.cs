@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Security.Cryptography.Core;
@@ -34,7 +35,6 @@ namespace HolidayMakerClient.View
         #region Fields
         SearchViewModel searchViewModel;
         TempReservation tempReservation;
-        MyPageViewModel myPageViewModel;
         #endregion
 
         #region Constructors
@@ -42,8 +42,6 @@ namespace HolidayMakerClient.View
         {
             this.InitializeComponent();
             searchViewModel = new SearchViewModel();
-            //Initializes MyPageViewModel already here since Properties in it will be populated when clicking "Navigate to MyPage"-button
-            myPageViewModel = new MyPageViewModel();
             datePicker_StartDate.Date = DateTime.Now;
             datePicker_EndDate.Date = DateTime.Now.AddDays(1.0);
 
@@ -162,9 +160,9 @@ namespace HolidayMakerClient.View
         private async void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
         {
             //Contact API and populate MyReservations and ActiveUserHomes properties before navigating to the page
-            await myPageViewModel.GetReservations();
-            await myPageViewModel.GetActiveUserHomes();
-            Frame.Navigate(typeof(MyPageView), myPageViewModel);
+            await MyPageViewModel.Instance.GetActiveUserHomes();
+            await MyPageViewModel.Instance.GetReservations();
+            Frame.Navigate(typeof(MyPageView));
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)

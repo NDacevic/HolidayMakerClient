@@ -14,10 +14,12 @@ namespace HolidayMakerClient.ViewModel
         #endregion
 
         #region Fields
+        private static MyPageViewModel instance = null;
+        private static readonly object padlock = new object();
         #endregion
 
         #region Constructors
-     
+
         public MyPageViewModel()
         {
             SelectedReservation = new ObservableCollection<Reservation>();
@@ -35,7 +37,24 @@ namespace HolidayMakerClient.ViewModel
         #endregion
 
         #region Properties
-       
+
+        /// <summary>
+        /// The instance for the LoginViewModel singleton.
+        /// </summary>
+        public static MyPageViewModel Instance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new MyPageViewModel();
+                    }
+                    return instance;
+                }
+            }
+        }
         public ObservableCollection<Reservation> MyReservations { get; set; }
         public ObservableCollection<Addon> SelectedReservationAddons { get; set; }
         public ObservableCollection<Reservation> SelectedReservation { get; set; }
@@ -49,11 +68,7 @@ namespace HolidayMakerClient.ViewModel
         /// </summary>
         public async Task GetReservations()
         {
-            var res = await ApiHelper.Instance.GetUserReservations();
-            foreach(Reservation r in res)
-            {
-                MyReservations.Add(r);
-            }
+            MyReservations = await ApiHelper.Instance.GetUserReservations();
         }
         /// <summary>
         /// When user selects a reservation we get specific details about home,reservation and addons.

@@ -376,10 +376,10 @@ namespace HolidayMakerClient
                 using (HttpContent httpContent = new StringContent(jsonString))
                 {
                     httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    HttpResponseMessage respons = await httpClient.PostAsync("Homes", httpContent);
+                    HttpResponseMessage response = await httpClient.PostAsync("Homes", httpContent);
 
                     //Check if succesfull
-                    if (respons.IsSuccessStatusCode)
+                    if (response.IsSuccessStatusCode)
                     {
                         await new MessageDialog("Boende uppladdat för uthyrning!").ShowAsync();
                     }

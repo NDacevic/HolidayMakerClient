@@ -30,8 +30,8 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Fields
-        MyPageViewModel myPageViewModel;
         LoginViewModel loginViewModel;
+        MyPageViewModel myPageViewModel = MyPageViewModel.Instance;
         #endregion
 
         #region Constructors
@@ -56,15 +56,13 @@ namespace HolidayMakerClient.View
         #region Methods
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //Receives the MyPageViewModel object from SearchPage
-            myPageViewModel = (MyPageViewModel)(e.Parameter);
             loginViewModel = LoginViewModel.Instance;
         }
 
         private void Lv_MyReservations_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Reservation selectedReservation = (Reservation)Lv_MyReservations.SelectedItem;
-            myPageViewModel.SelectedUserReservation(selectedReservation);       
+            MyPageViewModel.Instance.SelectedUserReservation(selectedReservation);       
         }
         
         /// <summary>
@@ -82,7 +80,7 @@ namespace HolidayMakerClient.View
 
             if (result == ContentDialogResult.Primary) //If they are ok we send the users id forward for deletion
             {
-                myPageViewModel.DeleteReservation((Reservation)Lv_MyReservations.SelectedItem);
+                MyPageViewModel.Instance.DeleteReservation((Reservation)Lv_MyReservations.SelectedItem);
             }
         }
 
@@ -101,8 +99,8 @@ namespace HolidayMakerClient.View
             {
                 TempReservation currentReservation = new TempReservation
                 {
-                    TempHome = myPageViewModel.SelectedHome[0],
-                    OldReservation = myPageViewModel.SelectedReservation[0]
+                    TempHome = MyPageViewModel.Instance.SelectedHome[0],
+                    OldReservation = MyPageViewModel.Instance.SelectedReservation[0]
                 };
                 Frame.Navigate(typeof(SelectedLivingView), currentReservation);
             }
