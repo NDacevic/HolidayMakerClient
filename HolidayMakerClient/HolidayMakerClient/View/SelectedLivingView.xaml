@@ -123,14 +123,14 @@
                                     Date="{x:Bind selectedLivingViewModel.TempRes.StartDate}"
                                     FirstDayOfWeek="Monday"
                                     DateFormat="{}{day.integer} {month.full} {year.full}"
-                                    CalendarViewDayItemChanging="Cdp_StartDate_CalendarViewDayItemChanging" DateChanged="Cdp_StartDate_DateChanged"
+                                    CalendarViewDayItemChanging="Cdp_StartDate_CalendarViewDayItemChanging"
                                     />
                             <CalendarDatePicker x:Name="Cdp_EndDate"
                                     Margin="10,0,0,0"
                                     Date="{x:Bind selectedLivingViewModel.TempRes.EndDate}"
                                     FirstDayOfWeek="Monday"
                                     DateFormat="{}{day.integer} {month.full} {year.full}"
-                                    CalendarViewDayItemChanging="Cdp_StartDate_CalendarViewDayItemChanging" DateChanged="Cdp_EndDate_DateChanged"/>
+                                    CalendarViewDayItemChanging="Cdp_StartDate_CalendarViewDayItemChanging"/>
                             <TextBlock
                                 x:Name="txt_NumberOfGuests"
                                 Margin="10,0,0,0"

@@ -356,8 +356,14 @@ namespace HolidayMakerClient
 
         private void Cb_ExtraBed_Unchecked(object sender, RoutedEventArgs e)
         {
-
-            ChosenAddons.Remove((Addon)selectedLivingViewModel.ExtraBed);
+            foreach(var a in ChosenAddons.ToList())
+            {
+                if(a.AddonType=="Extrasäng")
+                {
+                    ChosenAddons.Remove(a);
+                }
+            }
+            //ChosenAddons.Remove((Addon)selectedLivingViewModel.ExtraBed);
             UpdatePrice();
             
 
@@ -469,16 +475,13 @@ namespace HolidayMakerClient
         {
           
             e.Item.IsBlackout = InvalidDates.Contains(e.Item.Date.Date);
-<<<<<<< HEAD
-            
-=======
+
             if (e.Item.Date < DateTime.Today)
             {
                 e.Item.IsBlackout = true;
 
             }
 
->>>>>>> dev
         }
         /// <summary>
         /// Navigate back to previous page
