@@ -54,10 +54,12 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Methods
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+
             loginViewModel = LoginViewModel.Instance;
         }
+
 
         private void Lv_MyReservations_Tapped(object sender, TappedRoutedEventArgs e)
         {

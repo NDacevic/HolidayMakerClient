@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Diagnostics;
+
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -144,24 +146,65 @@ namespace HolidayMakerClient
             {
                 ChosenAddons.Add(ad);
             }
-
+            
             HomePrice();
             CheckHome();
             UpdatePrice();
+
+            OldReservationCheckbox();
+
             GetDates();
+
             SetMaxNumberOfGuests();
+
             Bttn_bookChange.Content = "Ändra";
             combobox_ChangeGuests.Visibility = Visibility.Visible;
             Bttn_deleteReservation.Visibility = Visibility.Visible;
 
         }
+
+        public void OldReservationCheckbox()
+        {
+            
+            foreach (var addon in ChosenAddons.ToList())
+            {
+                if(addon.AddonType=="Extrasäng")
+                {
+                    Cb_ExtraBed.Checked -= Cb_ExtraBed_Checked;
+                    Cb_ExtraBed.IsChecked = true;
+                    Cb_ExtraBed.Checked += Cb_ExtraBed_Checked;
+                }
+                if (addon.AddonType == "Halvpension")
+                {
+                    Rb_addon2.Checked -= RadioButton_Checked;
+                    Rb_addon2.IsChecked = true;
+                    Rb_addon2.Checked += RadioButton_Checked;
+                }
+                if (addon.AddonType == "Helpension")
+                {
+                    Rb_addon1.Checked -= RadioButton_Checked;
+                    Rb_addon1.IsChecked = true;
+                    Rb_addon1.Checked += RadioButton_Checked;
+                }
+                if (addon.AddonType == "All-inclusive")
+                {
+                    Rb_addon0.Checked -= RadioButton_Checked;
+                    Rb_addon0.IsChecked = true;
+                    Rb_addon0.Checked += RadioButton_Checked;
+                }
+            }
+            
+        }
+
         /// <summary>
         /// Price for selected home multiplied with how many days
         /// </summary>
+
         public void HomePrice()
         {
             price = selectedLivingViewModel.TempRes.TempHome.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
             TotalPrice = price;
+            UpdatePrice();
         }
         /// <summary>
         /// Method checks wich addons are available for the selected home
@@ -192,7 +235,7 @@ namespace HolidayMakerClient
         /// <param name="e"></param>
 
         private async void Bttn_RemoveAddon_Click(object sender, RoutedEventArgs e)
-        {
+        { 
             try
             {
                 Addon ad = ((Addon)lv_DisplayAddons.SelectedItem);
@@ -202,9 +245,10 @@ namespace HolidayMakerClient
                 if (ad.AddonType == "Extrasäng") 
                     Cb_ExtraBed.IsChecked = false;
 
-                else if(ad.AddonType == "All-inclusive" || ad.AddonType == "Helpension" || ad.AddonType == "Halvpension") Rb_noPension.IsChecked = true;
-                    ChosenAddons.Remove((Addon)lv_DisplayAddons.SelectedItem);
-                
+                else if (ad.AddonType == "All-inclusive" || ad.AddonType == "Helpension" || ad.AddonType == "Halvpension") Rb_noPension.IsChecked = true;
+
+                ChosenAddons.Remove((Addon)lv_DisplayAddons.SelectedItem);
+
             }
             catch (Exception)
             {
@@ -220,10 +264,18 @@ namespace HolidayMakerClient
 
         private async void Bttn_bookChange_Click(object sender, RoutedEventArgs e)
         {
+            string numberOfGuests;
             if (Bttn_bookChange.Content.ToString() == "Ändra")
             {
-                //UpdateReservationAddonList();
-                selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value, totalPrice,ChosenAddons ,combobox_ChangeGuests.SelectedValue.ToString());
+                if (combobox_ChangeGuests.SelectedValue == null)
+                {
+                    numberOfGuests = selectedLivingViewModel.TempRes.NumberOfGuests.ToString();
+                }
+                else
+                {
+                    numberOfGuests = combobox_ChangeGuests.SelectedValue.ToString();
+                }
+                selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value, totalPrice,ChosenAddons ,numberOfGuests);
             }
             else
             {
@@ -244,21 +296,7 @@ namespace HolidayMakerClient
             }
    
         }
-        private void UpdateReservationAddonList()
-        {
-            foreach(Addon a in ChosenAddons)
-            {
-                if (selectedLivingViewModel.TempRes.OldReservation.AddonList.Contains(a))
-                {
-
-                }
-                else
-                {
-                    selectedLivingViewModel.TempRes.OldReservation.AddonList.Add(a);
-                }
-                
-            }
-        }
+ 
 
         /// <summary>
         /// Delete reservation when navigating from MyPageView with chosen reservation. When navigated from SearchView the button is hidden
@@ -337,8 +375,16 @@ namespace HolidayMakerClient
 
         private void Cb_ExtraBed_Unchecked(object sender, RoutedEventArgs e)
         {
-            ChosenAddons.Remove((Addon)selectedLivingViewModel.ExtraBed);
+            foreach(var a in ChosenAddons.ToList())
+            {
+                if(a.AddonType=="Extrasäng")
+                {
+                    ChosenAddons.Remove(a);
+                }
+            }
+            //ChosenAddons.Remove((Addon)selectedLivingViewModel.ExtraBed);
             UpdatePrice();
+            
 
         }
         /// <summary>
@@ -349,28 +395,19 @@ namespace HolidayMakerClient
 
         private void Rb_addon_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (Rb_addon0.IsChecked == false)
+            foreach(var a in ChosenAddons.ToList())
             {
-                foreach (var a in selectedLivingViewModel.AddonList)
+                if(a.AddonType!="Extrasäng")
                 {
-                    if (a.AddonType == "All-inclusive") ChosenAddons.Remove(a);
+                    if (e.OriginalSource == Rb_addon0 || e.OriginalSource == Rb_addon1 || e.OriginalSource == Rb_addon2)
+                    {
+                        ChosenAddons.Remove(a);
+                        UpdatePrice();
+                    }
                 }
+            
             }
-            if (Rb_addon1.IsChecked == false)
-            {
-                foreach (var a in selectedLivingViewModel.AddonList)
-                {
-                    if (a.AddonType == "Helpension") ChosenAddons.Remove(a);
-                }
-            }
-            if (Rb_addon2.IsChecked == false)
-            {
-                foreach (var a in selectedLivingViewModel.AddonList)
-                {
-                    if (a.AddonType == "Halvpension") ChosenAddons.Remove(a);
-                }
-            }
-            UpdatePrice();
+
 
         }
         /// <summary>
@@ -446,7 +483,9 @@ namespace HolidayMakerClient
 
         private void Cdp_StartDate_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
         {
+          
             e.Item.IsBlackout = InvalidDates.Contains(e.Item.Date.Date);
+
             if (e.Item.Date < DateTime.Today)
             {
                 e.Item.IsBlackout = true;
@@ -464,5 +503,26 @@ namespace HolidayMakerClient
         {
             if (Frame.CanGoBack) Frame.GoBack();
         }
+
+        private void Cdp_EndDate_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+            if (args.NewDate.Value!=selectedLivingViewModel.TempRes.EndDate)
+            {
+                selectedLivingViewModel.TempRes.EndDate = args.NewDate.Value;
+                HomePrice();
+            }
+
+        }
+
+        private void Cdp_StartDate_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+            if (args.NewDate.Value != selectedLivingViewModel.TempRes.StartDate)
+            {
+                selectedLivingViewModel.TempRes.StartDate = args.NewDate.Value;
+                HomePrice();
+            }
+        }
+
+
     }
 }

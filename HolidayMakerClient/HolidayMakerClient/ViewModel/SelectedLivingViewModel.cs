@@ -137,6 +137,7 @@ namespace HolidayMakerClient
             //We check for what is different and add that to the patch doc.
             if (updatedReservation.AddonList != tempList)
                 patchDoc.Replace(x => x.AddonList, tempList);
+
             if (updatedReservation.StartDate != startDate)
                 patchDoc.Replace(x => x.StartDate, startDate);
 
