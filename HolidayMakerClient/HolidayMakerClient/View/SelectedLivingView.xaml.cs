@@ -229,14 +229,7 @@ namespace HolidayMakerClient
                     Cb_ExtraBed.IsChecked = false;
 
                 else if (ad.AddonType == "All-inclusive" || ad.AddonType == "Helpension" || ad.AddonType == "Halvpension") Rb_noPension.IsChecked = true;
-                //foreach (var a in ChosenAddons.ToList())
-                //{
-                //    if (a.AddonType == ad.AddonType)
-                //    {
-                //        ChosenAddons.Remove(a);
-                //        UpdatePrice();
-                //    }
-                //}
+
                 ChosenAddons.Remove((Addon)lv_DisplayAddons.SelectedItem);
 
             }
@@ -397,31 +390,7 @@ namespace HolidayMakerClient
                 }
             
             }
-       
-    
 
-            ////if (Rb_addon0.IsChecked == false)
-            ////{
-            ////    foreach (var a in selectedLivingViewModel.AddonList)
-            ////    {
-            ////        if (a.AddonType == "All-inclusive") ChosenAddons.Remove(a);
-            ////    }
-            ////}
-            ////if (Rb_addon1.IsChecked == false)
-            ////{
-            ////    foreach (var a in selectedLivingViewModel.AddonList)
-            ////    {
-            ////        if (a.AddonType == "Helpension") ChosenAddons.Remove(a);
-            ////    }
-            ////}
-            ////if (Rb_addon2.IsChecked == false)
-            ////{
-            ////    foreach (var a in selectedLivingViewModel.AddonList)
-            ////    {
-            ////        if (a.AddonType == "Halvpension") ChosenAddons.Remove(a);
-            ////    }
-            ////}
-            ////UpdatePrice();
 
         }
         /// <summary>
