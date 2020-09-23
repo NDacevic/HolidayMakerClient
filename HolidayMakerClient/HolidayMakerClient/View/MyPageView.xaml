@@ -8,7 +8,8 @@
     xmlns:holidaymakerclient="using:HolidayMakerClient"
     xmlns:holidaymakerclient1="using:HolidayMakerClient.Model"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded">
 
     <Grid >
         <Grid.RowDefinitions>
