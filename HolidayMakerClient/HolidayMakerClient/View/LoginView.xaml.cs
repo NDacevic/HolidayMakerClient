@@ -60,9 +60,7 @@ namespace HolidayMakerClient
             load.Hide();
             
             if (LoginViewModel.Instance.ActiveUser!=null)
-            {
                 Hide();
-            }
             else
                 await ShowAsync();
 

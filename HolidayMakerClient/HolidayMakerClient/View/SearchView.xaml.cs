@@ -167,24 +167,14 @@ namespace HolidayMakerClient.View
 
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
-            await new LoginView().ShowAsync();
-            CheckActiveUser();
-                
+            var test = new LoginView();
+            test.Closed += Test_Closed;
+            await test.ShowAsync();
         }
 
-        private void CheckActiveUser()
+        private void Test_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
         {
-            if (LoginViewModel.Instance.ActiveUser != null)
-            {
-                bttn_Login.Visibility = Visibility.Collapsed;
-                bttn_UserOptions.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                //This happens after a user has removed itself from the system or logs out
-                bttn_Login.Visibility = Visibility.Visible;
-                bttn_UserOptions.Visibility = Visibility.Collapsed;
-            }
+            searchViewModel.CheckActiveUser(bttn_Login, bttn_UserOptions);
         }
 
         private async void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
@@ -198,7 +188,7 @@ namespace HolidayMakerClient.View
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
             LoginViewModel.Instance.ActiveUser = null;
-            CheckActiveUser();
+            searchViewModel.CheckActiveUser(bttn_Login, bttn_UserOptions);
         }
 
         private void SortColumns_Click(object sender, RoutedEventArgs e)
@@ -229,7 +219,7 @@ namespace HolidayMakerClient.View
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            CheckActiveUser();
+            searchViewModel.CheckActiveUser(bttn_Login, bttn_UserOptions);
         }
 
         private void DetermineSearchVisibility()
