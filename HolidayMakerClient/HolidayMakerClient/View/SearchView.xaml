@@ -420,7 +420,20 @@
         <!--#endregion-->
         
         <!--#region Search Results-->
+        <TextBlock
+            x:Name="textBlock_NoResults"
+            Visibility="Collapsed"
+            Text="Din sökning genererade inga resultat"
+            FontSize="20"
+            Foreground="Gray"
+            
+            Margin="10,20,0,0"
+
+            RelativePanel.Below="stackPanel_SortButtons"
+            RelativePanel.AlignLeftWithPanel="True"
+            />
         <ScrollViewer
+            x:Name="scrollViewer_SearchResults"
             Margin="0,20,0,10"
             
             RelativePanel.Below="stackPanel_SortButtons"
@@ -429,7 +442,7 @@
             RelativePanel.AlignBottomWithPanel="True"
             >
             <ListView
-                x:Name="lv_SearchList"
+                x:Name="listView_SearchList"
                 ItemsSource="{x:Bind searchViewModel.SortedHomeList}"
                 DoubleTapped="ListView_DoubleTapped"
                 HorizontalAlignment="Stretch"

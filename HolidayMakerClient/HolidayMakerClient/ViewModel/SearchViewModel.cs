@@ -40,7 +40,7 @@ namespace HolidayMakerClient.ViewModel
         public bool SortingAttributes { get; set; }
         public ObservableCollection<Home> HomeList { get; }
         public ObservableCollection<Home> SortedHomeList { get; }
-        public List<FontIcon> FontIconList = new List<FontIcon>();
+
         #endregion
 
         #region Methods
@@ -55,7 +55,7 @@ namespace HolidayMakerClient.ViewModel
         /// <param name="numberOfGuests"></param>
         /// <param name="advancedFilterParams"></param>
         /// <param name="grid_AdvancedSearch"></param>
-        public async void Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests, Home advancedFilterParams, DependencyObject grid_AdvancedSearch)
+        public async Task Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests, Home advancedFilterParams, DependencyObject grid_AdvancedSearch)
         {
             //Create a search object and send it to the API. Store the result in the homelist.
             SearchParameterDto searchObj = new SearchParameterDto(searchString, startDate, endDate, numberOfGuests);
@@ -216,7 +216,7 @@ namespace HolidayMakerClient.ViewModel
         /// Finds the fonticon element of the button and sets the glyph property to an up or down pointing chevron
         /// </summary>
         /// <param name="sortButton"></param>
-        public void SortColumns(Button sortButton)
+        public void SortColumns(Button sortButton, DependencyObject buttonContainer)
         {
             //Find the child of type FontIcon to the button
             FontIcon glyph = FindFontIconChild((DependencyObject)sortButton);
@@ -235,7 +235,7 @@ namespace HolidayMakerClient.ViewModel
             }
 
             //Clear the arrow from any button except the clicked one
-            ClearGlyphs(glyph);
+            ClearGlyphsExceptClickedSort(glyph, buttonContainer);
             //Sort the list
             SortList(((FrameworkElement)sortButton).Name);
         }
@@ -244,15 +244,44 @@ namespace HolidayMakerClient.ViewModel
         /// Empties the glyph property on all fonticons except the one in the parameter list
         /// </summary>
         /// <param name="fontIcon"></param>
-        private void ClearGlyphs(FontIcon fontIcon)
+        private void ClearGlyphsExceptClickedSort(FontIcon fontIcon, DependencyObject buttonContainer)
         {
             //Go through the list of fonticons. if the fonticon is the one in the parameter list.
             //do nothing with it.
-            foreach(var fi in FontIconList)
+            List<FontIcon> fiList = new List<FontIcon>();
+            GetAllFonticons(fiList, buttonContainer);
+
+            foreach(var fi in fiList)
                 if (fontIcon != fi)
                     fi.Glyph = "";
         }
 
+        public void ClearSortGlyphs(DependencyObject parent)
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+
+                if (child is FontIcon)
+                    ((FontIcon)child).Glyph = "";
+                else
+                    //If the icon isn't found. Recurse through this method again
+                    ClearSortGlyphs(child);
+            }
+        }
+        private void GetAllFonticons(List<FontIcon> fontIconList, DependencyObject parent)
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+
+                if (child is FontIcon)
+                    fontIconList.Add((FontIcon)child);
+                else
+                    //If the icon isn't found. Recurse through this method again
+                    GetAllFonticons(fontIconList, child);
+            }
+        }
         /// <summary>
         /// Recursive method that finds one fonticon object inside the UI element that is supplied and returns it
         /// </summary>
