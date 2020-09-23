@@ -67,8 +67,10 @@ namespace HolidayMakerClient.ViewModel
             //Calculate the average rating and add the home items to the HomeList property.
             foreach (var x in homeList)
             {
-                x.AverageRating = ((double)x.SumOfRatings / (double)x.NumberOfRatings);
-
+                if (x.NumberOfRatings != 0)
+                    x.AverageRating = ((double)x.SumOfRatings / (double)x.NumberOfRatings);
+                else
+                    x.AverageRating = 0;
                 HomeList.Add(x);
             }
             
@@ -122,7 +124,9 @@ namespace HolidayMakerClient.ViewModel
 
             //After filtering is done. Add the homes to the SortedHomeList
             foreach (var x in filteredHomeList)
+            {
                 SortedHomeList.Add(x);
+            }
         }
 
         /// <summary>
