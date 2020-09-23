@@ -518,7 +518,6 @@
                                 VerticalAlignment="Top"
                                 />
                             <RatingControl
-                                x:Name="ratingTest"
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 Width="140"
