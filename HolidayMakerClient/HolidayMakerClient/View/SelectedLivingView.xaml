@@ -123,14 +123,16 @@
                                     Date="{x:Bind selectedLivingViewModel.TempRes.StartDate}"
                                     FirstDayOfWeek="Monday"
                                     DateFormat="{}{day.integer} {month.full} {year.full}"
-                                    CalendarViewDayItemChanging="Cdp_StartDate_CalendarViewDayItemChanging"
+                                    CalendarViewDayItemChanging="Cdp_StartDate_CalendarViewDayItemChanging" 
+                                    DateChanged="Cdp_StartDate_DateChanged"
                                     />
                             <CalendarDatePicker x:Name="Cdp_EndDate"
                                     Margin="10,0,0,0"
                                     Date="{x:Bind selectedLivingViewModel.TempRes.EndDate}"
                                     FirstDayOfWeek="Monday"
                                     DateFormat="{}{day.integer} {month.full} {year.full}"
-                                    CalendarViewDayItemChanging="Cdp_StartDate_CalendarViewDayItemChanging"/>
+                                    CalendarViewDayItemChanging="Cdp_StartDate_CalendarViewDayItemChanging"
+                                    DateChanged="Cdp_EndDate_DateChanged"/>
                             <TextBlock
                                 x:Name="txt_NumberOfGuests"
                                 Margin="10,0,0,0"
@@ -159,7 +161,8 @@
                   BorderThickness="1"
                   BorderBrush="Gray"
                   Height="150"
-                  Margin="20,50,20,0">
+                  Margin="20,50,20,0"
+                  x:DefaultBindMode="OneWay">
                     <ListView.ItemTemplate>
                         <DataTemplate x:Name="lv_Addons" x:DataType="data:Addon"  >
                             <StackPanel Orientation="Horizontal" Spacing="10">
