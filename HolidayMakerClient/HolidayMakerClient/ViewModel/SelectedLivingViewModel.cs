@@ -58,6 +58,11 @@ namespace HolidayMakerClient
         /// <param name="price"></param>
         public async void CreateReservation(TempReservation reservation, ObservableCollection<Addon> addonList, decimal price)
         {
+            try
+            {
+                if (LoginViewModel.Instance.ActiveUser == null)
+                    throw new Exception("Du måste vara inloggad för att boka");
+
             SelectedReservation = new Reservation();
             SelectedReservation.HomeId = reservation.TempHome.HomeId;
             SelectedReservation.UserId = LoginViewModel.Instance.ActiveUser.UserId;
@@ -71,12 +76,12 @@ namespace HolidayMakerClient
                 SelectedReservation.AddonList.Add(ad);
             }
 
-            try
-            {
+           
                 await ApiHelper.Instance.PostReservation(SelectedReservation);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                await new MessageDialog(e.Message).ShowAsync();
                 return;
             }
             
@@ -210,7 +215,7 @@ namespace HolidayMakerClient
         {
             try
             {
-                loadData.ShowAsync();
+                _ = loadData.ShowAsync();
                 var addons = await ApiHelper.Instance.GetAllAddon();
                 foreach (var a in addons)
                 {
