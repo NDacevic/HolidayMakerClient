@@ -48,6 +48,7 @@
                 Grid.Column="1"
                 Content="Logga in"
                 Margin="20,0"
+                CornerRadius="5"
                 />
             <Button
                 Visibility="Collapsed"
@@ -84,6 +85,7 @@
             Margin="0,20,0,0"
             BorderBrush="Black"
             BorderThickness="1"
+            CornerRadius="5"
             ColumnSpacing="10"
             
             RelativePanel.Below="grid_TitleAndLogin"
@@ -103,7 +105,9 @@
                 Grid.Column="0"
                 Header="Ort"
                 PlaceholderText="Fyll i ort"
-                KeyDown="SearchKeydown"/>
+                KeyDown="SearchKeydown"
+                CornerRadius="5"
+                />
             <CalendarDatePicker
                 Grid.Column="1"
                 x:Name="datePicker_StartDate"
@@ -112,6 +116,7 @@
                 FirstDayOfWeek="Monday"
                 DateFormat="{}{day.integer} {month.full} {year.full}"
                 CalendarViewDayItemChanging="DatePickers_CalendarViewDayItemChanging"
+                CornerRadius="5"
                 />
             <CalendarDatePicker
                 Grid.Column="2"
@@ -121,6 +126,7 @@
                 FirstDayOfWeek="Monday"
                 DateFormat="{}{day.integer} {month.full} {year.full}"
                 CalendarViewDayItemChanging="DatePickers_CalendarViewDayItemChanging"
+                CornerRadius="5"
                 />
             <ComboBox
                 x:Name="comboBox_NumberOfGuests"
@@ -128,12 +134,14 @@
                 MaxDropDownHeight="200"
                 SelectedIndex="0"
                 Header="Antal boende"
+                CornerRadius="5"
                 />
             <Button
                 Click="SearchButton_Clicked"
                 Grid.Column="4"
                 Margin="20,0,0,0"
                 VerticalAlignment="Bottom"
+                CornerRadius="5"
                 >
                 <SymbolIcon
                     Symbol="Find"/>
@@ -143,6 +151,7 @@
                 Grid.Column="5"
                 Margin="20,0,0,0"
                 VerticalAlignment="Bottom"
+                CornerRadius="5"
                 >
                 <SymbolIcon
                 Symbol="Setting"
@@ -307,7 +316,9 @@
             <Button
                 x:Name="bttn_SortLocation"
                 Click="SortColumns_Click"
-                Visibility="Collapsed">
+                Visibility="Collapsed"
+                CornerRadius="5"
+                >
                 <StackPanel
                     Orientation="Horizontal">
                     <TextBlock
@@ -323,6 +334,7 @@
             <Button
                 x:Name="bttn_SortPrice"
                 Click="SortColumns_Click"
+                CornerRadius="5"
                 >
                 <StackPanel
                     Orientation="Horizontal">
@@ -339,6 +351,7 @@
             <Button
                 x:Name="bttn_SortRooms"
                 Click="SortColumns_Click"
+                CornerRadius="5"
                 >
                 <StackPanel
                     Orientation="Horizontal">
@@ -355,6 +368,7 @@
             <Button
                 x:Name="bttn_SortBeds"
                 Click="SortColumns_Click"
+                CornerRadius="5"
                 >
                 <StackPanel
                     Orientation="Horizontal">
@@ -371,6 +385,7 @@
             <Button
                 x:Name="bttn_SortCityDistance"
                 Click="SortColumns_Click"
+                CornerRadius="5"
                 >
                 <StackPanel
                     Orientation="Horizontal">
@@ -387,6 +402,7 @@
             <Button
                 x:Name="bttn_SortBeachDistance"
                 Click="SortColumns_Click"
+                CornerRadius="5"
                 >
                 <StackPanel
                     Orientation="Horizontal">
@@ -403,6 +419,7 @@
             <Button
                 x:Name="bttn_SortAverageRating"
                 Click="SortColumns_Click"
+                CornerRadius="5"
                 >
                 <StackPanel
                     Orientation="Horizontal">
