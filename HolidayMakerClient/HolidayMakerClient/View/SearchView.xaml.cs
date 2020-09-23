@@ -172,9 +172,15 @@ namespace HolidayMakerClient.View
 
         private async void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
         {
+            var load = new LoadDataView();
+            _ = load.ShowAsync();
+
             //Contact API and populate MyReservations and ActiveUserHomes properties before navigating to the page
             await MyPageViewModel.Instance.GetActiveUserHomes();
             await MyPageViewModel.Instance.GetReservations();
+
+            load.Hide();
+
             Frame.Navigate(typeof(MyPageView));
         }
 
