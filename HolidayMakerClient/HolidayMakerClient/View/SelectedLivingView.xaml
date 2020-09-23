@@ -34,10 +34,11 @@
                     Height="200" 
                     Margin="20,20,20,20"
                     BorderThickness="1" 
-                    BorderBrush="Gray">
+                    BorderBrush="Gray"
+                    CornerRadius="5">
                     <Image 
                     x:Name="img_SelectedLiving"
-                        Source="{x:Bind selectedLivingViewModel.TempRes.TempHome.Image}"
+                    Source="{x:Bind selectedLivingViewModel.TempRes.TempHome.Image}"
                     Grid.Row="0" 
                     Height="200"/>
                 </Border>
@@ -93,7 +94,8 @@
                 x:Name="Bttn_GoBack" 
                 Content="Tillbaka" 
                 HorizontalAlignment="Right" 
-                Margin="0, 20, 20, 0" 
+                Margin="0, 20, 20, 0"
+                CornerRadius="5"
                 Click="Bttn_GoBack_Click_"/>
             </Grid>
             
@@ -109,6 +111,7 @@
                     Height="100"
                     Grid.Row="0"
                     BorderThickness="1"
+                    CornerRadius="5"
                     BorderBrush="Gray">
                     <StackPanel>
                         <TextBlock
@@ -159,6 +162,7 @@
                   BorderThickness="1"
                   BorderBrush="Gray"
                   Height="150"
+                     CornerRadius="5"
                   Margin="20,50,20,0">
                     <ListView.ItemTemplate>
                         <DataTemplate x:Name="lv_Addons" x:DataType="data:Addon"  >
@@ -175,6 +179,7 @@
                     x:Name="Bttn_RemoveAddon"
                     Content="Ta bort tilägg"
                     Margin="20,15,0,10"
+                    CornerRadius="5"
                     Click="Bttn_RemoveAddon_Click"/>   
                 </StackPanel>
                 
@@ -194,12 +199,14 @@
                         Content="Boka/Ändra"
                         HorizontalAlignment="Center"
                         Width="120"
+                        CornerRadius="5"
                         Click="Bttn_bookChange_Click"/>
                     <Button
                         x:Name="Bttn_deleteReservation"
                         Content="Ta bort bokning"
                         HorizontalAlignment="Center"
                         Width="120"
+                        CornerRadius="5"
                         Click="Bttn_deleteReservation_Click"/>
                 </StackPanel>
 
