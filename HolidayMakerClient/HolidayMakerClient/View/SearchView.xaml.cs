@@ -206,6 +206,7 @@ namespace HolidayMakerClient.View
         private void RefreshSearch(object sender, RoutedEventArgs e)
         {
             searchViewModel.Filter(CreateAdvancedFilterParams(), grid_AdvancedSearch);
+            searchViewModel.ClearSortGlyphs(stackPanel_SortButtons);
             DetermineSearchVisibility();
         }
 
