@@ -50,8 +50,12 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Methods
-        #endregion
 
+        /// <summary>
+        /// Calls the encrypt password and CreateNewUser methods.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void Bttn_Register_Click(object sender, RoutedEventArgs e)
         {
             string encryptedPassword;
@@ -91,6 +95,7 @@ namespace HolidayMakerClient.View
                 }
             }
         }
+
         private bool CheckTextBoxes()
         {
             if(Tb_FirstName.Text=="" || Tb_LastName.Text=="" || Tb_Email.Text=="" || Pwb_Password1.Password==""||Pwb_Password2.Password=="")
@@ -99,6 +104,7 @@ namespace HolidayMakerClient.View
             }
             return true;
         }
+
         private bool CheckPassword(string pass1,string pass2)
         {
             if(pass1==pass2)
@@ -112,5 +118,7 @@ namespace HolidayMakerClient.View
         {
             Vw_RegisterAccountPage.Hide();
         }
+
+        #endregion
     }
 }

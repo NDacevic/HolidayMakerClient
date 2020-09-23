@@ -61,12 +61,18 @@ namespace HolidayMakerClient.View
             myPageViewModel.GetReservations();
          
         }
-        private void Lv_MyReservations_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        
+        private void Lv_MyReservations_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Reservation selectedReservation = (Reservation)Lv_MyReservations.SelectedItem;
             myPageViewModel.SelectedUserReservation(selectedReservation);       
         }
-
+        
+        /// <summary>
+        /// Shows a ContentDialog asking if you're sure you want to cancel the booking.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void bttn_CancelReservation_Click(object sender, RoutedEventArgs e)
         {
             ContentDialog deleteReservation = new ContentDialog()
@@ -83,6 +89,11 @@ namespace HolidayMakerClient.View
             
         }
 
+        /// <summary>
+        /// After determining that a reservation is selected. Navigates to the SelectedLivingView with the chosen reservation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void bttn_ChangeReservation_Click(object sender, RoutedEventArgs e)
         {
             if (Lv_MyReservations.SelectedItem == null)
@@ -96,9 +107,20 @@ namespace HolidayMakerClient.View
                     TempHome = myPageViewModel.SelectedHome[0],
                     OldReservation = myPageViewModel.SelectedReservation[0]
                 };
-                Frame.Navigate(typeof(SelectedLivingView), currentReservation);
+                PopulateList(currentReservation);
+
             }
-        }        
+        }  
+        private void PopulateList(TempReservation currentReservation)
+        {
+            currentReservation.OldReservation.AddonList = new List<Addon>();
+            foreach (Addon a in myPageViewModel.SelectedReservationAddons)
+            {
+                currentReservation.OldReservation.AddonList.Add(a);
+            }
+            Frame.Navigate(typeof(SelectedLivingView), currentReservation);
+
+        }
 
         private void bttn_navigateBack_Click(object sender, RoutedEventArgs e)
         {
@@ -108,8 +130,6 @@ namespace HolidayMakerClient.View
             }
         }
 
-        #endregion
-
         private async void bttn_RemoveUser_Click(object sender, RoutedEventArgs e)
         {
             await new DeleteUserView().ShowAsync();
@@ -118,5 +138,11 @@ namespace HolidayMakerClient.View
                 Frame.Navigate(typeof(SearchView));
             }
         }
+
+        private void bttn_UploadLiving_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(UploadLivingView));
+        }
+#endregion
     }
 }

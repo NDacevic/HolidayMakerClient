@@ -145,6 +145,14 @@
                                 <Run Text="{x:Bind selectedLivingViewModel.TempRes.NumberOfGuests}"
                                 x:DefaultBindMode="OneWay"/>
                             </TextBlock>
+                            <ComboBox
+                               x:Name="combobox_ChangeGuests"
+                               Margin="20,0,0,0"
+                               MaxDropDownHeight="200"
+                               SelectedIndex="0"
+                              PlaceholderText="Antal boende"
+                                Visibility="Collapsed"/>
+                
                         </StackPanel>
 
                     </StackPanel>

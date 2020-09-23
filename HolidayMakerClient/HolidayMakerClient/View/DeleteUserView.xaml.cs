@@ -36,8 +36,12 @@ namespace HolidayMakerClient.View
         private async void bttn_ConfirmPassword_Click(object sender, RoutedEventArgs e)
         {
             bool isUserDeleted;
+
+            //Hash the input password and check if it matches the stored user password
             string encryptedPassword = PasswordHelper.EncryptPassword(pwd_ConfirmPassword.Password);
+            //call the API and delete the user. Update the bool depending on success.
             isUserDeleted = await deleteUserViewModel.ConfirmPassword(encryptedPassword);
+            //Hide this contentdialog if the user was removed.
             if (isUserDeleted)
                 Hide();
       
