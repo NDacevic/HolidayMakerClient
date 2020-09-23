@@ -101,7 +101,7 @@ namespace HolidayMakerClient.View
 
                 var load = new LoadDataView();
 
-                load.ShowAsync();
+                _ = load.ShowAsync();
 
                 await searchViewModel.Search
                     (

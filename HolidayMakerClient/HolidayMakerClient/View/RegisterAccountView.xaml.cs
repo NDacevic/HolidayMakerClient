@@ -87,7 +87,7 @@ namespace HolidayMakerClient.View
                 {
                     var load = new LoadDataView();
                     Hide();
-                    load.ShowAsync();
+                    _ = load.ShowAsync();
 
                     encryptedPassword = PasswordHelper.EncryptPassword(Pwb_Password1.Password);
 

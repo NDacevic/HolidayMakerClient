@@ -52,7 +52,7 @@ namespace HolidayMakerClient
         {
             var load = new LoadDataView();
             Hide();
-            load.ShowAsync();
+            _ = load.ShowAsync();
 
             string encryptedPassword = PasswordHelper.EncryptPassword(Pwb_EnterPassword.Password);
             await LoginViewModel.Instance.GetUser(Tb_EnterUsername.Text, encryptedPassword);

@@ -151,7 +151,6 @@ namespace HolidayMakerClient.View
             else
             {
                 MyPageViewModel.Instance.DeleteHome((Home)Lv_MyUploadedLiving.SelectedItem);
-
             }  
         }
 
