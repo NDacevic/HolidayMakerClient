@@ -176,6 +176,7 @@ namespace HolidayMakerClient
                     Rb_addon2.Checked += RadioButton_Checked;
                 }
             }
+            
         }
 
         /// <summary>
@@ -221,7 +222,7 @@ namespace HolidayMakerClient
             {
                 Addon ad = ((Addon)lv_DisplayAddons.SelectedItem);
 
-                //if (ad.AddonType == "Extrasäng") Cb_ExtraBed.IsChecked = false;
+                if (ad.AddonType == "Extrasäng") Cb_ExtraBed.IsChecked = false;
 
                 if (ad.AddonType == "Extrasäng") 
                     Cb_ExtraBed.IsChecked = false;
@@ -355,6 +356,7 @@ namespace HolidayMakerClient
 
         private void Cb_ExtraBed_Unchecked(object sender, RoutedEventArgs e)
         {
+
             ChosenAddons.Remove((Addon)selectedLivingViewModel.ExtraBed);
             UpdatePrice();
             
@@ -449,6 +451,7 @@ namespace HolidayMakerClient
 
         private void Cdp_StartDate_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
         {
+          
             e.Item.IsBlackout = InvalidDates.Contains(e.Item.Date.Date);
             
         }
