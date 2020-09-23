@@ -8,8 +8,7 @@
     xmlns:holidaymakerclient="using:HolidayMakerClient"
     xmlns:m="using:HolidayMakerClient.Model"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    Loaded="Page_Loaded">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid >
         <Grid.RowDefinitions>
@@ -266,20 +265,15 @@
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="m:Home">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition  Width="*"/>
-                            <ColumnDefinition  Width="*"/>
-                            <ColumnDefinition  Width="*"/>
-                            <ColumnDefinition  Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock
-                            Grid.Column="0"
-                            Text="{x:Bind HomeId}"/>
-                        <TextBlock
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>
+                            <Run Text="Nu då?"/>
+                            <Run Text="{x:Bind HomeId}"/>
+                        </TextBlock>
+                        <!--<TextBlock
                             Grid.Column="1"
-                            Text="{x:Bind Location}"/>
-                    </Grid>
+                            Text="{x:Bind Location}"/>-->
+                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

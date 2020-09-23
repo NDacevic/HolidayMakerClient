@@ -30,8 +30,8 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Fields
-        MyPageViewModel myPageViewModel = new MyPageViewModel();
-        LoginViewModel loginViewModel = LoginViewModel.Instance;
+        MyPageViewModel myPageViewModel;
+        LoginViewModel loginViewModel;
         #endregion
 
         #region Constructors
@@ -39,7 +39,6 @@ namespace HolidayMakerClient.View
         {
             this.InitializeComponent();
             this.DataContext = myPageViewModel;
-
         }
         #endregion
 
@@ -57,13 +56,9 @@ namespace HolidayMakerClient.View
         #region Methods
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //Todo: Jag tror denna passar bättre i en PageLoaded-metod, annars är det risk att din metoden försöker populera din lista innan din Listview laddat färdigt. //MO
-            myPageViewModel.GetReservations();        
-        }
-
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            await myPageViewModel.GetActiveUserHomes();
+            //Receives the MyPageViewModel object from SearchPage
+            myPageViewModel = (MyPageViewModel)(e.Parameter);
+            loginViewModel = LoginViewModel.Instance;
         }
 
         private void Lv_MyReservations_Tapped(object sender, TappedRoutedEventArgs e)
@@ -141,8 +136,9 @@ namespace HolidayMakerClient.View
 
         }
 
+
         #endregion
 
-        
+
     }
 }

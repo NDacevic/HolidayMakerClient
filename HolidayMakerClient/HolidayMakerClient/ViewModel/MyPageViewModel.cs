@@ -20,13 +20,11 @@ namespace HolidayMakerClient.ViewModel
      
         public MyPageViewModel()
         {
-
             SelectedReservation = new ObservableCollection<Reservation>();
             MyReservations = new ObservableCollection<Reservation>();
             SelectedHome = new ObservableCollection<Home>();
             SelectedReservationAddons = new ObservableCollection<Addon>();
-      
-
+            ActiveUserHomes = new ObservableCollection<Home>();
         }
         #endregion
 
@@ -49,10 +47,9 @@ namespace HolidayMakerClient.ViewModel
         /// <summary>
         /// When navigated to the page, we get all reservations connected to the user and add them to our OC.
         /// </summary>
-        public async void GetReservations()
+        public async Task GetReservations()
         {
-            //TODO:Send in active users id to the ApiHelper
-          var res = await ApiHelper.Instance.GetUserReservations();
+            var res = await ApiHelper.Instance.GetUserReservations();
             foreach(Reservation r in res)
             {
                 MyReservations.Add(r);
@@ -65,6 +62,7 @@ namespace HolidayMakerClient.ViewModel
         {
             ResetLists();
             SelectedReservation.Add(reservation);
+            //TODO: Krashar om det inte finns några reservationer när man klickar påReservations-ListView /MO
             Home home = await ApiHelper.Instance.GetHome(reservation.HomeId);
             SelectedHome.Add(home);
             var addonlist= await ApiHelper.Instance.GetReservationAddon(reservation.ReservationId);
@@ -97,7 +95,7 @@ namespace HolidayMakerClient.ViewModel
 
         public async Task GetActiveUserHomes()
         {
-           ActiveUserHomes = await ApiHelper.Instance.GetUserHomes(LoginViewModel.Instance.ActiveUser.UserId);
+            ActiveUserHomes = await ApiHelper.Instance.GetUserHomes(LoginViewModel.Instance.ActiveUser.UserId);
         }
     }
 }

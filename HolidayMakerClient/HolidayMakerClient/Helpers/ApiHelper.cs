@@ -400,7 +400,7 @@ namespace HolidayMakerClient
         {
             try
             {
-                HttpResponseMessage response = await httpClient.GetAsync($"Homes/{userId}");
+                HttpResponseMessage response = await httpClient.GetAsync($"userhomes/{userId}");
                 if (response.IsSuccessStatusCode)
                 {
                     jsonString = response.Content.ReadAsStringAsync().Result;
