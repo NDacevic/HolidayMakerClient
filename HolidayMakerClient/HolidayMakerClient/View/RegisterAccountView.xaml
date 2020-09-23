@@ -8,7 +8,8 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Width="800"
-    x:Name="Vw_RegisterAccountPage">
+    x:Name="Vw_RegisterAccountPage"
+    Loaded="PageLoaded">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -43,7 +44,6 @@
                 Name="Rb_Private"
                 Content="Privatperson"
                 Checked="ShowHideSurname"
-                IsChecked="True"
                 />
             <RadioButton 
                 Name="Rb_Business"

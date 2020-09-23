@@ -143,5 +143,10 @@ namespace HolidayMakerClient.View
                 textBlock_Firstname.Text = "Förnamn:";
             }
         }
+
+        private void PageLoaded(object sender, RoutedEventArgs e)
+        {
+            Rb_Private.IsChecked = true;
+        }
     }
 }
