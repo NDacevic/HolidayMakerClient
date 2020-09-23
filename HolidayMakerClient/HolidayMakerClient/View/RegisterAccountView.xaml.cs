@@ -131,9 +131,17 @@ namespace HolidayMakerClient.View
         private void ShowHideSurname(object sender, RoutedEventArgs e)
         {
             if (sender == Rb_Business)
+            {
                 Tb_LastName.Visibility = Visibility.Collapsed;
+                textBlock_LastName.Visibility = Visibility.Collapsed;
+                textBlock_Firstname.Text = "Företagsnamn:";
+            }
             else if (sender == Rb_Private)
+            {
                 Tb_LastName.Visibility = Visibility.Visible;
+                textBlock_LastName.Visibility = Visibility.Visible;
+                textBlock_Firstname.Text = "Förnamn:";
+            }
         }
     }
 }
