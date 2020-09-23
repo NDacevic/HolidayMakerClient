@@ -139,13 +139,16 @@ namespace HolidayMakerClient
             Bttn_deleteReservation.Visibility = Visibility.Visible;
 
         }
+        /// <summary>
+        /// Price for selected home multiplied with how many days
+        /// </summary>
         public void HomePrice()
         {
             price = selectedLivingViewModel.TempRes.TempHome.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
             TotalPrice = price;
         }
         /// <summary>
-        /// Method checks wich addons are available
+        /// Method checks wich addons are available for the selected home
         /// </summary>
         public void CheckHome()
         {
@@ -413,6 +416,11 @@ namespace HolidayMakerClient
         {
             e.Item.IsBlackout = InvalidDates.Contains(e.Item.Date.Date);
         }
+        /// <summary>
+        /// Navigate back to previous page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void Bttn_GoBack_Click_(object sender, RoutedEventArgs e)
         {
