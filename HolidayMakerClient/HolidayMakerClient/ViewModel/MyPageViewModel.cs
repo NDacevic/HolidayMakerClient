@@ -108,11 +108,18 @@ namespace HolidayMakerClient.ViewModel
         {
              ApiHelper.Instance.DeleteReservation(reservation.ReservationId);
         }
-        #endregion
+        
 
         public async Task GetActiveUserHomes()
         {
             ActiveUserHomes = await ApiHelper.Instance.GetUserHomes(LoginViewModel.Instance.ActiveUser.UserId);
         }
+        public async Task DeleteHome(Home homeToBeDeleted)
+        {
+            await ApiHelper.Instance.DeleteHome(homeToBeDeleted.HomeId);
+            MyPageViewModel.Instance.ActiveUserHomes.Remove(homeToBeDeleted);
+        }
+
+        #endregion
     }
 }
