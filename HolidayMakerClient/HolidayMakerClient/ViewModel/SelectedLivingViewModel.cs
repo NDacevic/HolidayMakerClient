@@ -180,7 +180,7 @@ namespace HolidayMakerClient
         /// Place invalid dates in list
         /// </summary>
         /// <returns></returns>
-        public async Task SetInvalidDates()
+        public void SetInvalidDates()
         {
             try
             {

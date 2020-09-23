@@ -8,7 +8,8 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Width="800"
-    x:Name="Vw_RegisterAccountPage">
+    x:Name="Vw_RegisterAccountPage"
+    Loaded="PageLoaded">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -42,12 +43,13 @@
             <RadioButton 
                 Name="Rb_Private"
                 Content="Privatperson"
-                
-                
+                Checked="ShowHideSurname"
                 />
             <RadioButton 
                 Name="Rb_Business"
-                Content="Företag"/>
+                Content="Företag"
+                Checked="ShowHideSurname"
+                />
         </StackPanel>
 
         <StackPanel
@@ -55,6 +57,7 @@
             Grid.Row="2"
             Grid.Column="1">
             <TextBlock
+                x:Name="textBlock_Firstname"
                 Text="Förnamn:"
                 TextAlignment="Right"
                 Width="115"
@@ -74,6 +77,7 @@
             Grid.Column="1"
             Margin="0,5,0,0">
             <TextBlock
+                x:Name="textBlock_LastName"
                 Text="Efternamn:"
                 TextAlignment="Right"
                 Width="115"
