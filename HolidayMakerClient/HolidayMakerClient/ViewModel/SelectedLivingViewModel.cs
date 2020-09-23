@@ -1,4 +1,5 @@
 ﻿using HolidayMakerClient.Model;
+using HolidayMakerClient.View;
 using Microsoft.AspNetCore.JsonPatch;
 using Newtonsoft.Json;
 using System;
@@ -9,6 +10,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using Windows.UI.Xaml.Controls;
 
 namespace HolidayMakerClient
 {
@@ -18,6 +20,7 @@ namespace HolidayMakerClient
         #endregion
 
         #region Fields
+        private ContentDialog loadData;
         #endregion
 
         #region Constructor
@@ -25,6 +28,7 @@ namespace HolidayMakerClient
         {
             AddonList = new ObservableCollection<Addon>();
             ExtraBed = new Addon();
+            loadData = new LoadDataView();
         }
         #endregion
 
@@ -204,7 +208,8 @@ namespace HolidayMakerClient
         public async void GetAddonList()
         {
             try
-            {            
+            {
+                loadData.ShowAsync();
                 var addons = await ApiHelper.Instance.GetAllAddon();
                 foreach (var a in addons)
                 {
@@ -215,6 +220,7 @@ namespace HolidayMakerClient
                     }
 
                 }
+                loadData.Hide();
             }
             catch (Exception)
             {
