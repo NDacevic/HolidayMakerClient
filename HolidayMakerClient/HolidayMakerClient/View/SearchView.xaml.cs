@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Security.Cryptography.Core;
@@ -181,8 +182,11 @@ namespace HolidayMakerClient.View
             }
         }
 
-        private void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
+        private async void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
         {
+            //Contact API and populate MyReservations and ActiveUserHomes properties before navigating to the page
+            await MyPageViewModel.Instance.GetActiveUserHomes();
+            await MyPageViewModel.Instance.GetReservations();
             Frame.Navigate(typeof(MyPageView));
         }
 
