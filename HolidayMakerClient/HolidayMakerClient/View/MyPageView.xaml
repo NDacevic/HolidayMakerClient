@@ -266,13 +266,28 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="m:Home">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock>
-                            <Run Text="Nu då?"/>
-                            <Run Text="{x:Bind HomeId}"/>
+                        <Image
+                            Source="{x:Bind Image}"
+                            Margin="5"
+                            Width="50"/>
+                        <TextBlock
+                            Margin="5"
+                            Width="150">
+                            <Run Text="Ort: "/>
+                            <Run Text="{x:Bind Location}"/>
                         </TextBlock>
-                        <!--<TextBlock
-                            Grid.Column="1"
-                            Text="{x:Bind Location}"/>-->
+                        <TextBlock
+                            Margin="5"
+                            Width="200">
+                            <Run Text="Typ av hem: "/>
+                            <Run Text="{x:Bind HomeType}"/>
+                        </TextBlock>
+                        <TextBlock
+                            Margin="5">
+                            <Run Text="Uthyrningspris: "/>
+                            <Run Text="{x:Bind Price}"/>
+                        </TextBlock>
+
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
