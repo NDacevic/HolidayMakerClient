@@ -126,6 +126,9 @@
     <Compile Include="Model\TempReservation.cs" />
     <Compile Include="ViewModel\DeleteUserViewModel.cs" />
     <Compile Include="ViewModel\UploadLivingViewModel.cs" />
+    <Compile Include="View\LoadDataView.xaml.cs">
+      <DependentUpon>LoadDataView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UploadLivingView.xaml.cs">
       <DependentUpon>UploadLivingView.xaml</DependentUpon>
     </Compile>
@@ -182,6 +185,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="View\LoadDataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\UploadLivingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
