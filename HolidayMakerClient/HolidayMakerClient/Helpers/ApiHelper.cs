@@ -409,6 +409,31 @@ namespace HolidayMakerClient
             }
         }
 
+        public async Task<List<Reservation>> GetAllReservation (int homeId)
+        {
+            List<Reservation> reservations = new List<Reservation>();
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync($"HomeReservations/{homeId}");
+                if(response.IsSuccessStatusCode)
+                {
+                    jsonString = response.Content.ReadAsStringAsync().Result;
+                    reservations = JsonConvert.DeserializeObject<List<Reservation>>(jsonString);
+                    return reservations;
+                }
+                else
+                {
+                    throw new HttpRequestException("Gick ej att hämta, vänligen försök igen.");
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+
+                return reservations;
+            }
+        }
+
 
         public async Task PostHome(Home home)
         {
@@ -430,13 +455,16 @@ namespace HolidayMakerClient
                     {
                         throw new HttpRequestException();
                     }
+
                 }
             }
             catch (Exception exc)
             {
                 BasicNoConnectionMessage(exc);
+
             }
         }
+
 
         private async void BasicNoConnectionMessage(Exception exc)
         {

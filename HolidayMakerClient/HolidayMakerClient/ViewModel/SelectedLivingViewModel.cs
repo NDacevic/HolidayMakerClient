@@ -40,6 +40,8 @@ namespace HolidayMakerClient
         public TempReservation TempRes { get; set; }
         public decimal TotalPrice { get; set; }
         public Addon ExtraBed { get; set; }
+        public List<Reservation> AllReservations { get; set; }
+        public List<DateTimeOffset> InvalidDates { get; set; }
         #endregion
 
         #region Methods
@@ -91,7 +93,6 @@ namespace HolidayMakerClient
                 return;
             }
             
-
         }
         /// <summary>
         /// Recieves parameter for the reservation change and sends it to a method for converting to a JsonPatchDocument
@@ -149,6 +150,51 @@ namespace HolidayMakerClient
             if (reservation == "[]")
                 throw new FormatException("Inga ändringar gjorda");
         }
+        /// <summary>
+        /// Gets all reservations based on homeId
+        /// </summary>
+        /// <param name="homeId"></param>
+        /// <returns></returns>
+        public async Task GetHomeReservation (int homeId)
+        {
+            try
+            {
+                AllReservations = new List<Reservation>();
+                var reservations = await ApiHelper.Instance.GetAllReservation(homeId);
+                foreach(var r in reservations)
+                {
+                    AllReservations.Add(r);
+                }
+            }
+            catch
+            {
+                return;
+            }
+
+        }
+        /// <summary>
+        /// Place invalid dates in list
+        /// </summary>
+        /// <returns></returns>
+        public async Task SetInvalidDates()
+        {
+            try
+            {
+                InvalidDates = new List<DateTimeOffset>();
+                foreach(var r in AllReservations)
+                {
+                    for(int i = 0; i<=(r.EndDate.Date.Subtract(r.StartDate.Date)).Days; i++)
+                    {
+                        InvalidDates.Add(r.StartDate.AddDays(i).Date);
+                    }
+                }
+            }
+            catch
+            {
+                return;
+            }
+
+        }
 
 
         /// <summary>
@@ -172,7 +218,6 @@ namespace HolidayMakerClient
             }
             catch (Exception)
             {
-                await new MessageDialog("Ingen kontakt med servern. Kontakta admin").ShowAsync();
                 return;
             }
             
@@ -199,7 +244,6 @@ namespace HolidayMakerClient
             }
             catch (Exception)
             {
-                await new MessageDialog("Ingen kontakt med servern. Kontakta admin").ShowAsync();
                 return;
             }
 
