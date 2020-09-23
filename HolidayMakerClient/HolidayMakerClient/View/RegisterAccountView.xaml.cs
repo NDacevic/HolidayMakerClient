@@ -86,7 +86,14 @@ namespace HolidayMakerClient.View
                 else if (CheckPassword(Pwb_Password1.Password, Pwb_Password2.Password))
                 {
                     encryptedPassword = PasswordHelper.EncryptPassword(Pwb_Password1.Password);
-                    regAccountVM.CreateNewUser(Tb_FirstName.Text, Tb_LastName.Text, Tb_Email.Text, encryptedPassword, isCompany);
+
+                    //make sure to only send what's in the surname text field if the registered user isn't a company.
+                    //otherwise send an empty string
+                    string surnameText = "";
+                    if (!isCompany)
+                        surnameText = Tb_LastName.Text;
+                    
+                    regAccountVM.CreateNewUser(Tb_FirstName.Text, surnameText, Tb_Email.Text, encryptedPassword, isCompany);
                     Hide();
                 }
                 else
@@ -120,5 +127,13 @@ namespace HolidayMakerClient.View
         }
 
         #endregion
+
+        private void ShowHideSurname(object sender, RoutedEventArgs e)
+        {
+            if (sender == Rb_Business)
+                Tb_LastName.Visibility = Visibility.Collapsed;
+            else if (sender == Rb_Private)
+                Tb_LastName.Visibility = Visibility.Visible;
+        }
     }
 }

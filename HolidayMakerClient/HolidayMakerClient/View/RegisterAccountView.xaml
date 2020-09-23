@@ -42,12 +42,13 @@
             <RadioButton 
                 Name="Rb_Private"
                 Content="Privatperson"
-                
-                
+                Checked="ShowHideSurname"
                 />
             <RadioButton 
                 Name="Rb_Business"
-                Content="Företag"/>
+                Content="Företag"
+                Checked="ShowHideSurname"
+                />
         </StackPanel>
 
         <StackPanel
