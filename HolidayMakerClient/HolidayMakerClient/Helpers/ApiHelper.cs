@@ -150,6 +150,28 @@ namespace HolidayMakerClient
             }
         }
 
+        public async Task DeleteHome(int homeId)
+        {
+            try
+            {
+                HttpResponseMessage response = await httpClient.DeleteAsync($"homes/{homeId}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await new MessageDialog("Boendet är nu borttaget. Alla aktiva reservationer är också borttagna.").ShowAsync();
+                }
+                else
+                {
+                    Debug.WriteLine($"Http Error: {response.StatusCode}. {response.ReasonPhrase}");
+                    throw new HttpRequestException();
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+            }
+        }
+
         public async Task<ObservableCollection<Home>> GetSearchResults(SearchParameterDto searchParameters)
         {
             try
