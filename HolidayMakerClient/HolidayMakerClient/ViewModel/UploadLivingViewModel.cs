@@ -55,8 +55,9 @@ namespace HolidayMakerClient.ViewModel
         }
         public async Task PostHome(Home newHome)
         {
-            await ApiHelper.Instance.PostHome(newHome);
-            MyPageViewModel.Instance.ActiveUserHomes.Add(newHome);
+            //Saves the posted home locally to get the correct HomeId, in case the user wants to Delete the home instantly. 
+            Home postedHome = await ApiHelper.Instance.PostHome(newHome);
+            MyPageViewModel.Instance.ActiveUserHomes.Add(postedHome);
         }
         #endregion
 

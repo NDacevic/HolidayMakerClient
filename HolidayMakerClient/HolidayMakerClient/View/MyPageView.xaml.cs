@@ -129,9 +129,14 @@ namespace HolidayMakerClient.View
         }
        
 
-        private void bttn_RemoveLiving_Click(object sender, RoutedEventArgs e)
+        private async void bttn_RemoveLiving_Click(object sender, RoutedEventArgs e)
         {
-
+            if ((Home)Lv_MyUploadedLiving.SelectedItem == null)
+            {
+                await new MessageDialog("Vänligen välj ett boende du vill ta bort").ShowAsync();
+            }
+            else
+                await ApiHelper.Instance.DeleteHome(((Home)Lv_MyUploadedLiving.SelectedItem).HomeId);
         }
 
 
