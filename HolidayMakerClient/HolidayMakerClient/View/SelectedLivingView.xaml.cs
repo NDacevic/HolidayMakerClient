@@ -109,7 +109,6 @@ namespace HolidayMakerClient
         /// </summary>
         public void SetUpPage()
         {
-
             HomePrice();
             CheckHome();
             GetDates();
@@ -391,14 +390,14 @@ namespace HolidayMakerClient
         public async void GetDates()
         {
             await selectedLivingViewModel.GetHomeReservation(selectedLivingViewModel.TempRes.TempHome.HomeId);
-            await selectedLivingViewModel.SetInvalidDates();
+            selectedLivingViewModel.SetInvalidDates();
             SetInvalidList();
 
         }
         /// <summary>
         /// Place dates in the hash with invalid dates
         /// </summary>
-        public void SetInvalidList ()
+        public void SetInvalidList()
         {
             if(Bttn_bookChange.Content.ToString() == "Boka")
             {
