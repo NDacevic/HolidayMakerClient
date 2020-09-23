@@ -229,7 +229,7 @@ namespace HolidayMakerClient
                     //Otherwise throw an error and tell the user that the reservation was not posted.
                     if (response.IsSuccessStatusCode)
                     {
-                        await new MessageDialog("Din reservation är nu slutörd!\nHoppas att du kommer trivas i ditt boende!").ShowAsync();
+                        await new MessageDialog("Din reservation är nu slutförd!\nHoppas att du kommer trivas i ditt boende!").ShowAsync();
                     }
                     else
                     {
@@ -304,10 +304,52 @@ namespace HolidayMakerClient
 
         }
 
-        public void PatchReservation()
+        public async Task<bool> PatchReservation(int id, JsonPatchDocument<Reservation>jsonPatchReservation)
         {
+            //httpClient.PatchAsync doesn't exist as a predefined method so we have to use SendAsync() which requires a HttpRequestMessage as a parameter
+            
+            try
+            {
+                //Name the method Patch
+                HttpMethod method = new HttpMethod("PATCH");
+                //Serialize the JsonPatchDocument
+                jsonString = JsonConvert.SerializeObject(jsonPatchReservation);
 
+                //Set json as content
+                HttpContent content = new StringContent(jsonString);
+
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                //request
+                var request = new HttpRequestMessage(method, new Uri(httpClient.BaseAddress, $"Reservations/{id}"))
+                {
+                    Content = content
+                };
+
+                //Send the request
+                using(HttpResponseMessage response = await httpClient.SendAsync(request))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Debug.Write("Reservationen är uppdaterat.");
+                        return true;
+                    }
+                    else
+                    {
+                        throw new HttpRequestException("Reservationen kunde inte uppdateras, försök igen.");
+                        
+                    }
+                }
+            }
+            
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+                return false;
+            }
         }
+     
+        
 
         public async void DeleteReservation(int reservationId)
         {
@@ -331,9 +373,9 @@ namespace HolidayMakerClient
             }
         }
 
-        public void PostReservationAddon()
+        public  void PatchReservationAddon()
         {
-
+            
         }
         public async Task<ObservableCollection<Addon>> GetReservationAddon(int id)
         {
@@ -386,6 +428,31 @@ namespace HolidayMakerClient
             {
                 BasicNoConnectionMessage(exc);
                 return addonList;
+            }
+        }
+
+        public async Task<List<Reservation>> GetAllReservation (int homeId)
+        {
+            List<Reservation> reservations = new List<Reservation>();
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync($"HomeReservations/{homeId}");
+                if(response.IsSuccessStatusCode)
+                {
+                    jsonString = response.Content.ReadAsStringAsync().Result;
+                    reservations = JsonConvert.DeserializeObject<List<Reservation>>(jsonString);
+                    return reservations;
+                }
+                else
+                {
+                    throw new HttpRequestException("Gick ej att hämta, vänligen försök igen.");
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+
+                return reservations;
             }
         }
 
@@ -444,6 +511,7 @@ namespace HolidayMakerClient
                 return new ObservableCollection<Home>();
             }
         }
+
 
         private async void BasicNoConnectionMessage(Exception exc)
         {
