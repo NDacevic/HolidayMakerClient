@@ -58,10 +58,14 @@ namespace HolidayMakerClient.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             //Todo: Jag tror denna passar bättre i en PageLoaded-metod, annars är det risk att din metoden försöker populera din lista innan din Listview laddat färdigt. //MO
-            myPageViewModel.GetReservations();
-         
+            myPageViewModel.GetReservations();        
         }
-        
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            await myPageViewModel.GetActiveUserHomes();
+        }
+
         private void Lv_MyReservations_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Reservation selectedReservation = (Reservation)Lv_MyReservations.SelectedItem;
@@ -138,5 +142,7 @@ namespace HolidayMakerClient.View
         }
 
         #endregion
+
+        
     }
 }
