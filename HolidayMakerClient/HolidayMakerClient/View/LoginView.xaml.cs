@@ -75,7 +75,7 @@ namespace HolidayMakerClient
                 Hide();
             }
             else
-                ShowAsync();
+                await ShowAsync();
         }        
     }
 }
