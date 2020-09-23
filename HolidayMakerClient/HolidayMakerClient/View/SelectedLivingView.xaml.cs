@@ -437,11 +437,27 @@ namespace HolidayMakerClient
         /// </summary>
         public void SetInvalidList ()
         {
-            foreach (var date in selectedLivingViewModel.InvalidDates)
+            if(Bttn_bookChange.Content.ToString() == "Boka")
             {
+                foreach (var date in selectedLivingViewModel.InvalidDates)
+                {
                 
-                InvalidDates.Add(date.Date.Date);
+                    InvalidDates.Add(date.Date.Date);
+                }
             }
+            else
+            {
+                foreach (var date in selectedLivingViewModel.InvalidDates)
+                {
+
+                    InvalidDates.Add(date.Date.Date);
+                    for (int i = 0; i <= (selectedLivingViewModel.TempRes.EndDate.Date.Subtract(selectedLivingViewModel.TempRes.StartDate.Date)).Days; i++)
+                    {
+                        InvalidDates.Remove(selectedLivingViewModel.TempRes.StartDate.AddDays(i).Date);
+                    }
+                }
+            }
+
         }
         /// <summary>
         /// When trying to change date the invalid dates is blacked out
@@ -453,7 +469,16 @@ namespace HolidayMakerClient
         {
           
             e.Item.IsBlackout = InvalidDates.Contains(e.Item.Date.Date);
+<<<<<<< HEAD
             
+=======
+            if (e.Item.Date < DateTime.Today)
+            {
+                e.Item.IsBlackout = true;
+
+            }
+
+>>>>>>> dev
         }
         /// <summary>
         /// Navigate back to previous page
