@@ -99,6 +99,10 @@ namespace HolidayMakerClient.View
                 else if (date < 0)
                     throw new FormatException(@"'Till-datum' får ej vara före 'Från-datum'");
 
+                var load = new LoadDataView();
+
+                load.ShowAsync();
+
                 await searchViewModel.Search
                     (
                     txtBox_Search.Text,
@@ -109,6 +113,7 @@ namespace HolidayMakerClient.View
                     grid_AdvancedSearch
                     );
 
+                load.Hide();
                 DetermineSearchVisibility();
             }
             catch(Exception e)
