@@ -34,6 +34,9 @@ namespace HolidayMakerClient.View
         #region Fields
         SearchViewModel searchViewModel;
         TempReservation tempReservation;
+
+        private DateTimeOffset searchedStartDate;
+        private DateTimeOffset searchedEndDate;
         #endregion
 
         #region Constructors
@@ -75,20 +78,39 @@ namespace HolidayMakerClient.View
             Search();
         }
 
-        private void Search()
+        private async void Search()
         {
-            //TODO: Add error handling when search parameters are empty //MO
-            int.TryParse(comboBox_NumberOfGuests.SelectedValue.ToString(), out int numberOfGuests);
+            try
+            {
+                int.TryParse(comboBox_NumberOfGuests.SelectedValue.ToString(), out int numberOfGuests);
 
-            searchViewModel.Search
-                (
-                txtBox_Search.Text,
-                (DateTimeOffset)datePicker_StartDate.Date,
-                (DateTimeOffset)datePicker_EndDate.Date,
-                numberOfGuests,
-                CreateAdvancedFilterParams(),
-                grid_AdvancedSearch
-                );
+                searchedStartDate = (DateTimeOffset)datePicker_StartDate.Date;
+                searchedEndDate = (DateTimeOffset)datePicker_EndDate.Date;
+
+                if (string.IsNullOrEmpty(txtBox_Search.Text))
+                    throw new FormatException("Skriv in ett sökord");
+
+                var date = (((DateTimeOffset)datePicker_EndDate.Date).Subtract((DateTimeOffset)datePicker_StartDate.Date)).Days;
+
+                if (date == 0)
+                    throw new FormatException(@"'Från'- och 'Till-datum' får ej vara samma värde");
+                else if (date < 0)
+                    throw new FormatException(@"'Till-datum' får ej vara före 'Från-datum'");
+
+                searchViewModel.Search
+                    (
+                    txtBox_Search.Text,
+                    searchedStartDate,
+                    searchedEndDate,
+                    numberOfGuests,
+                    CreateAdvancedFilterParams(),
+                    grid_AdvancedSearch
+                    );
+            }
+            catch(Exception e)
+            {
+                await new MessageDialog(e.Message).ShowAsync();
+            }
         }
 
         /// <summary>
@@ -130,8 +152,8 @@ namespace HolidayMakerClient.View
 
         public void SetDates()
         {
-            tempReservation.StartDate = (DateTimeOffset)datePicker_StartDate.Date;
-            tempReservation.EndDate = (DateTimeOffset)datePicker_EndDate.Date;
+            tempReservation.StartDate = searchedStartDate;
+            tempReservation.EndDate = searchedEndDate;
         }
 
         private async void Login_Click(object sender, RoutedEventArgs e)
@@ -183,7 +205,7 @@ namespace HolidayMakerClient.View
             searchViewModel.Filter(CreateAdvancedFilterParams(), grid_AdvancedSearch);
         }
 
-        private void datePicker_StartDate_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
+        private void DatePickers_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
         {
             if (e.Item.Date < DateTime.Today)
             {

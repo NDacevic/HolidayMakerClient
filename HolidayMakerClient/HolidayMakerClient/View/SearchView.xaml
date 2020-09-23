@@ -111,7 +111,7 @@
                 PlaceholderText="Välj datum"
                 FirstDayOfWeek="Monday"
                 DateFormat="{}{day.integer} {month.full} {year.full}"
-                CalendarViewDayItemChanging="datePicker_StartDate_CalendarViewDayItemChanging"
+                CalendarViewDayItemChanging="DatePickers_CalendarViewDayItemChanging"
                 />
             <CalendarDatePicker
                 Grid.Column="2"
@@ -120,7 +120,7 @@
                 PlaceholderText="Välj datum"
                 FirstDayOfWeek="Monday"
                 DateFormat="{}{day.integer} {month.full} {year.full}"
-                CalendarViewDayItemChanging="datePicker_StartDate_CalendarViewDayItemChanging"
+                CalendarViewDayItemChanging="DatePickers_CalendarViewDayItemChanging"
                 />
             <ComboBox
                 x:Name="comboBox_NumberOfGuests"
