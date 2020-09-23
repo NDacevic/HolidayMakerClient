@@ -47,9 +47,24 @@ namespace HolidayMakerClient
             
             selectedLivingViewModel = new SelectedLivingViewModel();
             ChosenAddons = new ObservableCollection<Addon>();
-            for (int i = 1; i <= 20; i++)
+
+
+        }
+        public void SetMaxNumberOfGuests()
+        {
+            if(selectedLivingViewModel.TempRes.TempHome.HasExtraBed == true)
             {
-                combobox_ChangeGuests.Items.Add(i);
+                for (int i = 1; i <= selectedLivingViewModel.TempRes.TempHome.NumberOfBeds+1; i++)
+                {
+                    combobox_ChangeGuests.Items.Add(i);
+                }
+            }
+            else
+            {
+                for (int i = 1; i <= selectedLivingViewModel.TempRes.TempHome.NumberOfBeds; i++)
+                {
+                    combobox_ChangeGuests.Items.Add(i);
+                }
             }
 
         }
@@ -111,10 +126,10 @@ namespace HolidayMakerClient
         /// </summary>
         public void SetUpPage()
         {
-
             HomePrice();
             CheckHome();
             GetDates();
+            SetMaxNumberOfGuests();
             Bttn_bookChange.Content = "Boka";
             Bttn_deleteReservation.Visibility = Visibility.Collapsed;
         }
@@ -139,6 +154,8 @@ namespace HolidayMakerClient
             OldReservationCheckbox();
 
             GetDates();
+
+            SetMaxNumberOfGuests();
 
             Bttn_bookChange.Content = "Ändra";
             combobox_ChangeGuests.Visibility = Visibility.Visible;
@@ -427,14 +444,14 @@ namespace HolidayMakerClient
         public async void GetDates()
         {
             await selectedLivingViewModel.GetHomeReservation(selectedLivingViewModel.TempRes.TempHome.HomeId);
-            await selectedLivingViewModel.SetInvalidDates();
+            selectedLivingViewModel.SetInvalidDates();
             SetInvalidList();
 
         }
         /// <summary>
         /// Place dates in the hash with invalid dates
         /// </summary>
-        public void SetInvalidList ()
+        public void SetInvalidList()
         {
             if(Bttn_bookChange.Content.ToString() == "Boka")
             {

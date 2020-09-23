@@ -30,8 +30,8 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Fields
-        MyPageViewModel myPageViewModel = new MyPageViewModel();
-        LoginViewModel loginViewModel = LoginViewModel.Instance;
+        LoginViewModel loginViewModel;
+        MyPageViewModel myPageViewModel = MyPageViewModel.Instance;
         #endregion
 
         #region Constructors
@@ -39,7 +39,6 @@ namespace HolidayMakerClient.View
         {
             this.InitializeComponent();
             this.DataContext = myPageViewModel;
-
         }
         #endregion
 
@@ -57,14 +56,15 @@ namespace HolidayMakerClient.View
         #region Methods
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            myPageViewModel.GetReservations();
+
+            loginViewModel = LoginViewModel.Instance;
         }
-     
-        
+
+
         private void Lv_MyReservations_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Reservation selectedReservation = (Reservation)Lv_MyReservations.SelectedItem;
-            myPageViewModel.SelectedUserReservation(selectedReservation);       
+            MyPageViewModel.Instance.SelectedUserReservation(selectedReservation);       
         }
         
         /// <summary>
@@ -82,10 +82,8 @@ namespace HolidayMakerClient.View
 
             if (result == ContentDialogResult.Primary) //If they are ok we send the users id forward for deletion
             {
-                myPageViewModel.DeleteReservation((Reservation)Lv_MyReservations.SelectedItem);
+                MyPageViewModel.Instance.DeleteReservation((Reservation)Lv_MyReservations.SelectedItem);
             }
-
-            
         }
 
         /// <summary>
@@ -103,8 +101,8 @@ namespace HolidayMakerClient.View
             {
                 TempReservation currentReservation = new TempReservation
                 {
-                    TempHome = myPageViewModel.SelectedHome[0],
-                    OldReservation = myPageViewModel.SelectedReservation[0]
+                    TempHome = MyPageViewModel.Instance.SelectedHome[0],
+                    OldReservation = MyPageViewModel.Instance.SelectedReservation[0]
                 };
                 PopulateList(currentReservation);
 
@@ -142,6 +140,24 @@ namespace HolidayMakerClient.View
         {
             Frame.Navigate(typeof(UploadLivingView));
         }
-#endregion
+       
+
+        private async void bttn_RemoveLiving_Click(object sender, RoutedEventArgs e)
+        {
+            if ((Home)Lv_MyUploadedLiving.SelectedItem == null)
+            {
+                await new MessageDialog("Vänligen välj ett boende du vill ta bort").ShowAsync();
+            }
+            else
+            {
+                MyPageViewModel.Instance.DeleteHome((Home)Lv_MyUploadedLiving.SelectedItem);
+
+            }  
+        }
+
+
+        #endregion
+
+
     }
 }

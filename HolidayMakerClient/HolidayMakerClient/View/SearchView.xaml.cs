@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Security.Cryptography.Core;
@@ -76,6 +77,7 @@ namespace HolidayMakerClient.View
         private void SearchButton_Clicked(object sender, RoutedEventArgs args)
         {
             Search();
+            searchViewModel.ClearSortGlyphs(stackPanel_SortButtons);
         }
 
         private async void Search()
@@ -97,7 +99,7 @@ namespace HolidayMakerClient.View
                 else if (date < 0)
                     throw new FormatException(@"'Till-datum' får ej vara före 'Från-datum'");
 
-                searchViewModel.Search
+                await searchViewModel.Search
                     (
                     txtBox_Search.Text,
                     searchedStartDate,
@@ -106,6 +108,8 @@ namespace HolidayMakerClient.View
                     CreateAdvancedFilterParams(),
                     grid_AdvancedSearch
                     );
+
+                DetermineSearchVisibility();
             }
             catch(Exception e)
             {
@@ -147,7 +151,7 @@ namespace HolidayMakerClient.View
             tempReservation = new TempReservation();
             SetDates();
             tempReservation.NumberOfGuests = comboBox_NumberOfGuests.SelectedValue.ToString();
-            tempReservation.TempHome = (Home)lv_SearchList.SelectedItem;
+            tempReservation.TempHome = (Home)listView_SearchList.SelectedItem;
         }
 
         public void SetDates()
@@ -178,8 +182,11 @@ namespace HolidayMakerClient.View
             }
         }
 
-        private void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
+        private async void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
         {
+            //Contact API and populate MyReservations and ActiveUserHomes properties before navigating to the page
+            await MyPageViewModel.Instance.GetActiveUserHomes();
+            await MyPageViewModel.Instance.GetReservations();
             Frame.Navigate(typeof(MyPageView));
         }
 
@@ -191,7 +198,7 @@ namespace HolidayMakerClient.View
 
         private void SortColumns_Click(object sender, RoutedEventArgs e)
         {
-            searchViewModel.SortColumns((Button)sender);
+            searchViewModel.SortColumns((Button)sender, stackPanel_SortButtons);
         }
         
         private void SearchKeydown(object sender, KeyRoutedEventArgs e)
@@ -203,6 +210,8 @@ namespace HolidayMakerClient.View
         private void RefreshSearch(object sender, RoutedEventArgs e)
         {
             searchViewModel.Filter(CreateAdvancedFilterParams(), grid_AdvancedSearch);
+            searchViewModel.ClearSortGlyphs(stackPanel_SortButtons);
+            DetermineSearchVisibility();
         }
 
         private void DatePickers_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
@@ -218,6 +227,19 @@ namespace HolidayMakerClient.View
             CheckActiveUser();
         }
 
+        private void DetermineSearchVisibility()
+        {
+            if (searchViewModel.SortedHomeList.Count > 0)
+            {
+                scrollViewer_SearchResults.Visibility = Visibility.Visible;
+                textBlock_NoResults.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                scrollViewer_SearchResults.Visibility = Visibility.Collapsed;
+                textBlock_NoResults.Visibility = Visibility.Visible;
+            }
+        }
         #endregion
     }
 }
