@@ -167,8 +167,7 @@ namespace HolidayMakerClient.View
 
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
-            await new LoginView().ShowAsync();
-            CheckActiveUser();
+            await new LoginView(bttn_Login, bttn_UserOptions).ShowAsync();
         }
 
         private async void NavigateToMyPage_Click(object sender, RoutedEventArgs e)

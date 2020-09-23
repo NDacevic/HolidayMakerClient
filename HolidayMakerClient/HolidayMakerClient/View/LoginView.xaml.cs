@@ -27,9 +27,18 @@ namespace HolidayMakerClient
     /// </summary>
     public sealed partial class LoginView //: ContentDialog
     {
+        private Button bttn_Login;
+        private Button bttn_UserOptions;
         public LoginView()
         {
             this.InitializeComponent();
+        }
+
+        public LoginView(Button loginButton, Button userOptionsButton)
+        {
+            this.InitializeComponent();
+            bttn_Login = loginButton;
+            bttn_UserOptions = userOptionsButton;
         }
 
         private async void Bttn_Register_Click(object sender, RoutedEventArgs e)
@@ -50,11 +59,23 @@ namespace HolidayMakerClient
         /// <param name="e"></param>
         private async void Bttn_LogIn_Click(object sender, RoutedEventArgs e)
         {
+            var load = new LoadDataView();
+            Hide();
+            _ = load.ShowAsync();
+
             string encryptedPassword = PasswordHelper.EncryptPassword(Pwb_EnterPassword.Password);
             await LoginViewModel.Instance.GetUser(Tb_EnterUsername.Text, encryptedPassword);
+            
+            load.Hide();
 
-            if (LoginViewModel.Instance.ActiveUser!=null)
+            if (LoginViewModel.Instance.ActiveUser != null)
+            {
+                bttn_Login.Visibility = Visibility.Collapsed;
+                bttn_UserOptions.Visibility = Visibility.Visible;
                 Hide();
+            }
+            else
+                ShowAsync();
         }        
     }
 }
