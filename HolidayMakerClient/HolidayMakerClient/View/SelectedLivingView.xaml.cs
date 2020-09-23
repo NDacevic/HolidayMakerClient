@@ -431,6 +431,11 @@ namespace HolidayMakerClient
         private void Cdp_StartDate_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
         {
             e.Item.IsBlackout = InvalidDates.Contains(e.Item.Date.Date);
+            if (e.Item.Date < DateTime.Today)
+            {
+                e.Item.IsBlackout = true;
+
+            }
 
         }
         /// <summary>
