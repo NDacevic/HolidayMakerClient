@@ -1,9 +1,12 @@
 ﻿using HolidayMakerClient.Model;
 using HolidayMakerClient.View;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Diagnostics;
+
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -22,6 +25,7 @@ namespace HolidayMakerClient
         private decimal totalPrice;
         public decimal price;
         public ObservableCollection<Addon> ChosenAddons;
+        private HashSet<DateTimeOffset> InvalidDates = new HashSet<DateTimeOffset>();
 
         public event PropertyChangedEventHandler PropertyChanged;
         public decimal TotalPrice
@@ -70,9 +74,6 @@ namespace HolidayMakerClient
 
         }
 
-
-            
-
         /// <summary>
         /// Get list of all addons except for ExtraBed from DB, this because ExtraBed is treated differently from the other addons
         /// </summary>
@@ -113,9 +114,9 @@ namespace HolidayMakerClient
 
             HomePrice();
             CheckHome();
+            GetDates();
             Bttn_bookChange.Content = "Boka";
             Bttn_deleteReservation.Visibility = Visibility.Collapsed;
-            Bttn_ToMyPage.Visibility = Visibility.Collapsed;
         }
         /// <summary>
         /// Prepare page when navigated from MyPage
@@ -134,13 +135,17 @@ namespace HolidayMakerClient
             HomePrice();
             CheckHome();
             UpdatePrice();
+
             OldReservationCheckbox();
+
+            GetDates();
+
             Bttn_bookChange.Content = "Ändra";
             combobox_ChangeGuests.Visibility = Visibility.Visible;
             Bttn_deleteReservation.Visibility = Visibility.Visible;
-            Bttn_ToSearch.Visibility = Visibility.Collapsed;
 
         }
+
         public void OldReservationCheckbox()
         {
             
@@ -148,9 +153,9 @@ namespace HolidayMakerClient
             {
                 if(addon.AddonType=="Extrasäng")
                 {
-                    cb_ExtraBed.Checked -= Cb_ExtraBed_Checked;
-                    cb_ExtraBed.IsChecked = true;
-                    cb_ExtraBed.Checked += Cb_ExtraBed_Checked;
+                    Cb_ExtraBed.Checked -= Cb_ExtraBed_Checked;
+                    Cb_ExtraBed.IsChecked = true;
+                    Cb_ExtraBed.Checked += Cb_ExtraBed_Checked;
                 }
                 if (addon.AddonType == "Halvpension")
                 {
@@ -174,19 +179,24 @@ namespace HolidayMakerClient
             }
             
         }
+
+        /// <summary>
+        /// Price for selected home multiplied with how many days
+        /// </summary>
+
         public void HomePrice()
         {
             price = selectedLivingViewModel.TempRes.TempHome.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
             TotalPrice = price;
         }
         /// <summary>
-        /// Method checks wich addons are available
+        /// Method checks wich addons are available for the selected home
         /// </summary>
         public void CheckHome()
         {
             if (selectedLivingViewModel.TempRes.TempHome.HasExtraBed == false)
             {
-                cb_ExtraBed.Visibility = Visibility.Collapsed;
+                Cb_ExtraBed.Visibility = Visibility.Collapsed;
             }
             if (selectedLivingViewModel.TempRes.TempHome.HasAllInclusive == false)
             {
@@ -212,8 +222,12 @@ namespace HolidayMakerClient
             try
             {
                 Addon ad = ((Addon)lv_DisplayAddons.SelectedItem);
+
+                if (ad.AddonType == "Extrasäng") Cb_ExtraBed.IsChecked = false;
+
                 if (ad.AddonType == "Extrasäng") 
-                    cb_ExtraBed.IsChecked = false;
+                    Cb_ExtraBed.IsChecked = false;
+
                 else if(ad.AddonType == "All-inclusive" || ad.AddonType == "Helpension" || ad.AddonType == "Halvpension") Rb_noPension.IsChecked = true;
                     ChosenAddons.Remove((Addon)lv_DisplayAddons.SelectedItem);
                 
@@ -379,9 +393,9 @@ namespace HolidayMakerClient
             UpdatePrice();
 
         }
-            /// <summary>
-            /// Update TotalPrice for home plus addons
-            /// </summary>
+        /// <summary>
+        /// Update TotalPrice for home plus addons
+        /// </summary>
         public void UpdatePrice ()
         {
             if(ChosenAddons.Count == 0)
@@ -406,24 +420,47 @@ namespace HolidayMakerClient
             }
 
         }
-        /// <summary>
-        /// Navigate to SearchView
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Bttn_ToSearch_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(SearchView));
-        }
 
+         /// <summary>
+         /// Get the invalid dates for placing in the hash to blackout the already reserved dates
+         /// </summary>
+        public async void GetDates()
+        {
+            await selectedLivingViewModel.GetHomeReservation(selectedLivingViewModel.TempRes.TempHome.HomeId);
+            await selectedLivingViewModel.SetInvalidDates();
+            SetInvalidList();
+
+        }
         /// <summary>
-        /// Navigate to MyPage 
+        /// Place dates in the hash with invalid dates
+        /// </summary>
+        public void SetInvalidList ()
+        {
+            foreach (var date in selectedLivingViewModel.InvalidDates)
+            {
+                
+                InvalidDates.Add(date.Date.Date);
+            }
+        }
+        /// <summary>
+        /// When trying to change date the invalid dates is blacked out
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Bttn_ToMyPage_Click(object sender, RoutedEventArgs e)
+
+        private void Cdp_StartDate_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
         {
-            Frame.Navigate(typeof(MyPageView));
+            e.Item.IsBlackout = InvalidDates.Contains(e.Item.Date.Date);
+        }
+        /// <summary>
+        /// Navigate back to previous page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
+        private void Bttn_GoBack_Click_(object sender, RoutedEventArgs e)
+        {
+            if (Frame.CanGoBack) Frame.GoBack();
         }
     }
 }
