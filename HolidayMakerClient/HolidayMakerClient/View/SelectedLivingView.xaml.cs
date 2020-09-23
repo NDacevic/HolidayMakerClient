@@ -140,7 +140,7 @@ namespace HolidayMakerClient
         {
             if (selectedLivingViewModel.TempRes.TempHome.HasExtraBed == false)
             {
-                cb_ExtraBed.Visibility = Visibility.Collapsed;
+                Cb_ExtraBed.Visibility = Visibility.Collapsed;
             }
             if (selectedLivingViewModel.TempRes.TempHome.HasAllInclusive == false)
             {
@@ -167,7 +167,7 @@ namespace HolidayMakerClient
             {
                 Addon ad = ((Addon)lv_DisplayAddons.SelectedItem);
                 if (ad.AddonType == "Extrasäng") 
-                    cb_ExtraBed.IsChecked = false;
+                    Cb_ExtraBed.IsChecked = false;
                 else if(ad.AddonType == "All-inclusive" || ad.AddonType == "Helpension" || ad.AddonType == "Halvpension") Rb_noPension.IsChecked = true;
                     ChosenAddons.Remove((Addon)lv_DisplayAddons.SelectedItem);
                 

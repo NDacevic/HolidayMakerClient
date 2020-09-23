@@ -79,7 +79,7 @@
 
                     </StackPanel>
                     <CheckBox 
-                        x:Name="cb_ExtraBed" 
+                        x:Name="Cb_ExtraBed" 
                         Content="Extra säng 100 kr. "
                         Checked="Cb_ExtraBed_Checked"
                         Unchecked="Cb_ExtraBed_Unchecked"/>

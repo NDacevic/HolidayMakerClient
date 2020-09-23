@@ -85,8 +85,6 @@ namespace HolidayMakerClient.View
             {
                 myPageViewModel.DeleteReservation((Reservation)Lv_MyReservations.SelectedItem);
             }
-
-            
         }
 
         /// <summary>
@@ -132,6 +130,13 @@ namespace HolidayMakerClient.View
         {
             Frame.Navigate(typeof(UploadLivingView));
         }
-#endregion
+       
+
+        private void bttn_RemoveLiving_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        #endregion
     }
 }

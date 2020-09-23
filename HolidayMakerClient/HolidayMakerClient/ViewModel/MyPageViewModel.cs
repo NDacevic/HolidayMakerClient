@@ -42,6 +42,7 @@ namespace HolidayMakerClient.ViewModel
         public ObservableCollection<Addon> SelectedReservationAddons { get; set; }
         public ObservableCollection<Reservation> SelectedReservation { get; set; }
         public ObservableCollection<Home> SelectedHome { get; set; }
+        public ObservableCollection<Home> ActiveUserHomes { get; set; }
         #endregion
 
         #region Methods
@@ -94,5 +95,9 @@ namespace HolidayMakerClient.ViewModel
         }
         #endregion
 
+        public async Task GetActiveUserHomes()
+        {
+           ActiveUserHomes = await ApiHelper.Instance.GetUserHomes(LoginViewModel.Instance.ActiveUser.UserId);
+        }
     }
 }
