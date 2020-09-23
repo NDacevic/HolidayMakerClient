@@ -79,7 +79,7 @@
 
                     </StackPanel>
                     <CheckBox 
-                        x:Name="cb_ExtraBed" 
+                        x:Name="Cb_ExtraBed" 
                         Content="Extra säng 100 kr. "
                         Checked="Cb_ExtraBed_Checked"
                         Unchecked="Cb_ExtraBed_Unchecked"/>
@@ -89,18 +89,12 @@
 
         <StackPanel Grid.Column="1" VerticalAlignment="Stretch">
             <Grid>
-             <Button 
-                x:Name="Bttn_ToSearch" 
+                <Button 
+                x:Name="Bttn_GoBack" 
                 Content="Tillbaka" 
                 HorizontalAlignment="Right" 
                 Margin="0, 20, 20, 0" 
-                Click="Bttn_ToSearch_Click"/>
-            <Button 
-                x:Name="Bttn_ToMyPage" 
-                Content="Tillbaka" 
-                HorizontalAlignment="Right" 
-                Margin="0, 20, 20, 0" 
-                Click="Bttn_ToMyPage_Click"/>   
+                Click="Bttn_GoBack_Click_"/>
             </Grid>
             
             <Grid>
@@ -129,12 +123,14 @@
                                     Date="{x:Bind selectedLivingViewModel.TempRes.StartDate}"
                                     FirstDayOfWeek="Monday"
                                     DateFormat="{}{day.integer} {month.full} {year.full}"
+                                    CalendarViewDayItemChanging="Cdp_StartDate_CalendarViewDayItemChanging"
                                     />
                             <CalendarDatePicker x:Name="Cdp_EndDate"
                                     Margin="10,0,0,0"
                                     Date="{x:Bind selectedLivingViewModel.TempRes.EndDate}"
                                     FirstDayOfWeek="Monday"
-                                    DateFormat="{}{day.integer} {month.full} {year.full}"/>
+                                    DateFormat="{}{day.integer} {month.full} {year.full}"
+                                    CalendarViewDayItemChanging="Cdp_StartDate_CalendarViewDayItemChanging"/>
                             <TextBlock
                                 x:Name="txt_NumberOfGuests"
                                 Margin="10,0,0,0"
