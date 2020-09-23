@@ -175,9 +175,7 @@ namespace HolidayMakerClient
                     Rb_addon2.IsChecked = true;
                     Rb_addon2.Checked += RadioButton_Checked;
                 }
-
             }
-            
         }
 
         /// <summary>
@@ -223,7 +221,7 @@ namespace HolidayMakerClient
             {
                 Addon ad = ((Addon)lv_DisplayAddons.SelectedItem);
 
-                if (ad.AddonType == "Extrasäng") Cb_ExtraBed.IsChecked = false;
+                //if (ad.AddonType == "Extrasäng") Cb_ExtraBed.IsChecked = false;
 
                 if (ad.AddonType == "Extrasäng") 
                     Cb_ExtraBed.IsChecked = false;
@@ -359,6 +357,7 @@ namespace HolidayMakerClient
         {
             ChosenAddons.Remove((Addon)selectedLivingViewModel.ExtraBed);
             UpdatePrice();
+            
 
         }
         /// <summary>
@@ -451,6 +450,7 @@ namespace HolidayMakerClient
         private void Cdp_StartDate_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
         {
             e.Item.IsBlackout = InvalidDates.Contains(e.Item.Date.Date);
+            
         }
         /// <summary>
         /// Navigate back to previous page
@@ -461,6 +461,25 @@ namespace HolidayMakerClient
         private void Bttn_GoBack_Click_(object sender, RoutedEventArgs e)
         {
             if (Frame.CanGoBack) Frame.GoBack();
+        }
+
+        private void Cdp_EndDate_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+            if(args.NewDate!=null)
+            {
+                selectedLivingViewModel.TempRes.EndDate = args.NewDate.Value;
+                HomePrice();
+            }
+         
+        }
+
+        private void Cdp_StartDate_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+            if (args.NewDate != null)
+            {
+                selectedLivingViewModel.TempRes.StartDate = args.NewDate.Value;
+                HomePrice();
+            }
         }
     }
 }
