@@ -167,14 +167,8 @@ namespace HolidayMakerClient.View
 
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
-            var test = new LoginView();
-            test.Closed += Test_Closed;
-            await test.ShowAsync();
-        }
-
-        private void Test_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
-        {
-            searchViewModel.CheckActiveUser(bttn_Login, bttn_UserOptions);
+            await new LoginView().ShowAsync();
+            CheckActiveUser();
         }
 
         private async void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
@@ -188,12 +182,12 @@ namespace HolidayMakerClient.View
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
             LoginViewModel.Instance.ActiveUser = null;
-            searchViewModel.CheckActiveUser(bttn_Login, bttn_UserOptions);
+            CheckActiveUser();
         }
 
         private void SortColumns_Click(object sender, RoutedEventArgs e)
         {
-            searchViewModel.SortColumns((Button)sender, stackPanel_SortButtons);
+            CheckActiveUser();
         }
         
         private void SearchKeydown(object sender, KeyRoutedEventArgs e)
@@ -219,7 +213,7 @@ namespace HolidayMakerClient.View
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            searchViewModel.CheckActiveUser(bttn_Login, bttn_UserOptions);
+            CheckActiveUser();
         }
 
         private void DetermineSearchVisibility()
@@ -233,6 +227,20 @@ namespace HolidayMakerClient.View
             {
                 scrollViewer_SearchResults.Visibility = Visibility.Collapsed;
                 textBlock_NoResults.Visibility = Visibility.Visible;
+            }
+        }
+        public void CheckActiveUser()
+        {
+            if (LoginViewModel.Instance.ActiveUser != null)
+            {
+                bttn_Login.Visibility = Visibility.Collapsed;
+                bttn_UserOptions.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                //This happens after a user has removed itself from the system or logs out
+                bttn_Login.Visibility = Visibility.Visible;
+                bttn_UserOptions.Visibility = Visibility.Collapsed;
             }
         }
         #endregion

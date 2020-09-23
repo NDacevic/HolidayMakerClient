@@ -39,6 +39,7 @@ namespace HolidayMakerClient.View
         {
             this.InitializeComponent();
             this.DataContext = myPageViewModel;
+            loginViewModel = LoginViewModel.Instance;
         }
         #endregion
 
@@ -54,12 +55,6 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Methods
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-
-            loginViewModel = LoginViewModel.Instance;
-        }
-
 
         private void Lv_MyReservations_Tapped(object sender, TappedRoutedEventArgs e)
         {

@@ -50,21 +50,11 @@ namespace HolidayMakerClient
         /// <param name="e"></param>
         private async void Bttn_LogIn_Click(object sender, RoutedEventArgs e)
         {
-            var load = new LoadDataView();
-            Hide();
-            _ = load.ShowAsync();
-
             string encryptedPassword = PasswordHelper.EncryptPassword(Pwb_EnterPassword.Password);
             await LoginViewModel.Instance.GetUser(Tb_EnterUsername.Text, encryptedPassword);
 
-            load.Hide();
-            
             if (LoginViewModel.Instance.ActiveUser!=null)
                 Hide();
-            else
-                await ShowAsync();
-
         }        
-
     }
 }

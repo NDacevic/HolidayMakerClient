@@ -358,21 +358,6 @@ namespace HolidayMakerClient.ViewModel
             //return true if they are all off otherwise return false
             return allFalse;
         }
-
-        public void CheckActiveUser(Button bttn_Login, Button bttn_UserOptions)
-        {
-            if (LoginViewModel.Instance.ActiveUser != null)
-            {
-                bttn_Login.Visibility = Visibility.Collapsed;
-                bttn_UserOptions.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                //This happens after a user has removed itself from the system or logs out
-                bttn_Login.Visibility = Visibility.Visible;
-                bttn_UserOptions.Visibility = Visibility.Collapsed;
-            }
-        }
         #endregion
     }
 }
