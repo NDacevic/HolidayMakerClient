@@ -85,6 +85,10 @@ namespace HolidayMakerClient.View
                 }
                 else if (CheckPassword(Pwb_Password1.Password, Pwb_Password2.Password))
                 {
+                    var load = new LoadDataView();
+                    Hide();
+                    load.ShowAsync();
+
                     encryptedPassword = PasswordHelper.EncryptPassword(Pwb_Password1.Password);
 
                     //make sure to only send what's in the surname text field if the registered user isn't a company.
@@ -93,8 +97,9 @@ namespace HolidayMakerClient.View
                     if (!isCompany)
                         surnameText = Tb_LastName.Text;
                     
-                    regAccountVM.CreateNewUser(Tb_FirstName.Text, surnameText, Tb_Email.Text, encryptedPassword, isCompany);
-                    Hide();
+                    await regAccountVM.CreateNewUser(Tb_FirstName.Text, surnameText, Tb_Email.Text, encryptedPassword, isCompany);
+                    load.Hide();
+                    //Hide();
                 }
                 else
                 {
@@ -105,9 +110,20 @@ namespace HolidayMakerClient.View
 
         private bool CheckTextBoxes()
         {
-            if(Tb_FirstName.Text=="" || Tb_LastName.Text=="" || Tb_Email.Text=="" || Pwb_Password1.Password==""||Pwb_Password2.Password=="")
+            if ((bool)Rb_Private.IsChecked)
             {
-                return false;
+                if (Tb_FirstName.Text == "" || Tb_LastName.Text == "" || Tb_Email.Text == "" || Pwb_Password1.Password == "" || Pwb_Password2.Password == "")
+                {
+                    return false;
+                }
+                
+            }
+            else if ((bool)Rb_Business.IsChecked)
+            {
+                if (Tb_FirstName.Text == "" || Tb_Email.Text == "" || Pwb_Password1.Password == "" || Pwb_Password2.Password == "")
+                {
+                    return false;
+                }
             }
             return true;
         }
@@ -125,8 +141,6 @@ namespace HolidayMakerClient.View
         {
             Vw_RegisterAccountPage.Hide();
         }
-
-        #endregion
 
         private void ShowHideSurname(object sender, RoutedEventArgs e)
         {
@@ -148,5 +162,7 @@ namespace HolidayMakerClient.View
         {
             Rb_Private.IsChecked = true;
         }
+
+        #endregion
     }
 }
