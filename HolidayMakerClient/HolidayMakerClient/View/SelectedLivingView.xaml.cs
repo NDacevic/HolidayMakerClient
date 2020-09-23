@@ -115,7 +115,6 @@ namespace HolidayMakerClient
             GetDates();
             Bttn_bookChange.Content = "Boka";
             Bttn_deleteReservation.Visibility = Visibility.Collapsed;
-            Bttn_ToMyPage.Visibility = Visibility.Collapsed;
         }
         /// <summary>
         /// Prepare page when navigated from MyPage
@@ -138,7 +137,6 @@ namespace HolidayMakerClient
             Bttn_bookChange.Content = "Ändra";
             combobox_ChangeGuests.Visibility = Visibility.Visible;
             Bttn_deleteReservation.Visibility = Visibility.Visible;
-            Bttn_ToSearch.Visibility = Visibility.Collapsed;
 
         }
         public void HomePrice()
@@ -383,25 +381,7 @@ namespace HolidayMakerClient
             }
 
         }
-        /// <summary>
-        /// Navigate to SearchView
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Bttn_ToSearch_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(SearchView));
-        }
 
-        /// <summary>
-        /// Navigate to MyPage 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Bttn_ToMyPage_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MyPageView));
-        }
          /// <summary>
          /// Get the invalid dates for placing in the hash to blackout the already reserved dates
          /// </summary>
@@ -432,6 +412,11 @@ namespace HolidayMakerClient
         private void Cdp_StartDate_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
         {
             e.Item.IsBlackout = InvalidDates.Contains(e.Item.Date.Date);
+        }
+
+        private void Bttn_GoBack_Click_(object sender, RoutedEventArgs e)
+        {
+            if (Frame.CanGoBack) Frame.GoBack();
         }
     }
 }

@@ -89,18 +89,12 @@
 
         <StackPanel Grid.Column="1" VerticalAlignment="Stretch">
             <Grid>
-             <Button 
-                x:Name="Bttn_ToSearch" 
+                <Button 
+                x:Name="Bttn_GoBack" 
                 Content="Tillbaka" 
                 HorizontalAlignment="Right" 
                 Margin="0, 20, 20, 0" 
-                Click="Bttn_ToSearch_Click"/>
-            <Button 
-                x:Name="Bttn_ToMyPage" 
-                Content="Tillbaka" 
-                HorizontalAlignment="Right" 
-                Margin="0, 20, 20, 0" 
-                Click="Bttn_ToMyPage_Click"/>   
+                Click="Bttn_GoBack_Click_"/>
             </Grid>
             
             <Grid>
