@@ -390,7 +390,7 @@ namespace HolidayMakerClient
         }
 
 
-        public async Task PostHome(Home home)
+        public async Task<Home> PostHome(Home home)
         {
             try
             {
@@ -410,11 +410,15 @@ namespace HolidayMakerClient
                     {
                         throw new HttpRequestException();
                     }
+
+                    Home postedHome = JsonConvert.DeserializeObject<Home>(jsonString);
+                    return postedHome;
                 }
             }
             catch (Exception exc)
             {
                 BasicNoConnectionMessage(exc);
+                return new Home();
             }
         }
 
