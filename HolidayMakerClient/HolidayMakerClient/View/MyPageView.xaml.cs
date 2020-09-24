@@ -40,6 +40,7 @@ namespace HolidayMakerClient.View
             this.InitializeComponent();
             loginViewModel = LoginViewModel.Instance;
             this.DataContext = myPageViewModel;
+            loginViewModel = LoginViewModel.Instance;
         }
         #endregion
 
@@ -55,12 +56,6 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Methods
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-
-            
-        }
-
 
         private void Lv_MyReservations_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -151,8 +146,7 @@ namespace HolidayMakerClient.View
             }
             else
             {
-                MyPageViewModel.Instance.DeleteHome((Home)Lv_MyUploadedLiving.SelectedItem);
-
+                await MyPageViewModel.Instance.DeleteHome((Home)Lv_MyUploadedLiving.SelectedItem);
             }  
         }
 

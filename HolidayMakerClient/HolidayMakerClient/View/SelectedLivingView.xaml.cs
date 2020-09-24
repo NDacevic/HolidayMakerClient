@@ -286,7 +286,9 @@ namespace HolidayMakerClient
                         await new LoginView().ShowAsync();
                     }
                     selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes, ChosenAddons, TotalPrice);
-                    Frame.Navigate(typeof(MyPageView));
+                    
+                    if(LoginViewModel.Instance.ActiveUser != null)
+                        Frame.Navigate(typeof(MyPageView));
                 }
                 catch (Exception)
                 {
@@ -506,7 +508,8 @@ namespace HolidayMakerClient
 
         private void Cdp_EndDate_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
-            if (args.NewDate.Value!=selectedLivingViewModel.TempRes.EndDate)
+            
+            if (args.NewDate!=null&&args.NewDate.Value!=selectedLivingViewModel.TempRes.EndDate)
             {
                 selectedLivingViewModel.TempRes.EndDate = args.NewDate.Value;
                 HomePrice();
@@ -516,7 +519,7 @@ namespace HolidayMakerClient
 
         private void Cdp_StartDate_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
-            if (args.NewDate.Value != selectedLivingViewModel.TempRes.StartDate)
+            if (args.NewDate != null && args.NewDate.Value != selectedLivingViewModel.TempRes.StartDate)
             {
                 selectedLivingViewModel.TempRes.StartDate = args.NewDate.Value;
                 HomePrice();
