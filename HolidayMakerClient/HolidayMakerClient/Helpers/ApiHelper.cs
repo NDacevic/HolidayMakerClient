@@ -299,11 +299,6 @@ namespace HolidayMakerClient
 
         }
 
-        public void GetReservation()
-        {
-
-        }
-
         public async Task<bool> PatchReservation(int id, JsonPatchDocument<Reservation>jsonPatchReservation)
         {
             //httpClient.PatchAsync doesn't exist as a predefined method so we have to use SendAsync() which requires a HttpRequestMessage as a parameter
@@ -373,10 +368,6 @@ namespace HolidayMakerClient
             }
         }
 
-        public  void PatchReservationAddon()
-        {
-            
-        }
         public async Task<ObservableCollection<Addon>> GetReservationAddon(int id)
         {
             try
