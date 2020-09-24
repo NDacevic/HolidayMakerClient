@@ -215,9 +215,16 @@ namespace HolidayMakerClient
 
         public void HomePrice()
         {
-            price = selectedLivingViewModel.TempRes.TempHome.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
-            TotalPrice = price;
-            UpdatePrice();
+            try
+            {
+                price = selectedLivingViewModel.TempRes.TempHome.Price * (selectedLivingViewModel.TempRes.EndDate - selectedLivingViewModel.TempRes.StartDate).Days;
+                TotalPrice = price;
+                UpdatePrice();
+            }
+            catch
+            {
+                return;
+            }
         }
         /// <summary>
         /// Method checks wich addons are available for the selected home
@@ -325,11 +332,18 @@ namespace HolidayMakerClient
         /// <param name="sender"></param>
         /// <param name="e"></param>
 
-        private void Bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
-
+        private async void Bttn_deleteReservation_Click(object sender, RoutedEventArgs e)
         {
-            selectedLivingViewModel.DeleteReservation(selectedLivingViewModel.TempRes);
-            Frame.Navigate(typeof(MyPageView));
+            try
+            {
+                selectedLivingViewModel.DeleteReservation(selectedLivingViewModel.TempRes);
+                Frame.Navigate(typeof(MyPageView));
+            }
+            catch
+            {
+                await new MessageDialog("Din bokning kunde inte tas bort, vänligen testa igen eller kontakta admin.").ShowAsync();
+                return;
+            }
         }
         /// <summary>
         /// Gets the list of addons plus the addon ExtraBed
@@ -403,7 +417,6 @@ namespace HolidayMakerClient
                     ChosenAddons.Remove(a);
                 }
             }
-            //ChosenAddons.Remove((Addon)selectedLivingViewModel.ExtraBed);
             UpdatePrice();
             
 
@@ -447,7 +460,6 @@ namespace HolidayMakerClient
                 {
                     if(ad.AddonType != "Extrasäng")
                     {
-                        //addonPrice += ad.AddonPrice * int.Parse(selectedLivingViewModel.TempRes.NumberOfGuests);
                         if(combobox_ChangeGuests.SelectedValue!=null)
                         addonPrice += ad.AddonPrice * int.Parse(combobox_ChangeGuests.SelectedValue.ToString());
                         else
