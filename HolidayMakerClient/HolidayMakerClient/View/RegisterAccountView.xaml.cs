@@ -160,7 +160,8 @@ namespace HolidayMakerClient.View
 
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
-            Rb_Private.IsChecked = true;
+            if(Rb_Private != null)
+                Rb_Private.IsChecked = true;
         }
 
         #endregion

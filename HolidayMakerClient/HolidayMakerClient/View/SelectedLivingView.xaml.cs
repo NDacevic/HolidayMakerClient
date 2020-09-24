@@ -11,6 +11,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using HolidayMakerClient.ViewModel;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -301,7 +302,17 @@ namespace HolidayMakerClient
                     selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes, ChosenAddons, TotalPrice);
                     
                     if(LoginViewModel.Instance.ActiveUser != null)
+                    {
+                        var load = new LoadDataView();
+                        _ = load.ShowAsync();
+
+                        await MyPageViewModel.Instance.GetActiveUserHomes();
+                        await MyPageViewModel.Instance.GetReservations();
+
+                        load.Hide();
                         Frame.Navigate(typeof(MyPageView));
+                    }
+                        
                 }
                 catch (Exception)
                 {
