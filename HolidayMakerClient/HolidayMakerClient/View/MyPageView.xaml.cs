@@ -101,7 +101,6 @@ namespace HolidayMakerClient.View
                     OldReservation = MyPageViewModel.Instance.SelectedReservation[0]
                 };
                 PopulateList(currentReservation);
-
             }
         }  
         private void PopulateList(TempReservation currentReservation)
@@ -117,7 +116,8 @@ namespace HolidayMakerClient.View
 
         private void bttn_navigateBack_Click(object sender, RoutedEventArgs e)
         {
-            if(Frame.CanGoBack==true)
+            ResetLists();
+            if (Frame.CanGoBack==true)
             {
                 Frame.GoBack();
             }
@@ -134,6 +134,7 @@ namespace HolidayMakerClient.View
 
         private void bttn_UploadLiving_Click(object sender, RoutedEventArgs e)
         {
+           
             Frame.Navigate(typeof(UploadLivingView));
         }
        
@@ -148,6 +149,12 @@ namespace HolidayMakerClient.View
             {
                 await MyPageViewModel.Instance.DeleteHome((Home)Lv_MyUploadedLiving.SelectedItem);
             }  
+        }
+        private void ResetLists()
+        {
+            myPageViewModel.SelectedHome.Clear();
+            myPageViewModel.SelectedReservation.Clear();
+            myPageViewModel.SelectedReservationAddons.Clear();
         }
 
 

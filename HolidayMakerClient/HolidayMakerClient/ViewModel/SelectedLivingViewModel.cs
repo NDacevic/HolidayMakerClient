@@ -75,8 +75,6 @@ namespace HolidayMakerClient
             {
                 SelectedReservation.AddonList.Add(ad);
             }
-
-           
                 await ApiHelper.Instance.PostReservation(SelectedReservation);
             }
             catch (Exception e)
@@ -120,8 +118,9 @@ namespace HolidayMakerClient
                 if (success)
                 {
                         await new MessageDialog("Ändring genomförd").ShowAsync();
+                        
                 }
-
+                
             }
             catch (FormatException exc)
             {
