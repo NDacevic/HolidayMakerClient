@@ -74,8 +74,7 @@ namespace HolidayMakerClient
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            
-          
+                    
             selectedLivingViewModel.TempRes = (TempReservation)e.Parameter;
             if(selectedLivingViewModel.TempRes.OldReservation == null)
             {
@@ -126,40 +125,54 @@ namespace HolidayMakerClient
         /// </summary>
         public void SetUpPage()
         {
-            HomePrice();
-            CheckHome();
-            GetDates();
-            SetMaxNumberOfGuests();
-            Bttn_bookChange.Content = "Boka";
-            Bttn_deleteReservation.Visibility = Visibility.Collapsed;
+            try
+            {
+                HomePrice();
+                CheckHome();
+                GetDates();
+                SetMaxNumberOfGuests();
+                Bttn_bookChange.Content = "Boka";
+                Bttn_deleteReservation.Visibility = Visibility.Collapsed;
+            }
+            catch
+            {
+                return;
+            }
         }
         /// <summary>
         /// Prepare page when navigated from MyPage
         /// </summary>
         public void SetUpPageOldReservation()
         {
-            selectedLivingViewModel.TempRes.TempId = selectedLivingViewModel.TempRes.OldReservation.ReservationId;
-            selectedLivingViewModel.TempRes.NumberOfGuests = selectedLivingViewModel.TempRes.OldReservation.NumberOfGuests.ToString();
-            selectedLivingViewModel.TempRes.StartDate = selectedLivingViewModel.TempRes.OldReservation.StartDate;
-            selectedLivingViewModel.TempRes.EndDate = selectedLivingViewModel.TempRes.OldReservation.EndDate;
-            foreach (var ad in selectedLivingViewModel.TempRes.OldReservation.AddonList)
+            try
             {
-                ChosenAddons.Add(ad);
+                selectedLivingViewModel.TempRes.TempId = selectedLivingViewModel.TempRes.OldReservation.ReservationId;
+                selectedLivingViewModel.TempRes.NumberOfGuests = selectedLivingViewModel.TempRes.OldReservation.NumberOfGuests.ToString();
+                selectedLivingViewModel.TempRes.StartDate = selectedLivingViewModel.TempRes.OldReservation.StartDate;
+                selectedLivingViewModel.TempRes.EndDate = selectedLivingViewModel.TempRes.OldReservation.EndDate;
+                foreach (var ad in selectedLivingViewModel.TempRes.OldReservation.AddonList)
+                {
+                    ChosenAddons.Add(ad);
+                }
+
+                HomePrice();
+                CheckHome();
+                UpdatePrice();
+
+                OldReservationCheckbox();
+
+                GetDates();
+
+                SetMaxNumberOfGuests();
+
+                Bttn_bookChange.Content = "Ändra";
+                combobox_ChangeGuests.Visibility = Visibility.Visible;
+                Bttn_deleteReservation.Visibility = Visibility.Visible;
             }
-            
-            HomePrice();
-            CheckHome();
-            UpdatePrice();
-
-            OldReservationCheckbox();
-
-            GetDates();
-
-            SetMaxNumberOfGuests();
-
-            Bttn_bookChange.Content = "Ändra";
-            combobox_ChangeGuests.Visibility = Visibility.Visible;
-            Bttn_deleteReservation.Visibility = Visibility.Visible;
+            catch
+            {
+                return;
+            }
 
         }
 
