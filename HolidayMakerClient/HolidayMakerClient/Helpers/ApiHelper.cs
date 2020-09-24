@@ -136,7 +136,7 @@ namespace HolidayMakerClient
 
                 if (response.IsSuccessStatusCode)
                 {
-                    await new MessageDialog("Din användarprofil är nu borttagen. Alla aktiva reservationer är cancellerade.").ShowAsync();
+                    await new MessageDialog("Din användarprofil är nu borttagen. Alla aktiva reservationer är avbokade.").ShowAsync();
                 }
                 else
                 {
