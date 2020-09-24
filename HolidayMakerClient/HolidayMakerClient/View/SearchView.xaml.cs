@@ -77,8 +77,15 @@ namespace HolidayMakerClient.View
 
         private void SearchButton_Clicked(object sender, RoutedEventArgs args)
         {
-            Search();
-            searchViewModel.ClearSortGlyphs(stackPanel_SortButtons);
+            try
+            {
+                Search();
+                searchViewModel.ClearSortGlyphs(stackPanel_SortButtons);
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine("Searchbutton_Clicked caught an exception");
+            }
         }
 
         private async void Search()

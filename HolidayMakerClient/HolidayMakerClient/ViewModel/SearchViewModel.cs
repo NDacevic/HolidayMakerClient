@@ -190,7 +190,7 @@ namespace HolidayMakerClient.ViewModel
                     break;
             }
 
-            //The sorted home objects are put in a seperate list as the orderedList gets cleared when the SortedHomeList gets cleared since they are the same object
+            //The sorted home objects are put in a seperate list as the orderedList gets cleared when the SortedHomeList gets cleared since they contain the same objects
             List<Home> tempList = new List<Home>();
             tempList.AddRange(orderedList);
             PopulateSortedHomeList(tempList);
