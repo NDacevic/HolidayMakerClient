@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -66,26 +67,41 @@ namespace HolidayMakerClient.View
 
         private async void bttn_UploadLiving_Click(object sender, RoutedEventArgs e)
         {
-            await uploadLivingViewModel.CreateNewHome(
-                cbb_HomeType.SelectedItem.ToString(), 
-                int.Parse(tb_NumberOfRooms.Text), 
-                tb_Location.Text, 
-                int.Parse(tb_Price.Text), 
-                cb_HasBalcony.IsChecked.Value, 
-                cb_AllowsPets.IsChecked.Value, 
-                cb_HasWifi.IsChecked.Value, 
-                cb_HasHalfPension.IsChecked.Value, 
-                cb_HasFullPension.IsChecked.Value, 
-                cb_HasAllInclusive.IsChecked.Value, 
-                cb_HasExtrabed.IsChecked.Value, 
-                int.Parse(tb_CityDistance.Text),
-                int.Parse(tb_BeachDistance.Text), 
-                int.Parse(tb_NumberOfBeds.Text), 
-                cb_HasPool.IsChecked.Value, 
-                cb_AllowsSmoking.IsChecked.Value, 
-                tb_Description.Text);
+            //If any controls are empty, don't allow uploading of the Home
+            if (cbb_HomeType.SelectedItem==null ||
+                tb_NumberOfRooms.Text == ""     ||
+                tb_Location.Text==""            ||
+                tb_Price.Text==""               ||
+                tb_CityDistance.Text==""        ||
+                tb_BeachDistance.Text==""       ||
+                tb_NumberOfBeds.Text==""        ||
+                tb_Description.Text=="")
+            {
+                await new MessageDialog("Vänligen ange information i samtliga fält.").ShowAsync();          
+            }
+            else
+            {
+                await uploadLivingViewModel.CreateNewHome(
+                   cbb_HomeType.SelectedItem.ToString(),
+                   int.Parse(tb_NumberOfRooms.Text),
+                   tb_Location.Text,
+                   int.Parse(tb_Price.Text),
+                   cb_HasBalcony.IsChecked.Value,
+                   cb_AllowsPets.IsChecked.Value,
+                   cb_HasWifi.IsChecked.Value,
+                   cb_HasHalfPension.IsChecked.Value,
+                   cb_HasFullPension.IsChecked.Value,
+                   cb_HasAllInclusive.IsChecked.Value,
+                   cb_HasExtrabed.IsChecked.Value,
+                   int.Parse(tb_CityDistance.Text),
+                   int.Parse(tb_BeachDistance.Text),
+                   int.Parse(tb_NumberOfBeds.Text),
+                   cb_HasPool.IsChecked.Value,
+                   cb_AllowsSmoking.IsChecked.Value,
+                   tb_Description.Text);
 
-            NavigateBack();
+                NavigateBack();
+            }
         }
 
         private void bttn_Cancel_Click(object sender, RoutedEventArgs e)

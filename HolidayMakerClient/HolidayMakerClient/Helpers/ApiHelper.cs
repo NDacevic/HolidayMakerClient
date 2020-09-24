@@ -470,7 +470,7 @@ namespace HolidayMakerClient
                     //Check if succesfull
                     if (response.IsSuccessStatusCode)
                     {
-                        await new MessageDialog("Boende uppladdat för uthyrning!").ShowAsync();
+                        await new MessageDialog("Boende upplagt för uthyrning!").ShowAsync();
                     }
 
                     else
