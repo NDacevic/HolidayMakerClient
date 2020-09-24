@@ -166,10 +166,7 @@
                   Height="150"
                   CornerRadius="5"
                   Margin="20,50,20,0"
-                  x:DefaultBindMode="OneWay">
-
-                     
-                  
+                  x:DefaultBindMode="OneTime">
 
                     <ListView.ItemTemplate>
                         <DataTemplate x:Name="lv_Addons" x:DataType="data:Addon"  >
