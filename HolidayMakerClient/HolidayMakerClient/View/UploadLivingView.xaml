@@ -178,7 +178,7 @@
                         Name="tb_Description"
                         Grid.Column="1"
                         Margin="5,0,0,0"
-                        Height="200"
+                        Height="75"
                         TextWrapping="Wrap"/>
                 </Grid>
 
