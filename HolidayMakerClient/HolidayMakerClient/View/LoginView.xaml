@@ -53,14 +53,16 @@
                 Content="Logga in"
                 FontSize="10"
                 Click="Bttn_LogIn_Click"
-                Width="65"/>
+                Width="65"
+                CornerRadius="5"/>
             <Button
                 Name="Bttn_Register"
                 Content="Registrera"
                 Click="Bttn_Register_Click"
                 FontSize="10"
                 Width="65"
-                Margin="0,5,0,0"/>
+                Margin="0,5,0,0"
+                CornerRadius="5"/>
 
 
                 
@@ -70,7 +72,8 @@
                 Content="Avbryt"
                 FontSize="10"
                 Margin="0,5,0,0"
-                Width="65" Click="Bttn_Abort_Click"/>
+                Width="65" Click="Bttn_Abort_Click"
+                CornerRadius="5"/>
 
         </StackPanel>
     </Grid>

@@ -302,18 +302,20 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Margin="10,10,10,10"
-                Click="bttn_UploadLiving_Click"/>
+                Click="bttn_UploadLiving_Click"
+                CornerRadius="5"
+                />
 
             <Button
                 Name="bttn_Cancel"
                 Grid.Row="3"
                 Grid.Column="4"
                 Content="Avbryt"
-                Background="Red"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Margin="10,10,10,10"
-                Click="bttn_Cancel_Click"/>
+                Click="bttn_Cancel_Click"
+                CornerRadius="5"/>
         <!--#endregion-->
     </Grid>
 </Page>
