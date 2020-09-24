@@ -428,7 +428,14 @@ namespace HolidayMakerClient
                 {
                     if(ad.AddonType != "Extrasäng")
                     {
-                        addonPrice += ad.AddonPrice * int.Parse(selectedLivingViewModel.TempRes.NumberOfGuests);
+                        //addonPrice += ad.AddonPrice * int.Parse(selectedLivingViewModel.TempRes.NumberOfGuests);
+                        if(combobox_ChangeGuests.SelectedValue!=null)
+                        addonPrice += ad.AddonPrice * int.Parse(combobox_ChangeGuests.SelectedValue.ToString());
+                        else
+                        {
+                            addonPrice += ad.AddonPrice * int.Parse(selectedLivingViewModel.TempRes.NumberOfGuests);
+                        }
+
                     }
                     else
                     {
