@@ -74,6 +74,7 @@ namespace HolidayMakerClient.View
             else
                 grid_AdvancedSearch.Visibility = Visibility.Collapsed;
         }
+
         private void SearchButton_Clicked(object sender, RoutedEventArgs args)
         {
             Search();
@@ -180,7 +181,6 @@ namespace HolidayMakerClient.View
             await MyPageViewModel.Instance.GetReservations();
 
             load.Hide();
-
             Frame.Navigate(typeof(MyPageView));
         }
 
