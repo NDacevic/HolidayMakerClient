@@ -306,7 +306,15 @@ namespace HolidayMakerClient
                 {
                     numberOfGuests = combobox_ChangeGuests.SelectedValue.ToString();
                 }
-               await selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value, totalPrice,ChosenAddons ,numberOfGuests);
+                await selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value, totalPrice,ChosenAddons ,numberOfGuests);
+
+                var load = new LoadDataView();
+                _ = load.ShowAsync();
+
+                await MyPageViewModel.Instance.GetActiveUserHomes();
+                await MyPageViewModel.Instance.GetReservations();
+
+                load.Hide();
                 Frame.Navigate(typeof(MyPageView));
             }
             else
@@ -317,7 +325,17 @@ namespace HolidayMakerClient
                     {
                         await new LoginView().ShowAsync();
                     }
-                    selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes, ChosenAddons, TotalPrice);
+
+                    if (combobox_ChangeGuests.SelectedValue == null)
+                    {
+                        numberOfGuests = selectedLivingViewModel.TempRes.NumberOfGuests.ToString();
+                    }
+                    else
+                    {
+                        numberOfGuests = combobox_ChangeGuests.SelectedValue.ToString();
+                    }
+
+                    selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes, ChosenAddons, TotalPrice, numberOfGuests);
                     
                     if(LoginViewModel.Instance.ActiveUser != null)
                     {
