@@ -59,12 +59,22 @@ namespace HolidayMakerClient.View
 
         private void Lv_MyReservations_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            if((Reservation)Lv_MyReservations.SelectedItem!=null)
+
+            if((Reservation)Lv_MyReservations.SelectedItem != null)
             {
-                Reservation selectedReservation = (Reservation)Lv_MyReservations.SelectedItem;
-                MyPageViewModel.Instance.SelectedUserReservation(selectedReservation);
+                try
+                {
+                    Reservation selectedReservation = (Reservation)Lv_MyReservations.SelectedItem;
+                    MyPageViewModel.Instance.SelectedUserReservation(selectedReservation);
+                }
+                catch
+                {
+                    return;
+
+                }
             }
-             
+
+
         }
         
         /// <summary>
@@ -74,16 +84,27 @@ namespace HolidayMakerClient.View
         /// <param name="e"></param>
         private async void bttn_CancelReservation_Click(object sender, RoutedEventArgs e)
         {
-            ContentDialog deleteReservation = new ContentDialog()
+            if (Lv_MyReservations.SelectedItem != null)
             {
-                Title = "Avboka", Content = "Är du säker på att du vill avboka vald reservation ? ", PrimaryButtonText = "Ok", CloseButtonText = "Avbryt"
-            };
-            ContentDialogResult result = await deleteReservation.ShowAsync();
+                ContentDialog deleteReservation = new ContentDialog()
+                {
+                    Title = "Avboka",
+                    Content = "Är du säker på att du vill avboka vald reservation ? ",
+                    PrimaryButtonText = "Ok",
+                    CloseButtonText = "Avbryt"
+                };
+                ContentDialogResult result = await deleteReservation.ShowAsync();
 
-            if (result == ContentDialogResult.Primary) //If they are ok we send the users id forward for deletion
-            {
-                MyPageViewModel.Instance.DeleteReservation((Reservation)Lv_MyReservations.SelectedItem);
+                if (result == ContentDialogResult.Primary) //If they are ok we send the users id forward for deletion
+                {
+                    MyPageViewModel.Instance.DeleteReservation((Reservation)Lv_MyReservations.SelectedItem);
+                }
             }
+            else
+            {
+                await new MessageDialog("Vänligen välj vilken reservation du vill ta bort.").ShowAsync();
+            }
+
         }
 
         /// <summary>

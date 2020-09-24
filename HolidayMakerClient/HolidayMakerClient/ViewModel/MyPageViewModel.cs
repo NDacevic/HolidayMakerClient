@@ -68,24 +68,38 @@ namespace HolidayMakerClient.ViewModel
         /// </summary>
         public async Task GetReservations()
         {
-            MyReservations = await ApiHelper.Instance.GetUserReservations();
+            try
+            {
+                MyReservations = await ApiHelper.Instance.GetUserReservations();
+            }
+            catch
+            {
+                return;
+            }
+
         }
         /// <summary>
         /// When user selects a reservation we get specific details about home,reservation and addons.
         /// </summary>
         public async void SelectedUserReservation(Reservation reservation)
         {
-            ResetLists();
-            SelectedReservation.Add(reservation);
-            //TODO: Krashar om det inte finns några reservationer när man klickar påReservations-ListView /MO
-            Home home = await ApiHelper.Instance.GetHome(reservation.HomeId);
-            SelectedHome.Add(home);
-
-            var addonlist = await ApiHelper.Instance.GetReservationAddon(reservation.ReservationId);
-            foreach (Addon a in addonlist)
+            try
             {
+                ResetLists();
+                SelectedReservation.Add(reservation);
+                Home home = await ApiHelper.Instance.GetHome(reservation.HomeId);
+                SelectedHome.Add(home);
+
+                var addonlist = await ApiHelper.Instance.GetReservationAddon(reservation.ReservationId);
+                foreach (Addon a in addonlist)
+                {
                 
-                SelectedReservationAddons.Add(a);
+                    SelectedReservationAddons.Add(a);
+                }
+            }
+            catch
+            {
+                return;
             }
 
         }
