@@ -286,7 +286,9 @@ namespace HolidayMakerClient
                         await new LoginView().ShowAsync();
                     }
                     selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes, ChosenAddons, TotalPrice);
-                    Frame.Navigate(typeof(MyPageView));
+                    
+                    if(LoginViewModel.Instance.ActiveUser != null)
+                        Frame.Navigate(typeof(MyPageView));
                 }
                 catch (Exception)
                 {

@@ -101,7 +101,7 @@ namespace HolidayMakerClient.View
 
                 var load = new LoadDataView();
 
-                load.ShowAsync();
+                _ = load.ShowAsync();
 
                 await searchViewModel.Search
                     (
@@ -167,31 +167,20 @@ namespace HolidayMakerClient.View
 
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
-            await new LoginView().ShowAsync();
-            CheckActiveUser();
-                
-        }
-
-        private void CheckActiveUser()
-        {
-            if (LoginViewModel.Instance.ActiveUser != null)
-            {
-                bttn_Login.Visibility = Visibility.Collapsed;
-                bttn_UserOptions.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                //This happens after a user has removed itself from the system or logs out
-                bttn_Login.Visibility = Visibility.Visible;
-                bttn_UserOptions.Visibility = Visibility.Collapsed;
-            }
+            await new LoginView(bttn_Login, bttn_UserOptions).ShowAsync();
         }
 
         private async void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
         {
+            var load = new LoadDataView();
+            _ = load.ShowAsync();
+
             //Contact API and populate MyReservations and ActiveUserHomes properties before navigating to the page
             await MyPageViewModel.Instance.GetActiveUserHomes();
             await MyPageViewModel.Instance.GetReservations();
+
+            load.Hide();
+
             Frame.Navigate(typeof(MyPageView));
         }
 
@@ -203,7 +192,7 @@ namespace HolidayMakerClient.View
 
         private void SortColumns_Click(object sender, RoutedEventArgs e)
         {
-            searchViewModel.SortColumns((Button)sender, stackPanel_SortButtons);
+            CheckActiveUser();
         }
         
         private void SearchKeydown(object sender, KeyRoutedEventArgs e)
@@ -243,6 +232,20 @@ namespace HolidayMakerClient.View
             {
                 scrollViewer_SearchResults.Visibility = Visibility.Collapsed;
                 textBlock_NoResults.Visibility = Visibility.Visible;
+            }
+        }
+        public void CheckActiveUser()
+        {
+            if (LoginViewModel.Instance.ActiveUser != null)
+            {
+                bttn_Login.Visibility = Visibility.Collapsed;
+                bttn_UserOptions.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                //This happens after a user has removed itself from the system or logs out
+                bttn_Login.Visibility = Visibility.Visible;
+                bttn_UserOptions.Visibility = Visibility.Collapsed;
             }
         }
         #endregion
