@@ -192,7 +192,7 @@ namespace HolidayMakerClient.View
 
         private void SortColumns_Click(object sender, RoutedEventArgs e)
         {
-            CheckActiveUser();
+            searchViewModel.SortColumns((Button)sender, stackPanel_SortButtons);
         }
         
         private void SearchKeydown(object sender, KeyRoutedEventArgs e)
