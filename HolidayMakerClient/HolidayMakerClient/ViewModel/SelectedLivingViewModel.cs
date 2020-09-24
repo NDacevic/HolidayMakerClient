@@ -1,5 +1,6 @@
 ﻿using HolidayMakerClient.Model;
 using HolidayMakerClient.View;
+using HolidayMakerClient.ViewModel;
 using Microsoft.AspNetCore.JsonPatch;
 using Newtonsoft.Json;
 using System;
@@ -91,11 +92,16 @@ namespace HolidayMakerClient
         /// Calls the API and sends an Id for the reservation to be deleted from the database
         /// </summary>
         /// <param name="tempReservation"></param>
-        public void DeleteReservation(TempReservation tempReservation)
+        public async void DeleteReservation(TempReservation tempReservation)
         {
             try
             {
-                ApiHelper.Instance.DeleteReservation(tempReservation.TempId);
+                bool isDeleted = await ApiHelper.Instance.DeleteReservation(tempReservation.TempId);
+                //If the Reservation was removed from the database, also remove it locally
+                if (isDeleted)
+                {
+                    MyPageViewModel.Instance.MyReservations.Remove(tempReservation.OldReservation);
+                }
             }
             catch
             {
