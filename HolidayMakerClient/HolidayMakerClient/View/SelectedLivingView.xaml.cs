@@ -332,13 +332,6 @@ namespace HolidayMakerClient
                     
                     if(LoginViewModel.Instance.ActiveUser != null)
                     {
-                        var load = new LoadDataView();
-                        _ = load.ShowAsync();
-
-                        await MyPageViewModel.Instance.GetActiveUserHomes();
-                        await MyPageViewModel.Instance.GetReservations();
-
-                        load.Hide();
                         Frame.Navigate(typeof(SearchView));
                     }
                         
@@ -363,7 +356,7 @@ namespace HolidayMakerClient
         {
             try
             {
-                selectedLivingViewModel.DeleteReservation(selectedLivingViewModel.TempRes);
+                await selectedLivingViewModel.DeleteReservation(selectedLivingViewModel.TempRes);
                 Frame.Navigate(typeof(SearchView));
             }
             catch
