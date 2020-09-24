@@ -57,25 +57,30 @@ namespace HolidayMakerClient
         /// <param name="reservation"></param>
         /// <param name="addonList"></param>
         /// <param name="price"></param>
-        public async void CreateReservation(TempReservation reservation, ObservableCollection<Addon> addonList, decimal price)
+        public async void CreateReservation(TempReservation reservation, ObservableCollection<Addon> addonList, decimal price, string numberOfGuests)
         {
             try
             {
                 if (LoginViewModel.Instance.ActiveUser == null)
                     throw new Exception("Du måste vara inloggad för att boka");
 
-            SelectedReservation = new Reservation();
-            SelectedReservation.HomeId = reservation.TempHome.HomeId;
-            SelectedReservation.UserId = LoginViewModel.Instance.ActiveUser.UserId;
-            SelectedReservation.NumberOfGuests = int.Parse(reservation.NumberOfGuests);
-            SelectedReservation.StartDate = reservation.StartDate;
-            SelectedReservation.EndDate = reservation.EndDate;
-            SelectedReservation.TotalPrice = price;
-            SelectedReservation.AddonList = new List<Addon>();
-            foreach(var ad in addonList)
-            {
-                SelectedReservation.AddonList.Add(ad);
-            }
+                SelectedReservation = new Reservation();
+                SelectedReservation.HomeId = reservation.TempHome.HomeId;
+                SelectedReservation.UserId = LoginViewModel.Instance.ActiveUser.UserId;
+
+                if (int.TryParse(numberOfGuests, out int guests))
+                    SelectedReservation.NumberOfGuests = guests;
+                else
+                    SelectedReservation.NumberOfGuests = int.Parse(reservation.NumberOfGuests);
+
+                SelectedReservation.StartDate = reservation.StartDate;
+                SelectedReservation.EndDate = reservation.EndDate;
+                SelectedReservation.TotalPrice = price;
+                SelectedReservation.AddonList = new List<Addon>();
+                foreach (var ad in addonList)
+                {
+                    SelectedReservation.AddonList.Add(ad);
+                }
                 await ApiHelper.Instance.PostReservation(SelectedReservation);
             }
             catch (Exception e)

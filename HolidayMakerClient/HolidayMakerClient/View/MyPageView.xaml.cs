@@ -181,10 +181,6 @@ namespace HolidayMakerClient.View
             myPageViewModel.SelectedReservation.Clear();
             myPageViewModel.SelectedReservationAddons.Clear();
         }
-
-
         #endregion
-
-
     }
 }

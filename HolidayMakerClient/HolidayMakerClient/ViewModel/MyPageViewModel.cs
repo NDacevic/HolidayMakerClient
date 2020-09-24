@@ -125,6 +125,7 @@ namespace HolidayMakerClient.ViewModel
             if (isDeleted)
             {
                 MyReservations.Remove(reservation);
+                ResetLists();
             }
         }
         

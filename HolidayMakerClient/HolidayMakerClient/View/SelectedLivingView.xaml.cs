@@ -325,7 +325,17 @@ namespace HolidayMakerClient
                     {
                         await new LoginView().ShowAsync();
                     }
-                    selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes, ChosenAddons, TotalPrice);
+
+                    if (combobox_ChangeGuests.SelectedValue == null)
+                    {
+                        numberOfGuests = selectedLivingViewModel.TempRes.NumberOfGuests.ToString();
+                    }
+                    else
+                    {
+                        numberOfGuests = combobox_ChangeGuests.SelectedValue.ToString();
+                    }
+
+                    selectedLivingViewModel.CreateReservation(selectedLivingViewModel.TempRes, ChosenAddons, TotalPrice, numberOfGuests);
                     
                     if(LoginViewModel.Instance.ActiveUser != null)
                     {
