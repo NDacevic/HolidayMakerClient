@@ -70,8 +70,11 @@ namespace HolidayMakerClient
 
             if (LoginViewModel.Instance.ActiveUser != null)
             {
-                bttn_Login.Visibility = Visibility.Collapsed;
-                bttn_UserOptions.Visibility = Visibility.Visible;
+                if (bttn_Login!=null||bttn_UserOptions!=null)
+                {
+                    bttn_Login.Visibility = Visibility.Collapsed;
+                    bttn_UserOptions.Visibility = Visibility.Visible;
+                }
                 Hide();
             }
             else
