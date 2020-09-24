@@ -132,7 +132,7 @@
                 Grid.Column="3"
                 MaxDropDownHeight="200"
                 SelectedIndex="0"
-                Header="Antal boende"
+                Header="Antal gäster"
                 CornerRadius="5"
                 />
             <Button
