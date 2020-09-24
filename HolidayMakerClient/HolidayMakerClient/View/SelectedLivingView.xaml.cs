@@ -280,7 +280,7 @@ namespace HolidayMakerClient
 
         }
         /// <summary>
-        /// 
+        /// Book or change reservation depending on where navigated from
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
