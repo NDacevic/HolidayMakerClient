@@ -527,6 +527,9 @@ namespace HolidayMakerClient
                 HomePrice();
             }
         }
+        /// <summary>
+        /// Checks that the selected dates are in correct order and not on the same day
+        /// </summary>
         public async void CheckDates ()
         {
             var days = (((DateTimeOffset)Cdp_EndDate.Date).Subtract((DateTimeOffset)Cdp_StartDate.Date)).Days;
