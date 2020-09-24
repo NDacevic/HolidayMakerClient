@@ -106,7 +106,7 @@ namespace HolidayMakerClient
         /// </summary>
         /// <param name="tempReservation"></param>
 
-        public async void EditReservation(Reservation updatedReservation,DateTimeOffset startDate,DateTimeOffset endDate,decimal totalPrice,ObservableCollection<Addon> chosenAddon,string numberOfGuests)
+        public async Task EditReservation(Reservation updatedReservation,DateTimeOffset startDate,DateTimeOffset endDate,decimal totalPrice,ObservableCollection<Addon> chosenAddon,string numberOfGuests)
         {
             try
             {
@@ -118,7 +118,6 @@ namespace HolidayMakerClient
                 if (success)
                 {
                         await new MessageDialog("Ändring genomförd").ShowAsync();
-                        
                 }
                 
             }

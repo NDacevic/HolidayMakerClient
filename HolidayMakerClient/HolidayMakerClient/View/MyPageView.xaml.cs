@@ -59,8 +59,12 @@ namespace HolidayMakerClient.View
 
         private void Lv_MyReservations_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            Reservation selectedReservation = (Reservation)Lv_MyReservations.SelectedItem;
-            MyPageViewModel.Instance.SelectedUserReservation(selectedReservation);       
+            if((Reservation)Lv_MyReservations.SelectedItem!=null)
+            {
+                Reservation selectedReservation = (Reservation)Lv_MyReservations.SelectedItem;
+                MyPageViewModel.Instance.SelectedUserReservation(selectedReservation);
+            }
+             
         }
         
         /// <summary>

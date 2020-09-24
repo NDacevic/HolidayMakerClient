@@ -287,7 +287,7 @@ namespace HolidayMakerClient
                 {
                     numberOfGuests = combobox_ChangeGuests.SelectedValue.ToString();
                 }
-                selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value, totalPrice,ChosenAddons ,numberOfGuests);
+               await selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value, totalPrice,ChosenAddons ,numberOfGuests);
                 Frame.Navigate(typeof(MyPageView));
             }
             else
