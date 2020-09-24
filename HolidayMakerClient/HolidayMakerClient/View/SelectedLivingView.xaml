@@ -67,12 +67,12 @@
                     </TextBlock>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Spacing="10" Margin="20,0,20,20" >
-                    <TextBlock
+                    <StackPanel x:Name="Sp_pension">
+                        <TextBlock
                         x:Name="txt_AddonLabel"
                         Text="Tillval"
                         FontSize="20"
                         FontWeight="Medium"/>
-                    <StackPanel >
                         <RadioButton x:Name="Rb_addon0" Checked="RadioButton_Checked" Unchecked="Rb_addon_Unchecked" Content="All-inclusive 1000 kr/person."/>
                         <RadioButton x:Name="Rb_addon1" Checked="RadioButton_Checked" Unchecked="Rb_addon_Unchecked" Content="Helpension 400 kr/person."/>
                         <RadioButton x:Name="Rb_addon2" Checked="RadioButton_Checked" Unchecked="Rb_addon_Unchecked" Content="Halvpension 200 kr/person."/>
@@ -166,10 +166,7 @@
                   Height="150"
                   CornerRadius="5"
                   Margin="20,50,20,0"
-                  x:DefaultBindMode="OneWay">
-
-                     
-                  
+                  x:DefaultBindMode="OneTime">
 
                     <ListView.ItemTemplate>
                         <DataTemplate x:Name="lv_Addons" x:DataType="data:Addon"  >
@@ -184,7 +181,7 @@
                 </ListView>
                 <Button
                     x:Name="Bttn_RemoveAddon"
-                    Content="Ta bort tilägg"
+                    Content="Ta bort tillägg"
                     Margin="20,15,0,10"
                     CornerRadius="5"
                     Click="Bttn_RemoveAddon_Click"/>   

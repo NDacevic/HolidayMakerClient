@@ -227,6 +227,12 @@ namespace HolidayMakerClient
             {
                 Rb_addon2.Visibility = Visibility.Collapsed;
             }
+            if(selectedLivingViewModel.TempRes.TempHome.HasAllInclusive == false && selectedLivingViewModel.TempRes.TempHome.HasFullPension == false && selectedLivingViewModel.TempRes.TempHome.HasHalfPension == false)
+            {
+                Rb_noPension.Visibility = Visibility.Collapsed;
+                Sp_pension.Visibility = Visibility.Collapsed;
+            }
+            
         }
         /// <summary>
         /// Removes addons from the ObservableCollection and updates TotalPrice
@@ -518,6 +524,7 @@ namespace HolidayMakerClient
             
             if (args.NewDate!=null&&args.NewDate.Value!=selectedLivingViewModel.TempRes.EndDate)
             {
+                CheckDates();
                 selectedLivingViewModel.TempRes.EndDate = args.NewDate.Value;
                 HomePrice();
             }
@@ -528,11 +535,26 @@ namespace HolidayMakerClient
         {
             if (args.NewDate != null && args.NewDate.Value != selectedLivingViewModel.TempRes.StartDate)
             {
+                CheckDates();
                 selectedLivingViewModel.TempRes.StartDate = args.NewDate.Value;
                 HomePrice();
             }
         }
-
+        /// <summary>
+        /// Checks that the selected dates are in correct order and not on the same day
+        /// </summary>
+        public async void CheckDates ()
+        {
+            var days = (((DateTimeOffset)Cdp_EndDate.Date).Subtract((DateTimeOffset)Cdp_StartDate.Date)).Days;
+            if(days < 0)
+            {
+                await new MessageDialog(@"Vänligen välj 'Från - datum' efter 'Till - datum', tack.").ShowAsync();
+            }
+            if (days == 0)
+            {
+                await new MessageDialog(@"'Till-' och 'Från-datum' får inte infalla på samma dag.").ShowAsync();
+            }
+        }
 
     }
 }
