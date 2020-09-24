@@ -30,16 +30,17 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Fields
-        MyPageViewModel myPageViewModel = new MyPageViewModel();
-        LoginViewModel loginViewModel = LoginViewModel.Instance;
+        LoginViewModel loginViewModel;
+        MyPageViewModel myPageViewModel = MyPageViewModel.Instance;
         #endregion
 
         #region Constructors
         public MyPageView()
         {
             this.InitializeComponent();
+            loginViewModel = LoginViewModel.Instance;
             this.DataContext = myPageViewModel;
-
+            loginViewModel = LoginViewModel.Instance;
         }
         #endregion
 
@@ -55,23 +56,62 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Methods
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+
+        private void Lv_MyReservations_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            //Todo: Jag tror denna passar bättre i en PageLoaded-metod, annars är det risk att din metoden försöker populera din lista innan din Listview laddat färdigt. //MO
-            myPageViewModel.GetReservations();
-         
+
+            if((Reservation)Lv_MyReservations.SelectedItem != null)
+            {
+                try
+                {
+                    Reservation selectedReservation = (Reservation)Lv_MyReservations.SelectedItem;
+                    MyPageViewModel.Instance.SelectedUserReservation(selectedReservation);
+                }
+                catch
+                {
+                    return;
+
+                }
+            }
+
+
         }
-        private void Lv_MyReservations_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        
+        /// <summary>
+        /// Shows a ContentDialog asking if you're sure you want to cancel the booking.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void bttn_CancelReservation_Click(object sender, RoutedEventArgs e)
         {
-            Reservation selectedReservation = (Reservation)Lv_MyReservations.SelectedItem;
-            myPageViewModel.SelectedUserReservation(selectedReservation);       
+            if (Lv_MyReservations.SelectedItem != null)
+            {
+                ContentDialog deleteReservation = new ContentDialog()
+                {
+                    Title = "Avboka",
+                    Content = "Är du säker på att du vill avboka vald reservation ? ",
+                    PrimaryButtonText = "Ok",
+                    CloseButtonText = "Avbryt"
+                };
+                ContentDialogResult result = await deleteReservation.ShowAsync();
+
+                if (result == ContentDialogResult.Primary) //If they are ok we send the users id forward for deletion
+                {
+                    MyPageViewModel.Instance.DeleteReservation((Reservation)Lv_MyReservations.SelectedItem);
+                }
+            }
+            else
+            {
+                await new MessageDialog("Vänligen välj vilken reservation du vill ta bort.").ShowAsync();
+            }
+
         }
 
-        private void bttn_CancelReservation_Click(object sender, RoutedEventArgs e)
-        {
-            //TODO: Content dialog with "are you sure" Then proceed to delete.
-        }
-
+        /// <summary>
+        /// After determining that a reservation is selected. Navigates to the SelectedLivingView with the chosen reservation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void bttn_ChangeReservation_Click(object sender, RoutedEventArgs e)
         {
             if (Lv_MyReservations.SelectedItem == null)
@@ -82,22 +122,65 @@ namespace HolidayMakerClient.View
             {
                 TempReservation currentReservation = new TempReservation
                 {
-                    Home = myPageViewModel.SelectedHome[0],
-                    OldReservation = myPageViewModel.SelectedReservation[0]
+                    TempHome = MyPageViewModel.Instance.SelectedHome[0],
+                    OldReservation = MyPageViewModel.Instance.SelectedReservation[0]
                 };
-                Frame.Navigate(typeof(SelectedLivingView), currentReservation);
+                PopulateList(currentReservation);
             }
-        }        
+        }  
+        private void PopulateList(TempReservation currentReservation)
+        {
+            currentReservation.OldReservation.AddonList = new List<Addon>();
+            foreach (Addon a in myPageViewModel.SelectedReservationAddons)
+            {
+                currentReservation.OldReservation.AddonList.Add(a);
+            }
+            Frame.Navigate(typeof(SelectedLivingView), currentReservation);
+
+        }
 
         private void bttn_navigateBack_Click(object sender, RoutedEventArgs e)
         {
-            if(Frame.CanGoBack==true)
+            ResetLists();
+            if (Frame.CanGoBack==true)
             {
                 Frame.GoBack();
             }
         }
 
-        #endregion
+        private async void bttn_RemoveUser_Click(object sender, RoutedEventArgs e)
+        {
+            await new DeleteUserView().ShowAsync();
+            if (LoginViewModel.Instance.ActiveUser == null)
+            {
+                Frame.Navigate(typeof(SearchView));
+            }
+        }
 
+        private void bttn_UploadLiving_Click(object sender, RoutedEventArgs e)
+        {
+           
+            Frame.Navigate(typeof(UploadLivingView));
+        }
+       
+
+        private async void bttn_RemoveLiving_Click(object sender, RoutedEventArgs e)
+        {
+            if ((Home)Lv_MyUploadedLiving.SelectedItem == null)
+            {
+                await new MessageDialog("Vänligen välj ett boende du vill ta bort").ShowAsync();
+            }
+            else
+            {
+                await MyPageViewModel.Instance.DeleteHome((Home)Lv_MyUploadedLiving.SelectedItem);
+            }  
+        }
+        private void ResetLists()
+        {
+            myPageViewModel.SelectedHome.Clear();
+            myPageViewModel.SelectedReservation.Clear();
+            myPageViewModel.SelectedReservationAddons.Clear();
+        }
+        #endregion
     }
 }

@@ -17,9 +17,8 @@ namespace HolidayMakerClient.Model
         #endregion
 
         #region Constructors
-        public Home(int homeId,string homeType, int rooms,string location, decimal price,bool hasBalcony,bool allowPets,bool hasWifi,string image,bool hasHalfPension,bool hasFullPension, bool hasAllInclusive, bool hasExtraBed,int cityDistance,int beachDistance,int numberOfBeds,bool hasPool,bool allowSmoking,string description,int numberOfRatings,int sumOfRatings )
+        public Home(string homeType, int rooms,string location, decimal price,bool hasBalcony,bool allowPets,bool hasWifi,bool hasHalfPension,bool hasFullPension, bool hasAllInclusive, bool hasExtraBed,int cityDistance,int beachDistance,int numberOfBeds,bool hasPool,bool allowSmoking,string description, int userId)
         {
-            HomeId = homeId;
             HomeType = homeType;
             Rooms = rooms;
             Location = location;
@@ -27,7 +26,7 @@ namespace HolidayMakerClient.Model
             HasBalcony = hasBalcony;
             AllowPets = allowPets;
             HasWifi = hasWifi;
-            Image = image;
+            Image = "ms-appx:///Assets/hotelroom.jpg";
             HasHalfPension = hasHalfPension;
             HasFullPension = hasFullPension;
             HasAllInclusive = hasAllInclusive;
@@ -38,10 +37,9 @@ namespace HolidayMakerClient.Model
             HasPool = hasPool;
             AllowSmoking = allowSmoking;
             Description = description;
-            NumberOfRatings = numberOfRatings;
-            SumOfRatings = sumOfRatings;
-            AverageRating = sumOfRatings / numberOfRatings;
-
+            NumberOfRatings = 0;
+            SumOfRatings = 0;
+            UserId = userId;
         }
         public Home()
         {
@@ -77,6 +75,7 @@ namespace HolidayMakerClient.Model
         public string Description { get; set; }
         public int NumberOfRatings { get; set; }
         public int SumOfRatings { get; set; }
+        public int UserId { get; set; }
         public double AverageRating { get => averageRating; 
             set
             { 

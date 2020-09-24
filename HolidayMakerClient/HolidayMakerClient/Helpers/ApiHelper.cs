@@ -128,9 +128,48 @@ namespace HolidayMakerClient
             }
         }
 
-        public void DeleteUser()
+        public async Task DeleteUser(int userId)
         {
+            try
+            {
+                HttpResponseMessage response = await httpClient.DeleteAsync($"users/{userId}");
 
+                if (response.IsSuccessStatusCode)
+                {
+                    await new MessageDialog("Din användarprofil är nu borttagen. Alla aktiva reservationer är avbokade.").ShowAsync();
+                }
+                else
+                {
+                    Debug.WriteLine($"Http Error: {response.StatusCode}. {response.ReasonPhrase}");
+                    throw new HttpRequestException();
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+            }
+        }
+
+        public async Task DeleteHome(int homeId)
+        {
+            try
+            {
+                HttpResponseMessage response = await httpClient.DeleteAsync($"homes/{homeId}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await new MessageDialog("Boendet är nu borttaget. Alla aktiva reservationer är också borttagna.").ShowAsync();
+                }
+                else
+                {
+                    Debug.WriteLine($"Http Error: {response.StatusCode}. {response.ReasonPhrase}");
+                    throw new HttpRequestException();
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+            }
         }
 
         public async Task<ObservableCollection<Home>> GetSearchResults(SearchParameterDto searchParameters)
@@ -170,6 +209,7 @@ namespace HolidayMakerClient
                 return new ObservableCollection<Home>();
             }
         }
+
         public async Task PostReservation(Reservation reservation)
         {
             try
@@ -190,7 +230,7 @@ namespace HolidayMakerClient
                     //Otherwise throw an error and tell the user that the reservation was not posted.
                     if (response.IsSuccessStatusCode)
                     {
-                        await new MessageDialog("Din reservation är nu slutörd!\nHoppas att du kommer trivas i ditt boende!").ShowAsync();
+                        await new MessageDialog("Din reservation är nu slutförd!\nHoppas att du kommer trivas i ditt boende!").ShowAsync();
                     }
                     else
                     {
@@ -204,6 +244,7 @@ namespace HolidayMakerClient
                 BasicNoConnectionMessage(exc);
             }
         }
+
         public async Task<ObservableCollection<Reservation>> GetUserReservations()
         {
             try
@@ -234,6 +275,7 @@ namespace HolidayMakerClient
             }
 
         }
+
         public async Task <Home> GetHome(int id)
         {
            try
@@ -260,17 +302,52 @@ namespace HolidayMakerClient
 
         }
 
-        public void GetReservation()
+        public async Task<bool> PatchReservation(int id, JsonPatchDocument<Reservation>jsonPatchReservation)
         {
+            //httpClient.PatchAsync doesn't exist as a predefined method so we have to use SendAsync() which requires a HttpRequestMessage as a parameter
+            
+            try
+            {
+                //Name the method Patch
+                HttpMethod method = new HttpMethod("PATCH");
+                //Serialize the JsonPatchDocument
+                jsonString = JsonConvert.SerializeObject(jsonPatchReservation);
 
+                //Set json as content
+                HttpContent content = new StringContent(jsonString);
+
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                //request
+                var request = new HttpRequestMessage(method, new Uri(httpClient.BaseAddress, $"Reservations/{id}"))
+                {
+                    Content = content
+                };
+
+                //Send the request
+                using(HttpResponseMessage response = await httpClient.SendAsync(request))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Debug.Write("Reservationen är uppdaterat.");
+                        return true;
+                    }
+                    else
+                    {
+                        throw new HttpRequestException("Reservationen kunde inte uppdateras, försök igen.");
+                        
+                    }
+                }
+            }
+            
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+                return false;
+            }
         }
 
-        public void PatchReservation()
-        {
-
-        }
-
-        public async void DeleteReservation(int reservationId)
+        public async Task<bool> DeleteReservation(int reservationId)
         {
             try
             {
@@ -279,6 +356,7 @@ namespace HolidayMakerClient
                 if (response.IsSuccessStatusCode)
                 {
                     await new MessageDialog("Reservationen är nu borttagen.").ShowAsync();
+                    return true;
                 }
                 else
                 {
@@ -289,13 +367,10 @@ namespace HolidayMakerClient
             catch (Exception exc)
             {
                 BasicNoConnectionMessage(exc);
+                return false;
             }
         }
 
-        public void PostReservationAddon()
-        {
-
-        }
         public async Task<ObservableCollection<Addon>> GetReservationAddon(int id)
         {
             try
@@ -322,6 +397,7 @@ namespace HolidayMakerClient
             }
 
         }
+
         public async Task<ObservableCollection<Addon>> GetAllAddon ()
         {
             ObservableCollection<Addon> addonList = new ObservableCollection<Addon>();
@@ -349,6 +425,87 @@ namespace HolidayMakerClient
                 return addonList;
             }
         }
+
+        public async Task<List<Reservation>> GetAllReservation (int homeId)
+        {
+            List<Reservation> reservations = new List<Reservation>();
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync($"HomeReservations/{homeId}");
+                if(response.IsSuccessStatusCode)
+                {
+                    jsonString = response.Content.ReadAsStringAsync().Result;
+                    reservations = JsonConvert.DeserializeObject<List<Reservation>>(jsonString);
+                    return reservations;
+                }
+                else
+                {
+                    throw new HttpRequestException("Gick ej att hämta, vänligen försök igen.");
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+
+                return reservations;
+            }
+        }
+
+        public async Task<Home> PostHome(Home home)
+        {
+            try
+            {
+                jsonString = JsonConvert.SerializeObject(home);
+                using (HttpContent httpContent = new StringContent(jsonString))
+                {
+                    httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                    HttpResponseMessage response = await httpClient.PostAsync("Homes", httpContent);
+
+                    //Check if succesfull
+                    if (response.IsSuccessStatusCode)
+                    {
+                        await new MessageDialog("Boende upplagt för uthyrning!").ShowAsync();
+                    }
+
+                    else
+                    {
+                        throw new HttpRequestException();
+                    }
+
+                    Home postedHome = JsonConvert.DeserializeObject<Home>(jsonString);
+                    return postedHome;
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+                return new Home();
+            }
+        }
+
+        public async Task<ObservableCollection<Home>> GetUserHomes(int userId)
+        {
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync($"userhomes/{userId}");
+                if (response.IsSuccessStatusCode)
+                {
+                    jsonString = response.Content.ReadAsStringAsync().Result;
+                    var userHomesList = JsonConvert.DeserializeObject<ObservableCollection<Home>>(jsonString);
+                    return userHomesList;
+                }
+                else
+                {
+                    throw new HttpRequestException();
+                }
+            }
+            catch (Exception exc)
+            {
+                BasicNoConnectionMessage(exc);
+                return new ObservableCollection<Home>();
+            }
+        }
+
         private async void BasicNoConnectionMessage(Exception exc)
         {
             Debug.WriteLine(exc.Message);

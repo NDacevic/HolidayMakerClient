@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HolidayMakerClient.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,10 @@ namespace HolidayMakerClient
 
         #region Properties
         public User ActiveUser { get; set; }
+
+        /// <summary>
+        /// The instance for the LoginViewModel singleton.
+        /// </summary>
         public static LoginViewModel Instance
         {
             get
@@ -51,19 +56,29 @@ namespace HolidayMakerClient
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Gets a user from the database by email and calls the ConfirmPassword() method.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="enteredPassword"></param>
+        /// <returns></returns>
         public async Task GetUser(string email, string enteredPassword)
         {
             User user = await ApiHelper.Instance.GetUser(email);
             await ConfirmPassword(user, enteredPassword);
         }
 
-        public async Task ConfirmPassword(User user, string enteredPassword)
+        /// <summary>
+        /// Checks that the entered password matches the one associated to that user.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="encryptedPassword"></param>
+        /// <returns></returns>
+        public async Task ConfirmPassword(User user, string encryptedPassword)
         {
             if (user.Email == null)
-            {
-
-            }
-            else if (user.Password == enteredPassword)
+                return;
+            else if (user.Password == encryptedPassword)
                 ActiveUser = user;
             else
                 await new MessageDialog("Inkorrekt lösenord, vänligen försök igen.").ShowAsync();

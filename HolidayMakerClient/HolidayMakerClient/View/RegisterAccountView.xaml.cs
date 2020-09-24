@@ -1,4 +1,5 @@
-﻿using HolidayMakerClient.ViewModel;
+﻿using HolidayMakerClient.Model;
+using HolidayMakerClient.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,8 +50,12 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Methods
-        #endregion
 
+        /// <summary>
+        /// Calls the encrypt password and CreateNewUser methods.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void Bttn_Register_Click(object sender, RoutedEventArgs e)
         {
             string encryptedPassword;
@@ -80,9 +85,21 @@ namespace HolidayMakerClient.View
                 }
                 else if (CheckPassword(Pwb_Password1.Password, Pwb_Password2.Password))
                 {
-                    //Go to method for encryption of password. Pass in the encrypted version "endryptedPassword" as parameter
-                    regAccountVM.CreateNewUser(Tb_FirstName.Text, Tb_LastName.Text, Tb_Email.Text, Pwb_Password1.Password, isCompany);
+                    var load = new LoadDataView();
                     Hide();
+                    _ = load.ShowAsync();
+
+                    encryptedPassword = PasswordHelper.EncryptPassword(Pwb_Password1.Password);
+
+                    //make sure to only send what's in the surname text field if the registered user isn't a company.
+                    //otherwise send an empty string
+                    string surnameText = "";
+                    if (!isCompany)
+                        surnameText = Tb_LastName.Text;
+                    
+                    await regAccountVM.CreateNewUser(Tb_FirstName.Text, surnameText, Tb_Email.Text, encryptedPassword, isCompany);
+                    load.Hide();
+                    //Hide();
                 }
                 else
                 {
@@ -90,14 +107,27 @@ namespace HolidayMakerClient.View
                 }
             }
         }
+
         private bool CheckTextBoxes()
         {
-            if(Tb_FirstName.Text=="" || Tb_LastName.Text=="" || Tb_Email.Text=="" || Pwb_Password1.Password==""||Pwb_Password2.Password=="")
+            if ((bool)Rb_Private.IsChecked)
             {
-                return false;
+                if (Tb_FirstName.Text == "" || Tb_LastName.Text == "" || Tb_Email.Text == "" || Pwb_Password1.Password == "" || Pwb_Password2.Password == "")
+                {
+                    return false;
+                }
+                
+            }
+            else if ((bool)Rb_Business.IsChecked)
+            {
+                if (Tb_FirstName.Text == "" || Tb_Email.Text == "" || Pwb_Password1.Password == "" || Pwb_Password2.Password == "")
+                {
+                    return false;
+                }
             }
             return true;
         }
+
         private bool CheckPassword(string pass1,string pass2)
         {
             if(pass1==pass2)
@@ -111,5 +141,29 @@ namespace HolidayMakerClient.View
         {
             Vw_RegisterAccountPage.Hide();
         }
+
+        private void ShowHideSurname(object sender, RoutedEventArgs e)
+        {
+            if (sender == Rb_Business)
+            {
+                Tb_LastName.Visibility = Visibility.Collapsed;
+                textBlock_LastName.Visibility = Visibility.Collapsed;
+                textBlock_Firstname.Text = "Företagsnamn:";
+            }
+            else if (sender == Rb_Private)
+            {
+                Tb_LastName.Visibility = Visibility.Visible;
+                textBlock_LastName.Visibility = Visibility.Visible;
+                textBlock_Firstname.Text = "Förnamn:";
+            }
+        }
+
+        private void PageLoaded(object sender, RoutedEventArgs e)
+        {
+            if(Rb_Private != null)
+                Rb_Private.IsChecked = true;
+        }
+
+        #endregion
     }
 }

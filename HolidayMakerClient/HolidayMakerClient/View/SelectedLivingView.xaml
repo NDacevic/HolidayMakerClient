@@ -8,7 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    Loaded="Page_Loaded">
+    Loaded="Page_Loaded"
+    Width="1280">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -21,7 +22,7 @@
                 Text="Valt boende"
                 FontSize="24"
                 FontWeight="Medium"
-                Margin="20,10,0,0"/>
+                Margin="20,10,0,20"/>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -34,10 +35,11 @@
                     Height="200" 
                     Margin="20,20,20,20"
                     BorderThickness="1" 
-                    BorderBrush="Gray">
+                    BorderBrush="Gray"
+                    CornerRadius="5">
                     <Image 
                     x:Name="img_SelectedLiving"
-                        Source="{x:Bind selectedLivingViewModel.TempRes.Home.Image}"
+                    Source="{x:Bind selectedLivingViewModel.TempRes.TempHome.Image}"
                     Grid.Row="0" 
                     Height="200"/>
                 </Border>
@@ -49,50 +51,55 @@
                         FontWeight="Medium"/>
                     <TextBlock
                     x:Name="txt_HomeDescription"
-                    Text="{x:Bind selectedLivingViewModel.TempRes.Home.Description}"
+                    Text="{x:Bind selectedLivingViewModel.TempRes.TempHome.Description}"
                     TextWrapping="WrapWholeWords"/>
                     <TextBlock
                     x:Name="txt_BeachDistance">
                         <Run Text="Avstånd till stranden, km: "/>
-                        <Run Text="{x:Bind selectedLivingViewModel.TempRes.Home.BeachDistance}"
+                        <Run Text="{x:Bind selectedLivingViewModel.TempRes.TempHome.BeachDistance}"
                                 x:DefaultBindMode="OneWay"/>
                     </TextBlock>
 
                     <TextBlock
                     x:Name="txt_CityDistance">
                         <Run Text="Avstånd till city, km: "/>
-                        <Run Text="{x:Bind selectedLivingViewModel.TempRes.Home.CityDistance}"
+                        <Run Text="{x:Bind selectedLivingViewModel.TempRes.TempHome.CityDistance}"
                                 x:DefaultBindMode="OneWay"/>
                     </TextBlock>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Spacing="10" Margin="20,0,20,20" >
-                    <TextBlock
+                    <StackPanel x:Name="Sp_pension">
+                        <TextBlock
                         x:Name="txt_AddonLabel"
                         Text="Tillval"
                         FontSize="20"
                         FontWeight="Medium"/>
-                    <StackPanel >
                         <RadioButton x:Name="Rb_addon0" Checked="RadioButton_Checked" Unchecked="Rb_addon_Unchecked" Content="All-inclusive 1000 kr/person."/>
                         <RadioButton x:Name="Rb_addon1" Checked="RadioButton_Checked" Unchecked="Rb_addon_Unchecked" Content="Helpension 400 kr/person."/>
                         <RadioButton x:Name="Rb_addon2" Checked="RadioButton_Checked" Unchecked="Rb_addon_Unchecked" Content="Halvpension 200 kr/person."/>
+                        <RadioButton x:Name="Rb_noPension" Checked="Rb_noPension_Checked" Content="Ingen pension"/>
 
                     </StackPanel>
                     <CheckBox 
-                        x:Name="cb_ExtraBed" 
+                        x:Name="Cb_ExtraBed" 
                         Content="Extra säng 100 kr. "
-                        Checked="cb_ExtraBed_Checked"
-                        Unchecked="cb_ExtraBed_Unchecked"/>
+                        Checked="Cb_ExtraBed_Checked"
+                        Unchecked="Cb_ExtraBed_Unchecked"/>
                 </StackPanel>
             </Grid>
         </StackPanel>
 
         <StackPanel Grid.Column="1" VerticalAlignment="Stretch">
-            <Button 
-                x:Name="Bttn_ToSearch" 
+            <Grid>
+                <Button 
+                x:Name="Bttn_GoBack" 
                 Content="Tillbaka" 
                 HorizontalAlignment="Right" 
-                Margin="0, 20, 20, 0" 
-                Click="Bttn_ToSearch_Click"/>
+                Margin="0, 20, 20, 0"
+                CornerRadius="5"
+                Click="Bttn_GoBack_Click_"/>
+            </Grid>
+            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -105,6 +112,7 @@
                     Height="100"
                     Grid.Row="0"
                     BorderThickness="1"
+                    CornerRadius="5"
                     BorderBrush="Gray">
                     <StackPanel>
                         <TextBlock
@@ -116,15 +124,19 @@
                         <StackPanel Orientation="Horizontal" Spacing="10">
                             <CalendarDatePicker x:Name="Cdp_StartDate"
                                     Margin="10,0,0,0"
-                                    PlaceholderText="{x:Bind selectedLivingViewModel.TempRes.StartDate.ToString('yyyy-MM-dd', x:Null)}"
+                                    Date="{x:Bind selectedLivingViewModel.TempRes.StartDate}"
                                     FirstDayOfWeek="Monday"
                                     DateFormat="{}{day.integer} {month.full} {year.full}"
+                                    CalendarViewDayItemChanging="Cdp_StartDate_CalendarViewDayItemChanging" 
+                                    DateChanged="Cdp_StartDate_DateChanged"
                                     />
                             <CalendarDatePicker x:Name="Cdp_EndDate"
                                     Margin="10,0,0,0"
-                                    PlaceholderText="{x:Bind selectedLivingViewModel.TempRes.EndDate.ToString('yyyy-MM-dd', x:Null)}"
+                                    Date="{x:Bind selectedLivingViewModel.TempRes.EndDate}"
                                     FirstDayOfWeek="Monday"
-                                    DateFormat="{}{day.integer} {month.full} {year.full}"/>
+                                    DateFormat="{}{day.integer} {month.full} {year.full}"
+                                    CalendarViewDayItemChanging="Cdp_StartDate_CalendarViewDayItemChanging"
+                                    DateChanged="Cdp_EndDate_DateChanged"/>
                             <TextBlock
                                 x:Name="txt_NumberOfGuests"
                                 Margin="10,0,0,0"
@@ -133,6 +145,14 @@
                                 <Run Text="{x:Bind selectedLivingViewModel.TempRes.NumberOfGuests}"
                                 x:DefaultBindMode="OneWay"/>
                             </TextBlock>
+                            <ComboBox
+                               x:Name="combobox_ChangeGuests"
+                               Margin="20,0,0,0"
+                               MaxDropDownHeight="200"
+                               Visibility="Visible"
+                               PlaceholderText="Ändra gäster"
+                                />
+                
                         </StackPanel>
 
                     </StackPanel>
@@ -145,7 +165,10 @@
                   BorderThickness="1"
                   BorderBrush="Gray"
                   Height="150"
-                  Margin="20,50,20,0">
+                  CornerRadius="5"
+                  Margin="20,50,20,0"
+                  x:DefaultBindMode="OneTime">
+
                     <ListView.ItemTemplate>
                         <DataTemplate x:Name="lv_Addons" x:DataType="data:Addon"  >
                             <StackPanel Orientation="Horizontal" Spacing="10">
@@ -158,10 +181,11 @@
                     </ListView.ItemTemplate>
                 </ListView>
                 <Button
-                    x:Name="bttn_RemoveAddon"
-                    Content="Ta bort tilägg"
+                    x:Name="Bttn_RemoveAddon"
+                    Content="Ta bort tillägg"
                     Margin="20,15,0,10"
-                    Click="bttn_RemoveAddon_Click"/>   
+                    CornerRadius="5"
+                    Click="Bttn_RemoveAddon_Click"/>   
                 </StackPanel>
                 
                 <StackPanel Grid.Row="2" Margin="20,10,0,0" Spacing="20">
@@ -176,17 +200,19 @@
                          <Run Text=" kr."/>
                     </TextBlock>
                     <Button
-                        x:Name="bttn_bookChange"
+                        x:Name="Bttn_bookChange"
                         Content="Boka/Ändra"
                         HorizontalAlignment="Center"
                         Width="120"
-                        Click="bttn_bookChange_Click"/>
+                        CornerRadius="5"
+                        Click="Bttn_bookChange_Click"/>
                     <Button
-                        x:Name="bttn_deleteReservation"
+                        x:Name="Bttn_deleteReservation"
                         Content="Ta bort bokning"
                         HorizontalAlignment="Center"
                         Width="120"
-                        Click="bttn_deleteReservation_Click"/>
+                        CornerRadius="5"
+                        Click="Bttn_deleteReservation_Click"/>
                 </StackPanel>
 
             </Grid>

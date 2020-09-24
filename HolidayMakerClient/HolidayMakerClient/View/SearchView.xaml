@@ -6,12 +6,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:data="using:HolidayMakerClient.Model"
-    xmlns:test="using:HolidayMakerClient"
+    xmlns:test="using:HolidayMakerClient" 
+    xmlns:converters="using:HolidayMakerClient.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Width="1280"
-    NavigationCacheMode="Enabled"
     >
+    <Page.Resources>
+        <converters:BooleanSwedishConverter x:Key="boolSwed"/>
+        <converters:SliderZeroValueConverter x:Key="sliderZero"/>
+    </Page.Resources>
 
     <RelativePanel
         Margin="0,20,0,0">
@@ -43,6 +47,7 @@
                 Grid.Column="1"
                 Content="Logga in"
                 Margin="20,0"
+                CornerRadius="5"
                 />
             <Button
                 Visibility="Collapsed"
@@ -53,7 +58,7 @@
                 >
                 <Button.Content>
                     <SymbolIcon
-                            Symbol="Admin"
+                            Symbol="Contact"
                         />
                 </Button.Content>
                 <Button.Flyout>
@@ -79,6 +84,7 @@
             Margin="0,20,0,0"
             BorderBrush="Black"
             BorderThickness="1"
+            CornerRadius="5"
             ColumnSpacing="10"
             
             RelativePanel.Below="grid_TitleAndLogin"
@@ -98,33 +104,43 @@
                 Grid.Column="0"
                 Header="Ort"
                 PlaceholderText="Fyll i ort"
-                KeyDown="SearchKeydown"/>
+                KeyDown="SearchKeydown"
+                CornerRadius="5"
+                />
             <CalendarDatePicker
                 Grid.Column="1"
                 x:Name="datePicker_StartDate"
                 Header="Från datum"
                 PlaceholderText="Välj datum"
-                CalendarViewDayItemChanging="datePicker_StartDate_CalendarViewDayItemChanging"
+                FirstDayOfWeek="Monday"
+                DateFormat="{}{day.integer} {month.full} {year.full}"
+                CalendarViewDayItemChanging="DatePickers_CalendarViewDayItemChanging"
+                CornerRadius="5"
                 />
             <CalendarDatePicker
                 Grid.Column="2"
                 x:Name="datePicker_EndDate"
                 Header="Till datum"
                 PlaceholderText="Välj datum"
-                CalendarViewDayItemChanging="datePicker_StartDate_CalendarViewDayItemChanging"
+                FirstDayOfWeek="Monday"
+                DateFormat="{}{day.integer} {month.full} {year.full}"
+                CalendarViewDayItemChanging="DatePickers_CalendarViewDayItemChanging"
+                CornerRadius="5"
                 />
             <ComboBox
                 x:Name="comboBox_NumberOfGuests"
                 Grid.Column="3"
                 MaxDropDownHeight="200"
                 SelectedIndex="0"
-                Header="Antal boende"
+                Header="Antal gäster"
+                CornerRadius="5"
                 />
             <Button
                 Click="SearchButton_Clicked"
                 Grid.Column="4"
                 Margin="20,0,0,0"
                 VerticalAlignment="Bottom"
+                CornerRadius="5"
                 >
                 <SymbolIcon
                     Symbol="Find"/>
@@ -134,6 +150,7 @@
                 Grid.Column="5"
                 Margin="20,0,0,0"
                 VerticalAlignment="Bottom"
+                CornerRadius="5"
                 >
                 <SymbolIcon
                 Symbol="Setting"
@@ -222,17 +239,14 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock
                     Width="50"
-                    Grid.Column="0"
                     VerticalAlignment="Bottom"
+                    
+                    Text="{x:Bind slider_CityDistance.Value, Converter={StaticResource sliderZero}}"
+                    x:DefaultBindMode="OneWay"
+                    
                     Margin="0,0,0,10"
-                    >
-                    <Run
-                        Text="{x:Bind slider_CityDistance.Value}"
-                        x:DefaultBindMode="OneWay"/>
-                    <Run
-                        Text="km"
-                        />
-                </TextBlock>
+                    Grid.Column="0"
+                    />
                 <Slider
                     x:Name="slider_CityDistance"
                     
@@ -243,22 +257,20 @@
                     Minimum="0"
                     Maximum="50"
                     IsThumbToolTipEnabled="False"
-                    Value="50"
-                   
+                    Value="0"
                     />
 
                 <TextBlock
                     Width="50"
                     VerticalAlignment="Bottom"
                     
+                    Text="{x:Bind slider_BeachDistance.Value, Converter={StaticResource sliderZero}}"
+                     x:DefaultBindMode="OneWay"
+                    
                     Margin="50,0,0,10"
                     Grid.Column="2"
-                    >
-                    <Run Text="{x:Bind slider_BeachDistance.Value}"
-                            x:DefaultBindMode="OneWay"
-                            />
-                    <Run Text="km"/>
-                </TextBlock>
+                    />
+
                 <Slider
                     x:Name="slider_BeachDistance"
                     
@@ -269,7 +281,7 @@
                     Minimum="0.0"
                     Maximum="50.0"
                     IsThumbToolTipEnabled="False"
-                    Value="50"
+                    Value="0"
                     
                     />
             </Grid>
@@ -289,9 +301,10 @@
         </Grid>
         <!--#endregion-->
             
-        <!--#region Search Results-->
+        <!--#region Sort Buttons Results-->
         <StackPanel
             x:Name="stackPanel_SortButtons"
+            Visibility="Collapsed"
             Orientation="Horizontal"
             Spacing="10"
             Margin="0,20,0,0"
@@ -302,7 +315,10 @@
             >
             <Button
                 x:Name="bttn_SortLocation"
-                Click="SortColumns_Click">
+                Click="SortColumns_Click"
+                Visibility="Collapsed"
+                CornerRadius="5"
+                >
                 <StackPanel
                     Orientation="Horizontal">
                     <TextBlock
@@ -318,6 +334,7 @@
             <Button
                 x:Name="bttn_SortPrice"
                 Click="SortColumns_Click"
+                CornerRadius="5"
                 >
                 <StackPanel
                     Orientation="Horizontal">
@@ -334,6 +351,7 @@
             <Button
                 x:Name="bttn_SortRooms"
                 Click="SortColumns_Click"
+                CornerRadius="5"
                 >
                 <StackPanel
                     Orientation="Horizontal">
@@ -350,6 +368,7 @@
             <Button
                 x:Name="bttn_SortBeds"
                 Click="SortColumns_Click"
+                CornerRadius="5"
                 >
                 <StackPanel
                     Orientation="Horizontal">
@@ -366,6 +385,7 @@
             <Button
                 x:Name="bttn_SortCityDistance"
                 Click="SortColumns_Click"
+                CornerRadius="5"
                 >
                 <StackPanel
                     Orientation="Horizontal">
@@ -382,6 +402,7 @@
             <Button
                 x:Name="bttn_SortBeachDistance"
                 Click="SortColumns_Click"
+                CornerRadius="5"
                 >
                 <StackPanel
                     Orientation="Horizontal">
@@ -398,6 +419,7 @@
             <Button
                 x:Name="bttn_SortAverageRating"
                 Click="SortColumns_Click"
+                CornerRadius="5"
                 >
                 <StackPanel
                     Orientation="Horizontal">
@@ -412,7 +434,23 @@
                 </StackPanel>
             </Button>
         </StackPanel>
+        <!--#endregion-->
+        
+        <!--#region Search Results-->
+        <TextBlock
+            x:Name="textBlock_NoResults"
+            Visibility="Collapsed"
+            Text="Din sökning genererade inga resultat"
+            FontSize="20"
+            Foreground="Gray"
+            
+            Margin="10,20,0,0"
+
+            RelativePanel.Below="stackPanel_SortButtons"
+            RelativePanel.AlignLeftWithPanel="True"
+            />
         <ScrollViewer
+            x:Name="scrollViewer_SearchResults"
             Margin="0,20,0,10"
             
             RelativePanel.Below="stackPanel_SortButtons"
@@ -421,7 +459,7 @@
             RelativePanel.AlignBottomWithPanel="True"
             >
             <ListView
-                x:Name="lv_SearchList"
+                x:Name="listView_SearchList"
                 ItemsSource="{x:Bind searchViewModel.SortedHomeList}"
                 DoubleTapped="ListView_DoubleTapped"
                 HorizontalAlignment="Stretch"
@@ -452,12 +490,14 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
+                            <!--#region Column0: Image-->
                             <Image
                                 Stretch="Uniform"
                                 Height="100"
@@ -467,6 +507,9 @@
                                 Grid.Row="0"
                                 Grid.RowSpan="3"
                                 />
+                            <!--#endregion-->
+                            
+                            <!--#region Column1: Title, Rating, Description-->
                             <StackPanel
                                 Spacing="10"
                                 Grid.Column="1"
@@ -492,7 +535,6 @@
                                 VerticalAlignment="Top"
                                 />
                             <RatingControl
-                                x:Name="ratingTest"
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 Width="140"
@@ -505,8 +547,111 @@
                                 IsFocusEngagementEnabled="False"
                                 Caption="{x:Bind NumberOfRatings}"
                                 />
-                            <TextBlock
+                            <!--#endregion-->
+                            
+                            <!--#region Column2: Extra info-->
+                            <Grid
                                 Grid.Column="2"
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
+                                VerticalAlignment="Bottom"
+                                Margin="0,0,10,10"
+                                ColumnSpacing="20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel
+                                    Grid.Column="0">
+                                    <TextBlock>
+                                        <Run
+                                            Text="Wifi:"
+                                            />
+                                        <Run
+                                            Text="{x:Bind HasWifi, Converter={StaticResource boolSwed}}"
+                                            />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run
+                                            Text="Balkong:"
+                                            />
+                                        <Run
+                                            Text="{x:Bind HasBalcony, Converter={StaticResource boolSwed}}"
+                                            />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run
+                                            Text="Pool:"
+                                            />
+                                        <Run
+                                            Text="{x:Bind HasPool, Converter={StaticResource boolSwed}}"
+                                            />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run
+                                            Text="Husdjur:"
+                                            />
+                                        <Run
+                                            Text="{x:Bind AllowPets, Converter={StaticResource boolSwed}}"
+                                            />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run
+                                            Text="Rökning:"/>
+                                        <Run
+                                            Text="{x:Bind AllowSmoking, Converter={StaticResource boolSwed}}"
+                                            />
+                                    </TextBlock>
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Column="1"
+                                    VerticalAlignment="Bottom">
+                                    <TextBlock>
+                                        <Run
+                                            Text="Rum:"
+                                            />
+                                        <Run
+                                            Text="{x:Bind Rooms}"
+                                            />
+                                    </TextBlock>
+
+                                    <TextBlock>
+                                        <Run
+                                            Text="Sängar:"
+                                            />
+                                        <Run
+                                            Text="{x:Bind NumberOfBeds}"
+                                            />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run
+                                            Text="Centrum:"
+                                            />
+                                        <Run
+                                            Text="{x:Bind CityDistance}"
+                                            />
+                                        <Run
+                                            Text="km"
+                                            />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run
+                                            Text="Strand:"
+                                            />
+                                        <Run
+                                            Text="{x:Bind BeachDistance}"
+                                            />
+                                        <Run
+                                            Text="km"
+                                            />
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+                            <!--#endregion-->
+                            
+                            <!--#region Column 3: Price-->
+                            <TextBlock
+                                Grid.Column="3"
                                 Grid.Row="2"
                                 VerticalAlignment="Bottom"
                                 HorizontalAlignment="Left"
@@ -515,6 +660,7 @@
                                 <Run Text="{x:Bind Price}"/>
                                 <Run Text="kr"/>
                             </TextBlock>
+                            <!--#endregion-->
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

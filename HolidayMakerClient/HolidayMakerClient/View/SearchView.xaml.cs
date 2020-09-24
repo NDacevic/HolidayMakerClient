@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Security.Cryptography.Core;
@@ -34,6 +35,9 @@ namespace HolidayMakerClient.View
         #region Fields
         SearchViewModel searchViewModel;
         TempReservation tempReservation;
+
+        private DateTimeOffset searchedStartDate;
+        private DateTimeOffset searchedEndDate;
         #endregion
 
         #region Constructors
@@ -49,7 +53,6 @@ namespace HolidayMakerClient.View
                 comboBox_NumberOfGuests.Items.Add(i);
             }
 
-            CreateSortList();
         }
         #endregion
 
@@ -63,40 +66,75 @@ namespace HolidayMakerClient.View
         #endregion
 
         #region Methods
+
         private void ShowHideAdvancedSearch(object sender, RoutedEventArgs args)
         {
             if (grid_AdvancedSearch.Visibility == Visibility.Collapsed)
-            {
                 grid_AdvancedSearch.Visibility = Visibility.Visible;
-                searchViewModel.Filter(CreateAdvancedFilterParams());
-            }
             else
-            {
                 grid_AdvancedSearch.Visibility = Visibility.Collapsed;
-                searchViewModel.ClearFilter();
-            }
         }
+
         private void SearchButton_Clicked(object sender, RoutedEventArgs args)
         {
-            Search();
+            try
+            {
+                Search();
+                searchViewModel.ClearSortGlyphs(stackPanel_SortButtons);
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine("Searchbutton_Clicked caught an exception");
+            }
         }
-        private void Search()
+
+        private async void Search()
         {
-            //TODO: Add error handling when search parameters are empty //MO
-            int.TryParse(comboBox_NumberOfGuests.SelectedValue.ToString(), out int numberOfGuests);
+            try
+            {
+                int.TryParse(comboBox_NumberOfGuests.SelectedValue.ToString(), out int numberOfGuests);
 
-            bool advancedSearchActive = grid_AdvancedSearch.Visibility == Visibility.Visible ? true : false;
+                stackPanel_SortButtons.Visibility = Visibility.Visible;
+                searchedStartDate = (DateTimeOffset)datePicker_StartDate.Date;
+                searchedEndDate = (DateTimeOffset)datePicker_EndDate.Date;
 
-            searchViewModel.Search
-                (
-                txtBox_Search.Text,
-                (DateTimeOffset)datePicker_StartDate.Date,
-                (DateTimeOffset)datePicker_EndDate.Date,
-                numberOfGuests,
-                advancedSearchActive,
-                CreateAdvancedFilterParams()
-                );
+                if (string.IsNullOrEmpty(txtBox_Search.Text))
+                    throw new FormatException("Skriv in ett sökord");
+
+                var date = (((DateTimeOffset)datePicker_EndDate.Date).Subtract((DateTimeOffset)datePicker_StartDate.Date)).Days;
+
+                if (date == 0)
+                    throw new FormatException(@"'Från'- och 'Till-datum' får ej vara samma värde");
+                else if (date < 0)
+                    throw new FormatException(@"'Till-datum' får ej vara före 'Från-datum'");
+
+                var load = new LoadDataView();
+
+                _ = load.ShowAsync();
+
+                await searchViewModel.Search
+                    (
+                    txtBox_Search.Text,
+                    searchedStartDate,
+                    searchedEndDate,
+                    numberOfGuests,
+                    CreateAdvancedFilterParams(),
+                    grid_AdvancedSearch
+                    );
+
+                load.Hide();
+                DetermineSearchVisibility();
+            }
+            catch(Exception e)
+            {
+                await new MessageDialog(e.Message).ShowAsync();
+            }
         }
+
+        /// <summary>
+        /// Collects the information on all the advanced search toggleswitches and sliders.
+        /// </summary>
+        /// <returns></returns>
         private Home CreateAdvancedFilterParams()
         {
             Home advancedFilterParams = new Home()
@@ -111,50 +149,61 @@ namespace HolidayMakerClient.View
             };
             return advancedFilterParams;
         }
+
+
         private void ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            CreateTempRes();
-            Frame.Navigate(typeof(SelectedLivingView), tempReservation);
+            if((Home)listView_SearchList.SelectedItem != null)
+            {
+                CreateTempRes();
+                Frame.Navigate(typeof(SelectedLivingView), tempReservation);
+            }
         }
+
+        /// <summary>
+        /// Creates a temporary reservation object for sending to the SelectedLivingView
+        /// </summary>
         public void CreateTempRes ()
         {
             tempReservation = new TempReservation();
             SetDates();
             tempReservation.NumberOfGuests = comboBox_NumberOfGuests.SelectedValue.ToString();
-            tempReservation.Home = (Home)lv_SearchList.SelectedItem;
+            tempReservation.TempHome = (Home)listView_SearchList.SelectedItem;
         }
+
         public void SetDates()
         {
-            tempReservation.StartDate = (DateTimeOffset)datePicker_StartDate.Date;
-            tempReservation.EndDate = (DateTimeOffset)datePicker_EndDate.Date;
+            tempReservation.StartDate = searchedStartDate;
+            tempReservation.EndDate = searchedEndDate;
         }
 
         private async void Login_Click(object sender, RoutedEventArgs e)
         {
-            await new LoginView().ShowAsync();
-            CheckActiveUser();
-                
+            await new LoginView(bttn_Login, bttn_UserOptions).ShowAsync();
         }
-        private void CheckActiveUser()
+
+        private async void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
         {
-            if (LoginViewModel.Instance.ActiveUser != null)
-            {
-                bttn_Login.Visibility = Visibility.Collapsed;
-                bttn_UserOptions.Visibility = Visibility.Visible;
-            }
-        }
-        private void NavigateToMyPage_Click(object sender, RoutedEventArgs e)
-        {
+            var load = new LoadDataView();
+            _ = load.ShowAsync();
+
+            //Contact API and populate MyReservations and ActiveUserHomes properties before navigating to the page
+            await MyPageViewModel.Instance.GetActiveUserHomes();
+            await MyPageViewModel.Instance.GetReservations();
+
+            load.Hide();
             Frame.Navigate(typeof(MyPageView));
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
+            LoginViewModel.Instance.ActiveUser = null;
+            CheckActiveUser();
         }
 
         private void SortColumns_Click(object sender, RoutedEventArgs e)
         {
-            searchViewModel.SortColumns((Button)sender);
+            searchViewModel.SortColumns((Button)sender, stackPanel_SortButtons);
         }
         
         private void SearchKeydown(object sender, KeyRoutedEventArgs e)
@@ -165,21 +214,12 @@ namespace HolidayMakerClient.View
 
         private void RefreshSearch(object sender, RoutedEventArgs e)
         {
-            searchViewModel.Filter(CreateAdvancedFilterParams());
+            searchViewModel.Filter(CreateAdvancedFilterParams(), grid_AdvancedSearch);
+            searchViewModel.ClearSortGlyphs(stackPanel_SortButtons);
+            DetermineSearchVisibility();
         }
 
-        private void CreateSortList()
-        {
-            searchViewModel.FontIconList.Add(fontIcon_SortLocation);
-            searchViewModel.FontIconList.Add(fontIcon_SortPrice);
-            searchViewModel.FontIconList.Add(fontIcon_SortRooms);
-            searchViewModel.FontIconList.Add(fontIcon_SortBeds);
-            searchViewModel.FontIconList.Add(fontIcon_SortCityDistance);
-            searchViewModel.FontIconList.Add(fontIcon_SortBeachDistance);
-            searchViewModel.FontIconList.Add(fontIcon_SortAverageRating);
-        }
-
-        private void datePicker_StartDate_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
+        private void DatePickers_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs e)
         {
             if (e.Item.Date < DateTime.Today)
             {
@@ -189,7 +229,36 @@ namespace HolidayMakerClient.View
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            stackPanel_SortButtons.Visibility = Visibility.Collapsed;
             CheckActiveUser();
+        }
+
+        private void DetermineSearchVisibility()
+        {
+            if (searchViewModel.SortedHomeList.Count > 0)
+            {
+                scrollViewer_SearchResults.Visibility = Visibility.Visible;
+                textBlock_NoResults.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                scrollViewer_SearchResults.Visibility = Visibility.Collapsed;
+                textBlock_NoResults.Visibility = Visibility.Visible;
+            }
+        }
+        public void CheckActiveUser()
+        {
+            if (LoginViewModel.Instance.ActiveUser != null)
+            {
+                bttn_Login.Visibility = Visibility.Collapsed;
+                bttn_UserOptions.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                //This happens after a user has removed itself from the system or logs out
+                bttn_Login.Visibility = Visibility.Visible;
+                bttn_UserOptions.Visibility = Visibility.Collapsed;
+            }
         }
         #endregion
     }

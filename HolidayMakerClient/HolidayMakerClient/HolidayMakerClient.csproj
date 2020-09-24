@@ -116,12 +116,25 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Converters\BooleanSwedishConverter.cs" />
+    <Compile Include="Converters\SliderZeroValueConverter.cs" />
     <Compile Include="Helpers\ApiHelper.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dto\SearchParameterDto.cs" />
     <Compile Include="Model\TempReservation.cs" />
+    <Compile Include="ViewModel\DeleteUserViewModel.cs" />
+    <Compile Include="ViewModel\UploadLivingViewModel.cs" />
+    <Compile Include="View\LoadDataView.xaml.cs">
+      <DependentUpon>LoadDataView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UploadLivingView.xaml.cs">
+      <DependentUpon>UploadLivingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DeleteUserView.xaml.cs">
+      <DependentUpon>DeleteUserView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -172,6 +185,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="View\LoadDataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UploadLivingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DeleteUserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\LoginView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -40,154 +40,183 @@ namespace HolidayMakerClient.ViewModel
         public bool SortingAttributes { get; set; }
         public ObservableCollection<Home> HomeList { get; }
         public ObservableCollection<Home> SortedHomeList { get; }
-        public List<FontIcon> FontIconList = new List<FontIcon>();
+
         #endregion
 
         #region Methods
         /// <summary>
-        /// TBD
+        /// Takes all the parameters needed for a search.
+        /// Clears the list of homes and then calls the method for sorting in case the user
+        /// picked some advanced search options.
         /// </summary>
-        public async void Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests, bool advancedFilterActive, Home advancedFilterParams)
+        /// <param name="searchString"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="numberOfGuests"></param>
+        /// <param name="advancedFilterParams"></param>
+        /// <param name="grid_AdvancedSearch"></param>
+        public async Task Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests, Home advancedFilterParams, DependencyObject grid_AdvancedSearch)
         {
-            SearchParameterDto searchObj = new SearchParameterDto(searchString, startDate, endDate, numberOfGuests);
+            //Create a search object and send it to the API. Store the result in the homelist.
+            SearchParameterDto searchObj = new SearchParameterDto(searchString, startDate.Date, endDate.Date, numberOfGuests);
             var homeList = await ApiHelper.Instance.GetSearchResults(searchObj);
             
+            //empty the homelist so the listview removes all the items and updates itself.
             HomeList.Clear();
-            SortedHomeList.Clear();
 
+            //Calculate the average rating and add the home items to the HomeList property.
             foreach (var x in homeList)
             {
-                x.AverageRating = ((double)x.SumOfRatings / (double)x.NumberOfRatings);
-
+                if (x.NumberOfRatings != 0)
+                    x.AverageRating = ((double)x.SumOfRatings / (double)x.NumberOfRatings);
+                else
+                    x.AverageRating = 0;
                 HomeList.Add(x);
-                SortedHomeList.Add(x);
+            }
+            
+            //Call the Filter method and send the advanced search parameters.  
+            Filter(advancedFilterParams, grid_AdvancedSearch);
+        }
+
+        /// <summary>
+        /// Applies a filter depending on what parameters the user chose.
+        /// If everything is false, no search is applied.
+        /// Distance parameters are applied if they aren't 0
+        /// </summary>
+        /// <param name="advancedFilterParams"></param>
+        /// <param name="grid"></param>
+        public void Filter(Home advancedFilterParams, DependencyObject grid)
+        {
+            //Clear the sorted list and initilize a temporary list that holds the filtered homes.
+            SortedHomeList.Clear();
+            IEnumerable<Home> filteredHomeList;
+
+            //If the sliders are set to something other than zero. Filter the homes according to the slider values.
+            if (advancedFilterParams.CityDistance != 0 ||
+                    advancedFilterParams.BeachDistance != 0)
+            {
+                if (advancedFilterParams.CityDistance != 0 &&
+                    advancedFilterParams.BeachDistance == 0)
+                    filteredHomeList = HomeList.Where(x => x.CityDistance <= advancedFilterParams.CityDistance);
+                else if (
+                    advancedFilterParams.BeachDistance != 0 &&
+                    advancedFilterParams.CityDistance == 0)
+                    filteredHomeList = HomeList.Where(x => x.BeachDistance <= advancedFilterParams.BeachDistance);
+                else
+                    filteredHomeList = HomeList.Where(x =>
+                    x.CityDistance <= advancedFilterParams.CityDistance &&
+                    x.BeachDistance <= advancedFilterParams.BeachDistance);
+            }
+            else
+                filteredHomeList = HomeList.Select(x => x);
+
+            //Go through the UI element that holds all the toggle switches and check if they're all false.
+            //if not, Apply the filters that the toggle switches specify
+            if (!AllFalseAdvancedSearch(grid))
+            {
+                filteredHomeList = filteredHomeList.Where(x =>
+                x.AllowPets == advancedFilterParams.AllowPets &&
+                x.AllowSmoking == advancedFilterParams.AllowSmoking &&
+                x.HasBalcony == advancedFilterParams.HasBalcony &&
+                x.HasPool == advancedFilterParams.HasPool &&
+                x.HasWifi == advancedFilterParams.HasWifi);
             }
 
-            if (advancedFilterActive)
-                Filter(advancedFilterParams);
-        }
-        /// <summary>
-        /// TBD
-        /// </summary>
-        public void GetHomes()
-        {
-
-        }
-        /// <summary>
-        /// TBD
-        /// </summary>
-        public void Filter(Home advancedFilterParams)
-        {
-            SortedHomeList.Clear();
-
-            var filteredHomeList = HomeList.Where(x =>
-            x.AllowPets == advancedFilterParams.AllowPets &&
-            x.AllowSmoking == advancedFilterParams.AllowSmoking &&
-            x.HasBalcony == advancedFilterParams.HasBalcony &&
-            x.HasPool == advancedFilterParams.HasPool &&
-            x.HasWifi == advancedFilterParams.HasWifi &&
-            x.CityDistance <= advancedFilterParams.CityDistance &&
-            x.BeachDistance <= advancedFilterParams.BeachDistance);
-
+            //After filtering is done. Add the homes to the SortedHomeList
             foreach (var x in filteredHomeList)
+            {
                 SortedHomeList.Add(x);
+            }
         }
 
-        public void ClearFilter()
-        {
-            SortedHomeList.Clear();
-            foreach (var home in HomeList)
-                SortedHomeList.Add(home);
-        }
         /// <summary>
-        /// TBD
+        /// Get the name of the button and sort the list according to the button pressed
         /// </summary>
-        public void ResetSearch()
-        {
-
-        }
-
+        /// <param name="parameter"></param>
         public void SortList(string parameter)
         {
-            SortedHomeList.Clear();
-            IOrderedEnumerable<Home> orderedList;
+            
+            IOrderedEnumerable<Home> orderedList = null;
 
             switch (parameter)
             {
                 case "bttn_SortLocation":
                     if (IsAscending)
-                        orderedList = HomeList.OrderBy(x => x.Location);
+                        orderedList = SortedHomeList.OrderBy(x => x.Location);
                     else
-                        orderedList = HomeList.OrderByDescending(x => x.Location);
-
-                    foreach (var x in orderedList)
-                        SortedHomeList.Add(x);
+                        orderedList = SortedHomeList.OrderByDescending(x => x.Location);
                     break;
 
                 case "bttn_SortPrice":
                     if(IsAscending)
-                        orderedList = HomeList.OrderBy(x => x.Price);
+                        orderedList = SortedHomeList.OrderBy(x => x.Price);
                     else
-                        orderedList = HomeList.OrderByDescending(x => x.Price);
-
-                    foreach (var x in orderedList)
-                        SortedHomeList.Add(x);
+                        orderedList = SortedHomeList.OrderByDescending(x => x.Price);
                     break;
 
                 case "bttn_SortRooms":
                     if (IsAscending)
-                        orderedList = HomeList.OrderBy(x => x.Rooms);
+                        orderedList = SortedHomeList.OrderBy(x => x.Rooms);
                     else
-                        orderedList = HomeList.OrderByDescending(x => x.Rooms);
-
-                    foreach (var x in orderedList)
-                        SortedHomeList.Add(x);
+                        orderedList = SortedHomeList.OrderByDescending(x => x.Rooms);
                     break;
 
                 case "bttn_SortBeds":
                     if (IsAscending)
-                        orderedList = HomeList.OrderBy(x => x.NumberOfBeds);
+                        orderedList = SortedHomeList.OrderBy(x => x.NumberOfBeds);
                     else
-                        orderedList = HomeList.OrderByDescending(x => x.NumberOfBeds);
-
-                    foreach (var x in orderedList)
-                        SortedHomeList.Add(x);
+                        orderedList = SortedHomeList.OrderByDescending(x => x.NumberOfBeds);
                     break;
 
                 case "bttn_SortCityDistance":
                     if (IsAscending)
-                        orderedList = HomeList.OrderBy(x => x.CityDistance);
+                        orderedList = SortedHomeList.OrderBy(x => x.CityDistance);
                     else
-                        orderedList = HomeList.OrderByDescending(x => x.CityDistance);
-
-                    foreach (var x in orderedList)
-                        SortedHomeList.Add(x);
+                        orderedList = SortedHomeList.OrderByDescending(x => x.CityDistance);
                     break;
 
                 case "bttn_SortBeachDistance":
                     if (IsAscending)
-                        orderedList = HomeList.OrderBy(x => x.BeachDistance);
+                        orderedList = SortedHomeList.OrderBy(x => x.BeachDistance);
                     else
-                        orderedList = HomeList.OrderByDescending(x => x.BeachDistance);
-
-                    foreach (var x in orderedList)
-                        SortedHomeList.Add(x);
+                        orderedList = SortedHomeList.OrderByDescending(x => x.BeachDistance);
                     break;
 
                 case "bttn_SortAverageRating":
                     if (IsAscending)
-                        orderedList = HomeList.OrderBy(x => x.AverageRating);
+                        orderedList = SortedHomeList.OrderBy(x => x.AverageRating);
                     else
-                        orderedList = HomeList.OrderByDescending(x => x.AverageRating);
-
-                    foreach (var x in orderedList)
-                        SortedHomeList.Add(x);
+                        orderedList = SortedHomeList.OrderByDescending(x => x.AverageRating);
                     break;
             }
 
+            //The sorted home objects are put in a seperate list as the orderedList gets cleared when the SortedHomeList gets cleared since they contain the same objects
+            List<Home> tempList = new List<Home>();
+            tempList.AddRange(orderedList);
+            PopulateSortedHomeList(tempList);
         }
-        
-        public void SortColumns(Button sortButton)
+
+        /// <summary>
+        /// Populates the SortedHomeList with the sorted home objects
+        /// </summary>
+        /// <param name="orderedList"></param>
+        private void PopulateSortedHomeList(List<Home> orderedList)
+        {
+            if (orderedList == null)
+                return;
+
+            SortedHomeList.Clear();
+
+            foreach (var x in orderedList)
+                SortedHomeList.Add(x);
+            
+        }
+
+        /// <summary>
+        /// Finds the fonticon element of the button and sets the glyph property to an up or down pointing chevron
+        /// </summary>
+        /// <param name="sortButton"></param>
+        public void SortColumns(Button sortButton, DependencyObject buttonContainer)
         {
             //Find the child of type FontIcon to the button
             FontIcon glyph = FindFontIconChild((DependencyObject)sortButton);
@@ -206,20 +235,59 @@ namespace HolidayMakerClient.ViewModel
             }
 
             //Clear the arrow from any button except the clicked one
-            ClearGlyphs(glyph);
+            ClearGlyphsExceptClickedSort(glyph, buttonContainer);
             //Sort the list
             SortList(((FrameworkElement)sortButton).Name);
         }
 
-        private void ClearGlyphs(FontIcon fontIcon)
+        /// <summary>
+        /// Empties the glyph property on all fonticons except the one in the parameter list
+        /// </summary>
+        /// <param name="fontIcon"></param>
+        private void ClearGlyphsExceptClickedSort(FontIcon fontIcon, DependencyObject buttonContainer)
         {
             //Go through the list of fonticons. if the fonticon is the one in the parameter list.
             //do nothing with it.
-            foreach(var fi in FontIconList)
+            List<FontIcon> fiList = new List<FontIcon>();
+            GetAllFonticons(fiList, buttonContainer);
+
+            foreach(var fi in fiList)
                 if (fontIcon != fi)
                     fi.Glyph = "";
         }
-        private FontIcon FindFontIconChild(DependencyObject parent)
+
+        public void ClearSortGlyphs(DependencyObject parent)
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+
+                if (child is FontIcon)
+                    ((FontIcon)child).Glyph = "";
+                else
+                    //If the icon isn't found. Recurse through this method again
+                    ClearSortGlyphs(child);
+            }
+        }
+        private void GetAllFonticons(List<FontIcon> fontIconList, DependencyObject parent)
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+
+                if (child is FontIcon)
+                    fontIconList.Add((FontIcon)child);
+                else
+                    //If the icon isn't found. Recurse through this method again
+                    GetAllFonticons(fontIconList, child);
+            }
+        }
+        /// <summary>
+        /// Recursive method that finds one fonticon object inside the UI element that is supplied and returns it
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <returns></returns>
+        public FontIcon FindFontIconChild(DependencyObject parent)
         {
             //If the font icon is found then we just exit the method with the object in hand.
             if (parent is FontIcon)
@@ -241,6 +309,54 @@ namespace HolidayMakerClient.ViewModel
             }
             //return with the fonticon
             return foundFontIcon;
+        }
+
+        /// <summary>
+        /// Recursive method that goes through a UI element and finds all the Toggle Switches
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="parent"></param>
+        public void FindAdvancedSearchElements(List<Control> list, DependencyObject parent)
+        {
+            //Loop through once for each child of the parent object
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                //store the current child object
+                var child = VisualTreeHelper.GetChild(parent, i);
+
+                //check if it's a ToggleSwitch and add it to a list if it is.
+                //else run this method again on the current child.
+                if (child.GetType() == typeof(ToggleSwitch))
+                    list.Add((Control)child);
+                else
+                    FindAdvancedSearchElements(list, child);
+            }
+        }
+
+        /// <summary>
+        /// Use the FindAdvancedSearchElements method to extract a list of ToggleSwitches.
+        /// Check if they are set to false and return a bool indicating if that is the case
+        /// </summary>
+        /// <param name="uiElement"></param>
+        /// <returns></returns>
+        public bool AllFalseAdvancedSearch(DependencyObject uiElement)
+        {
+            //create a list and send it to the FindAdvanced method.
+            List<Control> controls = new List<Control>();
+            FindAdvancedSearchElements(controls, uiElement);
+
+            bool allFalse = true;
+
+            //Go through the list and check if the toggleswitches are on.
+            foreach (var x in controls)
+            {
+                if (x.GetType() == typeof(ToggleSwitch))
+                    if (((ToggleSwitch)x).IsOn)
+                        allFalse = false;
+            }
+
+            //return true if they are all off otherwise return false
+            return allFalse;
         }
         #endregion
     }

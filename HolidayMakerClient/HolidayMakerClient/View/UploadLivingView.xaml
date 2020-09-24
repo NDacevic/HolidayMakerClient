@@ -1,0 +1,321 @@
+﻿<Page
+    x:Class="HolidayMakerClient.View.UploadLivingView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HolidayMakerClient.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="Page_Loaded">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--#region Page title-->
+            <TextBlock 
+                Text="Ladda upp boende"
+                FontSize="28"
+                Grid.ColumnSpan="2"/>
+        <!--#endregion-->
+
+        <!--#region LivingInformation-->
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="3"
+                Grid.RowSpan="2"
+                Grid.ColumnSpan="2">
+                <TextBlock 
+                    Text="Boendeinformation"
+                    FontSize="20"
+                    />
+                <Grid
+                    Margin="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        HorizontalAlignment="Right"
+                        Text="Typ av hem"/>
+                    <ComboBox
+                        Name="cbb_HomeType"
+                        Grid.Column="1"
+                        Margin="5,0,0,0">
+                    </ComboBox>                
+                </Grid>
+
+                <Grid
+                    Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock 
+                        Text="Antal rum"
+                        HorizontalAlignment="Right"
+                        Grid.Column="0"/>
+                    <TextBox
+                        Name="tb_NumberOfRooms"
+                        Grid.Column="1"
+                        Margin="5,0,0,0"
+                        BeforeTextChanging="NumericTextboxesBeforeTextChanging"/>
+                </Grid>
+
+                <Grid
+                    Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock 
+                        Text="Antal sängar"
+                        HorizontalAlignment="Right"
+                        Grid.Column="0"/>
+                    <TextBox
+                        Name="tb_NumberOfBeds"
+                        Grid.Column="1"
+                        Margin="5,0,0,0"
+                        BeforeTextChanging="NumericTextboxesBeforeTextChanging"/>
+                </Grid>
+
+                <Grid
+                    Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock 
+                        Text="Ort"
+                        HorizontalAlignment="Right"
+                        Grid.Column="0"/>
+                    <TextBox
+                        Name="tb_Location"
+                        Grid.Column="1"
+                        Margin="5,0,0,0"/>
+                </Grid>
+
+                <Grid
+                    Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock 
+                        Text="Pris"
+                        HorizontalAlignment="Right"
+                        Grid.Column="0"/>
+                    <TextBox
+                        Name="tb_Price"
+                        Grid.Column="1"
+                        Margin="5,0,0,0"
+                        BeforeTextChanging="NumericTextboxesBeforeTextChanging"/>
+                </Grid>
+
+                <Grid
+                    Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock 
+                        Text="Avstånd till Centrum"
+                        HorizontalAlignment="Right"
+                        Grid.Column="0"/>
+                    <TextBox
+                        Name="tb_CityDistance"
+                        Grid.Column="1"
+                        Margin="5,0,0,0"
+                        BeforeTextChanging="NumericTextboxesBeforeTextChanging"/>
+                </Grid>
+
+                <Grid
+                    Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock 
+                        Text="Avstånd till Strand"
+                        HorizontalAlignment="Right"
+                        Grid.Column="0"/>
+                    <TextBox
+                        Name="tb_BeachDistance"
+                        Grid.Column="1"
+                        Margin="5,0,0,0"
+                        BeforeTextChanging="NumericTextboxesBeforeTextChanging"/>
+                </Grid>
+
+                <Grid
+                    Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock 
+                        Text="Beskrivning"
+                        HorizontalAlignment="Right"
+                        Grid.Column="0"/>
+                    <TextBox
+                        Name="tb_Description"
+                        Grid.Column="1"
+                        Margin="5,0,0,0"
+                        Height="75"
+                        TextWrapping="Wrap"/>
+                </Grid>
+
+                <Grid
+                    Margin="0,10,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>                
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox 
+                        Name="cb_HasBalcony" 
+                        Grid.Column="0"
+                        Margin="10,0,0,0"
+                        Content="Balkong"/>
+
+                    <CheckBox 
+                        Name="cb_AllowsPets" 
+                        Grid.Column="1"
+                        Margin="10,0,0,0"
+                        Content="Husdjur"/>
+
+                    <CheckBox 
+                        Name="cb_HasWifi" 
+                        Grid.Column="2"
+                        Margin="10,0,0,0"
+                        Content="Wifi"/>
+
+                    <CheckBox 
+                        Name="cb_HasPool" 
+                        Grid.Column="3"
+                        Margin="10,0,0,0"
+                        Content="Pool"/>
+                
+                    <CheckBox 
+                        Name="cb_AllowsSmoking" 
+                        Grid.Column="4"
+                        Margin="10,0,0,0"
+                        Content="Rökning"/>
+                </Grid>
+
+                <TextBlock 
+                    Name="lbl_Extras"
+                    Text="Tillval"
+                    FontSize="20"
+                    Margin="0,30,0,0"
+                    />
+
+                <Grid
+                    Name="grid_BusinessExtras"
+                    Margin="0,5,0,0"
+                    Width="250"
+                    HorizontalAlignment="Center"
+                    Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox 
+                        Name="cb_HasHalfPension" 
+                        Grid.Row="0"
+                        Margin="10,0,0,0"
+                        Content="Erbjuder halvpension"/>
+                    <CheckBox 
+                        Name="cb_HasFullPension" 
+                        Grid.Row="1"
+                        Margin="10,0,0,0"
+                        Content="Erbjuder helpension"/>
+                    <CheckBox 
+                        Name="cb_HasAllInclusive" 
+                        Grid.Row="2"
+                        Margin="10,0,0,0"
+                        Content="Erbjuder All-Inclusive"/>
+                </Grid>
+                
+                <Grid
+                    Margin="0,5,0,0"
+                    Width="250"
+                    HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox 
+                        Name="cb_HasExtrabed" 
+                        Margin="10,-5,0,0"
+                        Content="Extrasäng finnes"/>
+
+                </Grid>
+
+            </StackPanel>
+        <!--#endregion-->
+
+
+
+        <!--#region Buttons-->
+            <Button
+                Name="bttn_UploadLiving"
+                Grid.Row="3"
+                Grid.Column="3"
+                Content="Lägg upp boende"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Margin="10,10,10,10"
+                Click="bttn_UploadLiving_Click"
+                CornerRadius="5"
+                />
+
+            <Button
+                Name="bttn_Cancel"
+                Grid.Row="3"
+                Grid.Column="4"
+                Content="Avbryt"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Margin="10,10,10,10"
+                Click="bttn_Cancel_Click"
+                CornerRadius="5"/>
+        <!--#endregion-->
+    </Grid>
+</Page>
