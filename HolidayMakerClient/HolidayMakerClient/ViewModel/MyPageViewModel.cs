@@ -122,7 +122,7 @@ namespace HolidayMakerClient.ViewModel
         public async Task DeleteHome(Home homeToBeDeleted)
         {
             await ApiHelper.Instance.DeleteHome(homeToBeDeleted.HomeId);
-            MyPageViewModel.Instance.ActiveUserHomes.Remove(homeToBeDeleted);
+            Instance.ActiveUserHomes.Remove(homeToBeDeleted);
         }
 
         #endregion

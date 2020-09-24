@@ -209,6 +209,7 @@ namespace HolidayMakerClient
                 return new ObservableCollection<Home>();
             }
         }
+
         public async Task PostReservation(Reservation reservation)
         {
             try
@@ -243,6 +244,7 @@ namespace HolidayMakerClient
                 BasicNoConnectionMessage(exc);
             }
         }
+
         public async Task<ObservableCollection<Reservation>> GetUserReservations()
         {
             try
@@ -273,6 +275,7 @@ namespace HolidayMakerClient
             }
 
         }
+
         public async Task <Home> GetHome(int id)
         {
            try
@@ -343,8 +346,6 @@ namespace HolidayMakerClient
                 return false;
             }
         }
-     
-        
 
         public async Task<bool> DeleteReservation(int reservationId)
         {
@@ -396,6 +397,7 @@ namespace HolidayMakerClient
             }
 
         }
+
         public async Task<ObservableCollection<Addon>> GetAllAddon ()
         {
             ObservableCollection<Addon> addonList = new ObservableCollection<Addon>();
@@ -448,7 +450,6 @@ namespace HolidayMakerClient
                 return reservations;
             }
         }
-
 
         public async Task<Home> PostHome(Home home)
         {
@@ -504,7 +505,6 @@ namespace HolidayMakerClient
                 return new ObservableCollection<Home>();
             }
         }
-
 
         private async void BasicNoConnectionMessage(Exception exc)
         {

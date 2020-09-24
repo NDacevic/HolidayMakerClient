@@ -58,7 +58,7 @@ namespace HolidayMakerClient.ViewModel
         public async Task Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests, Home advancedFilterParams, DependencyObject grid_AdvancedSearch)
         {
             //Create a search object and send it to the API. Store the result in the homelist.
-            SearchParameterDto searchObj = new SearchParameterDto(searchString, startDate, endDate, numberOfGuests);
+            SearchParameterDto searchObj = new SearchParameterDto(searchString, startDate.Date, endDate.Date, numberOfGuests);
             var homeList = await ApiHelper.Instance.GetSearchResults(searchObj);
             
             //empty the homelist so the listview removes all the items and updates itself.
@@ -190,7 +190,7 @@ namespace HolidayMakerClient.ViewModel
                     break;
             }
 
-            //The sorted home objects are put in a seperate list as the orderedList gets cleared when the SortedHomeList gets cleared since they are the same object
+            //The sorted home objects are put in a seperate list as the orderedList gets cleared when the SortedHomeList gets cleared since they contain the same objects
             List<Home> tempList = new List<Home>();
             tempList.AddRange(orderedList);
             PopulateSortedHomeList(tempList);
