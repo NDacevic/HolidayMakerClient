@@ -384,6 +384,11 @@ namespace HolidayMakerClient
             }
             UpdatePrice();
         }
+        /// <summary>
+        /// Update price after checking NoPension
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Rb_noPension_Checked(object sender, RoutedEventArgs e)
         {
             UpdatePrice();
@@ -400,11 +405,10 @@ namespace HolidayMakerClient
             UpdatePrice();
         }
         /// <summary>
-        /// Removes ExtraBed from ObservableCollection ChosenAdoons 
+        /// Removes ExtraBed from ObservableCollection ChosenAdoons and updates price
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-
         private void Cb_ExtraBed_Unchecked(object sender, RoutedEventArgs e)
         {
             foreach(var a in ChosenAddons.ToList())
@@ -438,8 +442,6 @@ namespace HolidayMakerClient
                 }
             
             }
-
-
         }
         /// <summary>
         /// Update TotalPrice for home plus addons
@@ -540,7 +542,11 @@ namespace HolidayMakerClient
         {
             if (Frame.CanGoBack) Frame.GoBack();
         }
-
+        /// <summary>
+        /// When changing EndDate, check if dates is valid and update price
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void Cdp_EndDate_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             
@@ -552,7 +558,11 @@ namespace HolidayMakerClient
             }
 
         }
-
+        /// <summary>
+        /// When changing StartDate, check if dates is valid and update price
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void Cdp_StartDate_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             if (args.NewDate != null && args.NewDate.Value != selectedLivingViewModel.TempRes.StartDate)
