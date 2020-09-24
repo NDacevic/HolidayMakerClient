@@ -346,7 +346,7 @@ namespace HolidayMakerClient
      
         
 
-        public async void DeleteReservation(int reservationId)
+        public async Task<bool> DeleteReservation(int reservationId)
         {
             try
             {
@@ -355,6 +355,7 @@ namespace HolidayMakerClient
                 if (response.IsSuccessStatusCode)
                 {
                     await new MessageDialog("Reservationen är nu borttagen.").ShowAsync();
+                    return true;
                 }
                 else
                 {
@@ -365,6 +366,7 @@ namespace HolidayMakerClient
             catch (Exception exc)
             {
                 BasicNoConnectionMessage(exc);
+                return false;
             }
         }
 
@@ -461,7 +463,7 @@ namespace HolidayMakerClient
                     //Check if succesfull
                     if (response.IsSuccessStatusCode)
                     {
-                        await new MessageDialog("Boende uppladdat för uthyrning!").ShowAsync();
+                        await new MessageDialog("Boende upplagt för uthyrning!").ShowAsync();
                     }
 
                     else

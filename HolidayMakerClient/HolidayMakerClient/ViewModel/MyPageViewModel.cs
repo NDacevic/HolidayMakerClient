@@ -104,9 +104,14 @@ namespace HolidayMakerClient.ViewModel
         /// Calls the APIHelper method DeleteReservation and supplies an Id for deletion
         /// </summary>
         /// <param name="reservation"></param>
-        public void DeleteReservation(Reservation reservation)
+        public async void DeleteReservation(Reservation reservation)
         {
-             ApiHelper.Instance.DeleteReservation(reservation.ReservationId);
+            bool isDeleted = await ApiHelper.Instance.DeleteReservation(reservation.ReservationId);
+            //If the Reservation was removed from the database, also remove it locally
+            if (isDeleted)
+            {
+                MyReservations.Remove(reservation);
+            }
         }
         
 
