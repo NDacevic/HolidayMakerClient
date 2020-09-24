@@ -306,7 +306,15 @@ namespace HolidayMakerClient
                 {
                     numberOfGuests = combobox_ChangeGuests.SelectedValue.ToString();
                 }
-               await selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value, totalPrice,ChosenAddons ,numberOfGuests);
+                await selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value, totalPrice,ChosenAddons ,numberOfGuests);
+
+                var load = new LoadDataView();
+                _ = load.ShowAsync();
+
+                await MyPageViewModel.Instance.GetActiveUserHomes();
+                await MyPageViewModel.Instance.GetReservations();
+
+                load.Hide();
                 Frame.Navigate(typeof(MyPageView));
             }
             else
