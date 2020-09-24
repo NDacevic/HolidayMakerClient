@@ -38,6 +38,7 @@ namespace HolidayMakerClient.View
         public MyPageView()
         {
             this.InitializeComponent();
+            loginViewModel = LoginViewModel.Instance;
             this.DataContext = myPageViewModel;
             loginViewModel = LoginViewModel.Instance;
         }
