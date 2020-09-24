@@ -77,8 +77,15 @@ namespace HolidayMakerClient.View
 
         private void SearchButton_Clicked(object sender, RoutedEventArgs args)
         {
-            Search();
-            searchViewModel.ClearSortGlyphs(stackPanel_SortButtons);
+            try
+            {
+                Search();
+                searchViewModel.ClearSortGlyphs(stackPanel_SortButtons);
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine("Searchbutton_Clicked caught an exception");
+            }
         }
 
         private async void Search()
@@ -87,6 +94,7 @@ namespace HolidayMakerClient.View
             {
                 int.TryParse(comboBox_NumberOfGuests.SelectedValue.ToString(), out int numberOfGuests);
 
+                stackPanel_SortButtons.Visibility = Visibility.Visible;
                 searchedStartDate = (DateTimeOffset)datePicker_StartDate.Date;
                 searchedEndDate = (DateTimeOffset)datePicker_EndDate.Date;
 
@@ -145,8 +153,11 @@ namespace HolidayMakerClient.View
 
         private void ListView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            CreateTempRes();
-            Frame.Navigate(typeof(SelectedLivingView), tempReservation);
+            if((Home)listView_SearchList.SelectedItem != null)
+            {
+                CreateTempRes();
+                Frame.Navigate(typeof(SelectedLivingView), tempReservation);
+            }
         }
 
         /// <summary>
@@ -218,6 +229,7 @@ namespace HolidayMakerClient.View
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            stackPanel_SortButtons.Visibility = Visibility.Collapsed;
             CheckActiveUser();
         }
 

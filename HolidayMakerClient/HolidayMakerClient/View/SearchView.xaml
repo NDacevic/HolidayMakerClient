@@ -304,6 +304,7 @@
         <!--#region Sort Buttons Results-->
         <StackPanel
             x:Name="stackPanel_SortButtons"
+            Visibility="Collapsed"
             Orientation="Horizontal"
             Spacing="10"
             Margin="0,20,0,0"

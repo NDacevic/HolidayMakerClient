@@ -136,7 +136,7 @@ namespace HolidayMakerClient
 
                 if (response.IsSuccessStatusCode)
                 {
-                    await new MessageDialog("Din användarprofil är nu borttagen. Alla aktiva reservationer är cancellerade.").ShowAsync();
+                    await new MessageDialog("Din användarprofil är nu borttagen. Alla aktiva reservationer är avbokade.").ShowAsync();
                 }
                 else
                 {
@@ -209,6 +209,7 @@ namespace HolidayMakerClient
                 return new ObservableCollection<Home>();
             }
         }
+
         public async Task PostReservation(Reservation reservation)
         {
             try
@@ -243,6 +244,7 @@ namespace HolidayMakerClient
                 BasicNoConnectionMessage(exc);
             }
         }
+
         public async Task<ObservableCollection<Reservation>> GetUserReservations()
         {
             try
@@ -273,6 +275,7 @@ namespace HolidayMakerClient
             }
 
         }
+
         public async Task <Home> GetHome(int id)
         {
            try
@@ -296,11 +299,6 @@ namespace HolidayMakerClient
                 BasicNoConnectionMessage(exc);
                 return new Home();
             }
-
-        }
-
-        public void GetReservation()
-        {
 
         }
 
@@ -348,10 +346,8 @@ namespace HolidayMakerClient
                 return false;
             }
         }
-     
-        
 
-        public async void DeleteReservation(int reservationId)
+        public async Task<bool> DeleteReservation(int reservationId)
         {
             try
             {
@@ -360,6 +356,7 @@ namespace HolidayMakerClient
                 if (response.IsSuccessStatusCode)
                 {
                     await new MessageDialog("Reservationen är nu borttagen.").ShowAsync();
+                    return true;
                 }
                 else
                 {
@@ -370,13 +367,10 @@ namespace HolidayMakerClient
             catch (Exception exc)
             {
                 BasicNoConnectionMessage(exc);
+                return false;
             }
         }
 
-        public  void PatchReservationAddon()
-        {
-            
-        }
         public async Task<ObservableCollection<Addon>> GetReservationAddon(int id)
         {
             try
@@ -403,6 +397,7 @@ namespace HolidayMakerClient
             }
 
         }
+
         public async Task<ObservableCollection<Addon>> GetAllAddon ()
         {
             ObservableCollection<Addon> addonList = new ObservableCollection<Addon>();
@@ -456,7 +451,6 @@ namespace HolidayMakerClient
             }
         }
 
-
         public async Task<Home> PostHome(Home home)
         {
             try
@@ -470,7 +464,7 @@ namespace HolidayMakerClient
                     //Check if succesfull
                     if (response.IsSuccessStatusCode)
                     {
-                        await new MessageDialog("Boende uppladdat för uthyrning!").ShowAsync();
+                        await new MessageDialog("Boende upplagt för uthyrning!").ShowAsync();
                     }
 
                     else
@@ -511,7 +505,6 @@ namespace HolidayMakerClient
                 return new ObservableCollection<Home>();
             }
         }
-
 
         private async void BasicNoConnectionMessage(Exception exc)
         {
