@@ -27,6 +27,9 @@ namespace HolidayMakerClient
         public ObservableCollection<Addon> ChosenAddons;
         private HashSet<DateTimeOffset> InvalidDates = new HashSet<DateTimeOffset>();
 
+        private DateTimeOffset start;
+        private DateTimeOffset end;
+
         public event PropertyChangedEventHandler PropertyChanged;
         public decimal TotalPrice
         {
@@ -74,17 +77,20 @@ namespace HolidayMakerClient
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            
-          
             selectedLivingViewModel.TempRes = (TempReservation)e.Parameter;
             if(selectedLivingViewModel.TempRes.OldReservation == null)
             {
                 selectedLivingViewModel.TempRes.AddonList = new ObservableCollection<Addon>();
                 SetUpPage();
+                start = selectedLivingViewModel.TempRes.StartDate;
+                end = selectedLivingViewModel.TempRes.EndDate;
+
             }
             else
             {
                 SetUpPageOldReservation();
+                start = selectedLivingViewModel.TempRes.StartDate;
+                end = selectedLivingViewModel.TempRes.EndDate;
             }
 
         }
@@ -549,10 +555,18 @@ namespace HolidayMakerClient
             if(days < 0)
             {
                 await new MessageDialog(@"Vänligen välj 'Från - datum' efter 'Till - datum', tack.").ShowAsync();
-            }
-            if (days == 0)
+                Cdp_StartDate.Date = start.Date;
+                Cdp_EndDate.Date = end.Date;
+            } else if (days == 0)
             {
                 await new MessageDialog(@"'Till-' och 'Från-datum' får inte infalla på samma dag.").ShowAsync();
+                Cdp_StartDate.Date = start.Date;
+                Cdp_EndDate.Date = end.Date;
+            }
+            else
+            {
+                start = (DateTimeOffset)Cdp_StartDate.Date;
+                end = (DateTimeOffset)Cdp_EndDate.Date;
             }
         }
 
