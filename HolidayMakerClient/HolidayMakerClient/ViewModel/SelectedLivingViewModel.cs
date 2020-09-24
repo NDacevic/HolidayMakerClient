@@ -67,12 +67,7 @@ namespace HolidayMakerClient
                 SelectedReservation = new Reservation();
                 SelectedReservation.HomeId = reservation.TempHome.HomeId;
                 SelectedReservation.UserId = LoginViewModel.Instance.ActiveUser.UserId;
-
-                if (int.TryParse(numberOfGuests, out int guests))
-                    SelectedReservation.NumberOfGuests = guests;
-                else
-                    SelectedReservation.NumberOfGuests = int.Parse(reservation.NumberOfGuests);
-
+                SelectedReservation.NumberOfGuests = int.Parse(numberOfGuests);
                 SelectedReservation.StartDate = reservation.StartDate;
                 SelectedReservation.EndDate = reservation.EndDate;
                 SelectedReservation.TotalPrice = price;
