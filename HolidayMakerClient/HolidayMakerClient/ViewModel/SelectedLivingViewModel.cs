@@ -90,7 +90,7 @@ namespace HolidayMakerClient
         /// Calls the API and sends an Id for the reservation to be deleted from the database
         /// </summary>
         /// <param name="tempReservation"></param>
-        public async void DeleteReservation(TempReservation tempReservation)
+        public async Task DeleteReservation(TempReservation tempReservation)
         {
             try
             {

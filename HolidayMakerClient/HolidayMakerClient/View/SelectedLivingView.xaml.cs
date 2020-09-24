@@ -308,14 +308,7 @@ namespace HolidayMakerClient
                 }
                 await selectedLivingViewModel.EditReservation(selectedLivingViewModel.TempRes.OldReservation,Cdp_StartDate.Date.Value,Cdp_EndDate.Date.Value, totalPrice,ChosenAddons ,numberOfGuests);
 
-                var load = new LoadDataView();
-                _ = load.ShowAsync();
-
-                await MyPageViewModel.Instance.GetActiveUserHomes();
-                await MyPageViewModel.Instance.GetReservations();
-
-                load.Hide();
-                Frame.Navigate(typeof(MyPageView));
+                Frame.Navigate(typeof(SearchView));
             }
             else
             {
@@ -339,14 +332,7 @@ namespace HolidayMakerClient
                     
                     if(LoginViewModel.Instance.ActiveUser != null)
                     {
-                        var load = new LoadDataView();
-                        _ = load.ShowAsync();
-
-                        await MyPageViewModel.Instance.GetActiveUserHomes();
-                        await MyPageViewModel.Instance.GetReservations();
-
-                        load.Hide();
-                        Frame.Navigate(typeof(MyPageView));
+                        Frame.Navigate(typeof(SearchView));
                     }
                         
                 }
@@ -370,8 +356,8 @@ namespace HolidayMakerClient
         {
             try
             {
-                selectedLivingViewModel.DeleteReservation(selectedLivingViewModel.TempRes);
-                Frame.Navigate(typeof(MyPageView));
+                await selectedLivingViewModel.DeleteReservation(selectedLivingViewModel.TempRes);
+                Frame.Navigate(typeof(SearchView));
             }
             catch
             {
