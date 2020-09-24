@@ -58,7 +58,7 @@ namespace HolidayMakerClient.ViewModel
         public async Task Search(string searchString, DateTimeOffset startDate, DateTimeOffset endDate, int numberOfGuests, Home advancedFilterParams, DependencyObject grid_AdvancedSearch)
         {
             //Create a search object and send it to the API. Store the result in the homelist.
-            SearchParameterDto searchObj = new SearchParameterDto(searchString, startDate, endDate, numberOfGuests);
+            SearchParameterDto searchObj = new SearchParameterDto(searchString, startDate.Date, endDate.Date, numberOfGuests);
             var homeList = await ApiHelper.Instance.GetSearchResults(searchObj);
             
             //empty the homelist so the listview removes all the items and updates itself.
