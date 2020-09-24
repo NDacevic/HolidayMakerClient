@@ -227,6 +227,12 @@ namespace HolidayMakerClient
             {
                 Rb_addon2.Visibility = Visibility.Collapsed;
             }
+            if(selectedLivingViewModel.TempRes.TempHome.HasAllInclusive == false && selectedLivingViewModel.TempRes.TempHome.HasFullPension == false && selectedLivingViewModel.TempRes.TempHome.HasHalfPension == false)
+            {
+                Rb_noPension.Visibility = Visibility.Collapsed;
+                Sp_pension.Visibility = Visibility.Collapsed;
+            }
+            
         }
         /// <summary>
         /// Removes addons from the ObservableCollection and updates TotalPrice
